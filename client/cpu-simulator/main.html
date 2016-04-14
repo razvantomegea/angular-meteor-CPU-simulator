@@ -1,0 +1,53 @@
+<div layout="row" layout-xs="column" class="rt-cpu-container">
+    
+    <validator></validator>
+    
+    <decoder></decoder>
+    
+    <commander></commander>
+    
+    <sequencer></sequencer>
+    
+    <table flex>
+        <tr>
+            <td>
+                <pre>{{conditions | json}}</pre>
+            </td>
+            <td>
+                <pre>{{dataBus | json}}</pre>
+            </td>
+        </tr>
+    </table>
+    
+    <registers default-registers="defaultRegisters" general-registers="generalRegisters"></registers>
+    
+    <div layout="row" layout-xs="column" layout-align="center center" flex>
+    
+        <table flex>
+            <tr ng-repeat="entry in memory.slice(0,64)">
+                <td><small>{{entry.address}}: </small></td>
+                <td><code>{{entry.data}}</code></td>
+            </tr>
+        </table>
+        <table flex>
+            <tr ng-repeat="entry in memory.slice(64,128)">
+                <td><small>{{entry.address}}: </small></td>
+                <td><code>{{entry.data}}</code></td>
+            </tr>
+        </table>
+        <table flex>
+            <tr ng-repeat="entry in memory.slice(128,192)">
+                <td><small>{{entry.address}}: </small></td>
+                <td><code>{{entry.data}}</code></td>
+            </tr>
+        </table>
+        <table flex>
+            <tr ng-repeat="entry in memory.slice(192,256)">
+                <td><small>{{entry.address}}: </small></td>
+                <td><code>{{entry.data}}</code></td>
+            </tr>
+        </table>
+
+    </div>
+    
+</div>

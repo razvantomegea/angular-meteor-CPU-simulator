@@ -1,0 +1,32 @@
+<div layout="row" layout-xs="column" layout-align="center center">
+    
+    <table flex>
+        <tr flex ng-repeat="(key, value) in regCtrl.registers.generalRegisters track by $index">
+            
+            <td>{{key}}: </td>
+            <td>
+                <code class="rt-register">
+                    {{value.data}}
+                </code>
+            </td>
+            
+        </tr>
+        
+    </table>
+    <table flex>
+        <tr>
+            <td flex ng-repeat="(key, value) in regCtrl.registers.defaultRegisters track by $index">
+                
+                <span>{{key}}: </span>
+                <code class="rt-register">
+                    {{value}}
+                </code>
+                
+            </td>
+        </tr>
+    </table>
+    
+    
+</div>
+
+

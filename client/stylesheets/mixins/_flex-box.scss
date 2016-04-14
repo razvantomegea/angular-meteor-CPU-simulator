@@ -1,0 +1,61 @@
+/*
+	To see flex effects, check the flexbox playground http://demo.agektmr.com/flexbox/
+	Default values: initial;
+*/
+@mixin flex-box($direction, $wrap, $justify, $content, $items){
+	display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    /*
+    	row | row-reverse | column | column-reverse | initial | inherit
+		nowrap | wrap | wrap-reverse | initial | inherit
+	*/
+    -webkit-flex-flow: $direction $wrap;
+    -moz-flex-flow: $direction $wrap;
+    -ms-flex-flow: $direction $wrap;
+    flex-flow: $direction $wrap;
+    -webkit-justify-content: $justify;
+    -moz-justify-content: $justify;
+    -ms-justify-content: $justify;
+    justify-content: $justify;
+    /*
+		flex-start | flex-end | center | space-between | space-around | initial | inherit
+    */
+    -webkit-align-content: $content;
+    -moz-align-content: $content;
+    -ms-align-content: $content;
+    align-content: $content;
+    /*
+		flex-start | flex-end | center | baseline | stretch | initial | inherit
+    */
+    -webkit-align-items: $items;
+    -moz-align-items: $items;
+    -ms-align-items: $items;
+    align-items: $items;
+}
+
+@mixin flex-item($order, $grow, $shrink, $basis, $self){
+    /*
+    	Integer | initial | inherit;
+	*/
+    -webkit-order: $order;
+    -moz-order: $order;
+    -ms-order: $order;
+    order: $order;
+    /*
+		Integer (Number, Width/Height, Percentage) | initial | inherit;
+    */
+    -webkit-flex: $grow $shrink $basis;
+    -moz-flex: $grow $shrink $basis;
+    -ms-flex: $grow $shrink $basis;
+    flex: $grow $shrink $basis;
+    /*
+		auto | stretch | center | flex-start | flex-end | baseline | initial | inherit
+    */
+    -webkit-align-self: $self;
+    -moz-align-self: $self;
+    -ms-align-self: $self;
+    align-self: $self;
+}

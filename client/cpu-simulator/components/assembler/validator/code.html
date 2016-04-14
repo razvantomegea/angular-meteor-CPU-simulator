@@ -1,0 +1,35 @@
+<md-dialog ng-controller="ValidationController as validationCtrl" aria-label="Assembly Code" ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Code</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="validationCtrl.close()">
+                <md-icon class="material-icons" aria-label="Close dialog">clear</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <form name="codeForm" novalidate>
+            <md-input-container>
+                <label>Code</label>
+                <textarea ng-model="validationCtrl.code" name="myCode" ng-required="true" cols="50" rows="20" ng-change="validationCtrl.validation.verifyCodeSyntax(validationCtrl.code)" required md-maxlength="1000"></textarea>
+                <ng-messages for="codeForm.myCode.$error">
+                    <ng-message when="md-maxlength">Use 1000 characters</ng-message>
+                    <ng-message when="required">Enter code</ng-message>
+                    <span ng-if="validationCtrl.validation.invalidInstruction.error">Grammar error at line {{validationCtrl.validation.invalidInstruction.line}}</span>
+                    <md-icon class="material-icons rt-2x" ng-if="!validationCtrl.validation.syntaxError.error && !validationCtrl.validation.invalidInstruction.error">done_all</md-icon>
+                    <md-icon class="material-icons rt-2x" ng-if="validationCtrl.validation.syntaxError.error">&#xE000;</md-icon>
+                </ng-messages>
+            </md-input-container>
+        </form>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button ng-click="validationCtrl.validation.validateCode(validationCtrl.code)" style="margin-left:1em;" ng-disabled="validationCtrl.validation.syntaxError.error">
+            Validate Code
+        </md-button>
+        <span flex></span>
+        <md-button ng-click="validationCtrl.startAssemble('changedHighMacroInstructionSet')" style="margin-right:1em;" ng-disabled="!validationCtrl.validation.validCode">
+            Assemble
+        </md-button>
+    </md-dialog-actions>
+</md-dialog>

@@ -1,0 +1,7 @@
+@mixin animation($type, $time){
+	-webkit-animation: $type $time;
+    -moz-animation: $type $time;
+    -ms-animation: $type $time;
+    -o-animation: $type $time;
+    animation: $type $time;
+}

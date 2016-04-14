@@ -1,0 +1,4 @@
+.rt-cpu-container {
+  @include flex-box(row, wrap, center, center, stretch);
+  padding: 5em;
+}
