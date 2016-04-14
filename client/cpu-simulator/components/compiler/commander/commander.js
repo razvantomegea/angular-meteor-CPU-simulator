@@ -134,7 +134,7 @@
     BCGController.$inject = ['$rootScope', '$scope', '$log', 'convertionService', 'commandFactory', 'registerFactory'];
 
     angular.module('app.cpuModule.executionModule').component('commander', {
-        templateUrl: 'client/templates/faculty/cpu-simulator/components/compiler/commander/commander.html',
+        templateUrl: 'client/cpu-simulator/components/compiler/commander/commander.html',
         controller: BCGController,
         controllerAs: 'bcgCtrl'
     });

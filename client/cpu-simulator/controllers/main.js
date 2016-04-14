@@ -2,6 +2,7 @@
  * Created by Razvan Tomegea on 2/28/2016.
  */
 (function (angular) {
+    
     'use strict';
     function CpuController($rootScope, $scope, $log, $timeout, memoryService, microProgramService, convertionService, registerFactory) {
         
@@ -136,10 +137,6 @@
 
     CpuController.$inject = ['$rootScope', '$scope', '$log', '$timeout', 'memoryService', 'microProgramService', 'convertionService', 'registerFactory'];
 
-    angular.module('app.cpuModule').component('cpuComponent', {
-        templateUrl: "client/cpu-simulator/main.html",
-        controller: CpuController,
-        controllerAs: "cpuCtrl"
-    });
+    angular.module('app.cpuModule').controller('CpuController', CpuController);
 
 }(window.angular));

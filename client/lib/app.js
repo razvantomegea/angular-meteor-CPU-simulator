@@ -15,6 +15,7 @@
 
 	angular.module('app', [
 		'angular-meteor',
+		'ui.router',
 		'ngAnimate',
 		'ngMaterial',
 		'ngMdIcons',

@@ -311,11 +311,7 @@
     RegistersController.$inject = ['$scope', '$rootScope', '$log', 'convertionService', 'registerFactory'];
 
     angular.module('app.cpuModule').component('registers', {
-            bindings: {
-                generalRegisters: '=',
-                defaultRegisters: '='
-            },
-            templateUrl: 'client/templates/faculty/cpu-simulator/components/registers/registers.html',
+            templateUrl: 'client/cpu-simulator/components/registers/registers.html',
             controller: RegistersController,
             controllerAs: 'regCtrl'
         });

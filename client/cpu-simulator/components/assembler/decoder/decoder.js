@@ -24,7 +24,7 @@
     DecodeController.$inject = ['$rootScope', '$scope', 'decodificationFactory'];
     
     angular.module('app.cpuModule.assemblyModule').component('decoder', {
-        templateUrl: 'client/templates/faculty/cpu-simulator/components/assembler/decoder/decoder.html',
+        templateUrl: 'client/cpu-simulator/components/assembler/decoder/decoder.html',
         controller: DecodeController,
         controllerAs: 'decodeCtrl'
     });

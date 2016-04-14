@@ -37,7 +37,7 @@
     SequenceController.$inject = ['$rootScope', '$scope', '$log'];
 
     angular.module('app.cpuModule.executionModule').component('sequencer', {
-        templateUrl: 'client/templates/faculty/cpu-simulator/components/compiler/sequencer/sequencer.html',
+        templateUrl: 'client/cpu-simulator/components/compiler/sequencer/sequencer.html',
         controller: SequenceController,
         controllerAs: 'seqCtrl'
     });

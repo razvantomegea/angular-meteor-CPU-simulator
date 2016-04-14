@@ -22,7 +22,7 @@
         this.close = () => $mdDialog.hide();
         this.addCode = () => {
             $mdDialog.show({
-                templateUrl: 'client/templates/faculty/cpu-simulator/components/assembler/validator/code.html',
+                templateUrl: 'client/cpu-simulator/components/assembler/validator/code.html',
                 clickOutsideToClose: true
             }).then(
                 answer => $rootScope.$broadcast(answer, this.validation.highMacroInstructionSet
@@ -35,7 +35,7 @@
     angular.module('app.cpuModule.assemblyModule').controller('ValidationController', ValidationController);
 
     angular.module('app.cpuModule.assemblyModule').component('validator', {
-        templateUrl: 'client/templates/faculty/cpu-simulator/components/assembler/validator/validator.html',
+        templateUrl: 'client/cpu-simulator/components/assembler/validator/validator.html',
         controller: ValidationController,
         controllerAs: 'validationCtrl'
     });
