@@ -136,6 +136,10 @@
 
     CpuController.$inject = ['$rootScope', '$scope', '$log', '$timeout', 'memoryService', 'microProgramService', 'convertionService', 'registerFactory'];
 
-    angular.module('app.cpuModule').controller('CpuController', CpuController);
+    angular.module('app.cpuModule').component('cpuComponent', {
+        templateUrl: "client/cpu-simulator/main.html",
+        controller: CpuController,
+        controllerAs: "cpuCtrl"
+    });
 
 }(window.angular));
