@@ -1,4 +1,18 @@
-.rt-cpu-container {
-  @include flex-box(row, wrap, center, center, stretch);
-  padding: 5em;
+.cpu-component {
+  border: 1px solid black;
+  .section {
+    border: 1px solid black;
+  }
+}
+
+.cpu-section {
+  border: 1px solid black;
+}
+
+.component {
+  border: 1px solid black;
+}
+
+.memory-component {
+  border: 1px solid black;
 }

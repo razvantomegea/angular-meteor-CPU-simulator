@@ -1,21 +1,12 @@
-<div layout="row" layout-xs="column" layout-align="center center">
-    
-    <table flex>
-        <tr> 
-            <pre>{{bcgCtrl.microinstructionDecoder | json}}</pre>
-        </tr>
-        <tr>
-            <td>
-                <span>MAR: </span>
-                <code>{{bcgCtrl.MAR}}</code>
-                
-            </td>
-            <td>
-                <span>MIR: </span>
-                <code>{{bcgCtrl.MIR}}</code>
-                
-            </td>
-        </tr>
-    </table>
-    
+<div class="component" layout="column" layout-align="center center" layout-padding layout-margin>
+    <h3>Decoder</h3>
+    <pre>{{bcgCtrl.microinstructionDecoder | json}}</pre>
+</div>
+<div class="component" layout="column" layout-align="center center" layout-padding layout-margin>
+    <h3>MIR</h3>
+    <input id="mir" name="mir" type="text" ng-model="bcgCtrl.MIR" ng-disabled="true">
+</div>
+<div class="component" layout="column" layout-align="center center" layout-padding layout-margin> 
+    <h3>MAR</h3>
+    <input id="mar" name="mar" type="text" ng-model="bcgCtrl.MAR" ng-disabled="true">
 </div>

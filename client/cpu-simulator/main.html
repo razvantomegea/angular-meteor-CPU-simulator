@@ -1,53 +1,68 @@
-<div layout="row" layout-xs="column" class="rt-cpu-container">
+<div class="component" layout="column" layout-align="center center" layout-padding>
+    <h3>Conditions</h3>
+    <pre>{{conditions | json}}</pre>
+</div>
+<div layout="row" layout-align="space-around stretch" class="cpu-component">
     
-    <validator></validator>
-    
-    <decoder></decoder>
-    
-    <commander></commander>
-    
-    <sequencer></sequencer>
-    
-    <table flex>
-        <tr>
-            <td>
-                <pre>{{conditions | json}}</pre>
-            </td>
-            <td>
-                <pre>{{dataBus | json}}</pre>
-            </td>
-        </tr>
-    </table>
-    
-    <registers></registers>
-    
-    <div layout="row" layout-xs="column" layout-align="center center" flex>
-    
-        <table flex>
-            <tr ng-repeat="entry in memory.slice(0,64)">
-                <td><small>{{entry.address}}: </small></td>
-                <td><code>{{entry.data}}</code></td>
-            </tr>
-        </table>
-        <table flex>
-            <tr ng-repeat="entry in memory.slice(64,128)">
-                <td><small>{{entry.address}}: </small></td>
-                <td><code>{{entry.data}}</code></td>
-            </tr>
-        </table>
-        <table flex>
-            <tr ng-repeat="entry in memory.slice(128,192)">
-                <td><small>{{entry.address}}: </small></td>
-                <td><code>{{entry.data}}</code></td>
-            </tr>
-        </table>
-        <table flex>
-            <tr ng-repeat="entry in memory.slice(192,256)">
-                <td><small>{{entry.address}}: </small></td>
-                <td><code>{{entry.data}}</code></td>
-            </tr>
-        </table>
-
+    <div layout-align="space-around center" layout="column" class="cpu-section" flex layout-margin>
+        <decoder></decoder>
+        <div class="component" layout-align="space-around center" layout="column" layout-margin flex>
+            <h3>BCG</h3>
+            <div layout="column" layout-align="end center" flex>
+                <sequencer></sequencer>
+                <commander></commander>
+            </div>
+        </div>
+        
+    </div>
+    <div layout-align="space-around center" layout="column" class="cpu-section" flex layout-margin>
+        <div class="component" layout-padding>
+            <h3>ALU</h3>
+        </div>
+        <registers></registers>
     </div>
     
 </div>
+
+<div layout="column" layout-align="space-around center" class="memory-component" layout-margin flex layout-padding>
+    
+    <h3>Memory</h3>
+    <div layout="row" layout-align="space-around center">
+        
+        <div class="component" layout-padding>
+            <table>
+                <tr flex ng-repeat="entry in memory.slice(0, 64)">
+                    <td><p>{{entry.address}}: </p></td>
+                    <td><input id="{{entry.address}}" name="{{entry.address}}" type="text" ng-model="entry.data" ng-disabled="true"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="component" layout-padding>
+            <table>
+                <tr flex ng-repeat="entry in memory.slice(64, 128)">
+                    <td><p>{{entry.address}}: </p></td>
+                    <td><input id="{{entry.address}}" name="{{entry.address}}" type="text" ng-model="entry.data" ng-disabled="true"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="component" layout-padding>
+            <table>
+                <tr flex ng-repeat="entry in memory.slice(128, 192)">
+                    <td><p>{{entry.address}}: </p></td>
+                    <td><input id="{{entry.address}}" name="{{entry.address}}" type="text" ng-model="entry.data" ng-disabled="true"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="component" layout-padding>
+            <table>
+                <tr flex ng-repeat="entry in memory.slice(192, 256)">
+                    <td><p>{{entry.address}}: </p></td>
+                    <td><input id="{{entry.address}}" name="{{entry.address}}" type="text" ng-model="entry.data" ng-disabled="true"></td>
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+    
+</div>
+<validator></validator>

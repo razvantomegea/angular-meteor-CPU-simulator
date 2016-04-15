@@ -1,32 +1,19 @@
-<div layout="row" layout-xs="column" layout-align="center center">
-    
-    <table flex>
+<div class="component" layout="column" layout-align="center center" layout-padding>
+    <h3>REGISTERS</h3>
+    <table>
         <tr flex ng-repeat="(key, value) in regCtrl.registers.generalRegisters track by $index">
-            
             <td>{{key}}: </td>
             <td>
-                <code class="rt-register">
-                    {{value.data}}
-                </code>
-            </td>
-            
-        </tr>
-        
-    </table>
-    <table flex>
-        <tr>
-            <td flex ng-repeat="(key, value) in regCtrl.registers.defaultRegisters track by $index">
-                
-                <span>{{key}}: </span>
-                <code class="rt-register">
-                    {{value}}
-                </code>
-                
+                <input id="{{key}}" name="{{key}}" type="text" ng-model="value.data" ng-disabled="true">
             </td>
         </tr>
     </table>
-    
-    
 </div>
+<div class="component" layout="column" layout-align="center center" layout-padding ng-repeat="(key, value) in regCtrl.registers.defaultRegisters track by $index">
+    <h3>{{key}}</h3>
+    <input id="{{key}}" name="{{key}}" type="text" ng-model="value" ng-disabled="true">
+</div>
+
+
 
 
