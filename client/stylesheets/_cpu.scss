@@ -1,18 +1,36 @@
+body {
+  text-align: center;
+}
 .cpu-component {
   border: 1px solid black;
-  .section {
-    border: 1px solid black;
+  position: relative;
+  #busSection {
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+  }
+  #rbusSection {
+    border-left: 1px solid black;
   }
 }
-
-.cpu-section {
-  border: 1px solid black;
-}
-
 .component {
   border: 1px solid black;
 }
 
 .memory-component {
   border: 1px solid black;
+}
+.dbus, .sbus {
+  transform: rotateZ(180deg);
+}
+.dbus .md-bar {
+  background-color: yellow!important;
+}
+.sbus .md-bar {
+  background-color: lightgreen!important;
+}
+.rbus .md-bar {
+  background-color: orange!important;
+}
+.activeBus .md-bar{
+  background-color: darkred!important;
 }

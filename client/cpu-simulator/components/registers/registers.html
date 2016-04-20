@@ -1,17 +1,21 @@
-<div class="component" layout="column" layout-align="center center" layout-padding>
+<div class="component" layout="column" layout-align="center center" layout-padding layout-margin>
+    <md-progress-linear class="dbus" md-mode="indeterminate"></md-progress-linear>
     <h3>REGISTERS</h3>
     <table>
         <tr flex ng-repeat="(key, value) in regCtrl.registers.generalRegisters track by $index">
-            <td>{{key}}: </td>
+            <td>{{::key}}: </td>
             <td>
-                <input id="{{key}}" name="{{key}}" type="text" ng-model="value.data" ng-disabled="true">
+                <input id="{{::key}}" name="{{::key}}" type="text" ng-model="value.data" ng-disabled="true">
             </td>
         </tr>
     </table>
+    <md-progress-linear class="sbus" md-mode="indeterminate"></md-progress-linear>
 </div>
-<div class="component" layout="column" layout-align="center center" layout-padding ng-repeat="(key, value) in regCtrl.registers.defaultRegisters track by $index">
-    <h3>{{key}}</h3>
-    <input id="{{key}}" name="{{key}}" type="text" ng-model="value" ng-disabled="true">
+<div class="component" layout="column" layout-align="center center" layout-padding layout-margin ng-repeat="(key, value) in regCtrl.registers.defaultRegisters track by $index">
+    <md-progress-linear ng-class="{activeBus: regCtrl.dataBus[key + 'Sbus']}" class="dbus" md-mode="indeterminate"></md-progress-linear>
+    <h3>{{::key}}</h3>
+    <input id="{{::key}}" name="{{::key}}" type="text" ng-model="value" ng-disabled="true">
+    <md-progress-linear ng-class="{activeBus: regCtrl.dataBus[key + 'Dbus']}" class="sbus" md-mode="indeterminate"></md-progress-linear>
 </div>
 
 

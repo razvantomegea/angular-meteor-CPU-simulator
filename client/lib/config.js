@@ -1,20 +1,20 @@
-(function(angular){
-	
-  'use strict';
-	angular.module('app').config(config);
-	config.$inject = ['$urlRouterProvider', '$stateProvider', '$locationProvider'];
+(function (angular) {
 
-	function config($urlRouterProvider, $stateProvider, $locationProvider){
-		$locationProvider.html5Mode(true);
+    'use strict';
+    function config($urlRouterProvider, $stateProvider, $locationProvider) {
+        $locationProvider.html5Mode(true);
 
-		$stateProvider
-			.state('cpu', {
-				url: '/cpu',
-				templateUrl: 'client/cpu-simulator/main.html',
-				controller: 'CpuController',
-				controllerAs: 'cpuCtrl'
-			});
-		$urlRouterProvider.otherwise("/cpu");
-	}
+        $stateProvider
+            .state('cpu', {
+                url: '/cpu',
+                templateUrl: 'client/cpu-simulator/main.html',
+                controller: 'CpuController',
+                controllerAs: 'cpuCtrl'
+            });
+        $urlRouterProvider.otherwise("/cpu");
+    }
+
+    config.$inject = ['$urlRouterProvider', '$stateProvider', '$locationProvider'];
+    angular.module('app').config(config);
 
 })(window.angular);

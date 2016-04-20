@@ -8,9 +8,9 @@
 
         function convert(num) {
             return {
-                from: (baseFrom) => {
+                from: baseFrom => {
                     return {
-                        to: (baseTo) => parseInt(num,baseFrom).toString(baseTo)
+                        to: baseTo => parseInt(num,baseFrom).toString(baseTo)
                     }
                 }
             }
@@ -18,7 +18,7 @@
 
         function extend(num) {
             return {
-                to: (bits) => {
+                to: bits => {
                     let bitNr = bits - num.length;
                     for (let i = 0; i < bitNr; i++) {
                         num = '0' + num;

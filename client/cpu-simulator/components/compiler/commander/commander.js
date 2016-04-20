@@ -2,7 +2,7 @@
  * Created by Razvan Tomegea on 2/28/2016.
  */
 (function (angular) {
-    
+
     'use strict';
     function BCGController($rootScope, $scope, $log, convertionService, commandFactory, registerFactory) {
         let commander = commandFactory;
@@ -22,7 +22,7 @@
             condition: 0,
             uAdress: 0
         };
-          
+
         $scope.$on('RESET', () => this.initialiseMicroRegisters());
 
         $scope.$on('EN1', () => this.sendDbusSbusData());
@@ -35,7 +35,7 @@
             this.calculateBranchFunction();
             $rootScope.$broadcast('CHECK');
         });
-        
+
         this.decodeMicroinstruction = microinstruction => {
             commander.parseMicroinstruction(this.microinstructionDecoder, microinstruction).getHi();
             commander.parseMicroinstruction(this.microinstructionDecoder, microinstruction).getLo();
@@ -50,12 +50,12 @@
             commander.parseMicroinstruction(this.microinstructionDecoder, microinstruction).getCondition();
             commander.parseMicroinstruction(this.microinstructionDecoder, microinstruction).getuAddress();
         };
-        
+
         this.initialiseMicroRegisters = () => {
             this.MAR = 0;
             this.MIR = $rootScope.microProgram[0];
         };
-        
+
         this.sendDbusSbusData = () => {
             this.MAR++;
             this.MAR = convertionService.extend(convertionService.convert(this.MAR).from(10).to(2)).to(8);
@@ -63,7 +63,7 @@
             $rootScope.$broadcast('sendSbus', this.microinstructionDecoder.sbus);
             $rootScope.$broadcast('sendDbus', this.microinstructionDecoder.dbus);
         };
-        
+
         this.commandAlu = cmd => {
             switch (cmd) {
                 case 0:
@@ -105,18 +105,18 @@
                     $log.error("Unknown command");
             }
         };
-        
+
         this.aluComputation = () => {
             this.commandAlu(this.microinstructionDecoder.alu);
             $rootScope.$broadcast('receiveRbus', this.microinstructionDecoder.rbus);
             $rootScope.$broadcast('OTHER');
         };
-        
+
         this.memoryOperation = () => {
             $rootScope.$broadcast('other', this.microinstructionDecoder.other);
             $rootScope.$broadcast('exchangeMemory', this.microinstructionDecoder.memory);
         };
-        
+
         this.calculateBranchFunction = () => {
             commander.getInstructionClass(registerFactory.defaultRegisters['IR']);
             $rootScope.conditions.g = !!commander.verifyCondition(this.microinstructionDecoder.succesor) && !!this.microinstructionDecoder.condition;

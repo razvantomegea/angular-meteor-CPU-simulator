@@ -4,7 +4,7 @@
 (function (angular) {
     'use strict';
     function registerFactory($rootScope, $log, convertionService) {
-        let regFactory =  {
+        let regFactory = {
             updateGeneralRegister: updateGeneralRegister,
             updateDefaultRegister: updateDefaultRegister,
             setInterruptionFlag: setInterruptionFlag,
@@ -21,7 +21,7 @@
             incrementSP: incrementSP,
             decrementSP: decrementSP,
             incrementPC: incrementPC
-        }
+        };
         
         regFactory.generalRegisters = {
             "R0": {
@@ -180,28 +180,28 @@
 
         function incrementSP(){
             let sp = parseInt(this.defaultRegisters['SP'], 2);
-            sp++;
+            sp += 2;
             sp = convertionService.extend(convertionService.convert(sp).from(10).to(2)).to(16);
             this.updateDefaultRegister('SP', sp);
         }
 
         function decrementSP(){
             let sp = parseInt(this.defaultRegisters['SP'], 2);
-            sp--;
+            sp -= 2;
             sp = convertionService.extend(convertionService.convert(sp).from(10).to(2)).to(16);
             this.updateDefaultRegister('SP', sp);
         }
 
         function incrementPC(){
             let pc = parseInt(this.defaultRegisters['PC'], 2);
-            pc++;
+            pc += 2;
             pc = convertionService.extend(convertionService.convert(pc).from(10).to(2)).to(16);
             this.updateDefaultRegister('PC', pc);
         }
         
         return regFactory;
     
-    };
+    }
 
     registerFactory.$inject = ['$rootScope', '$log', 'convertionService'];
 

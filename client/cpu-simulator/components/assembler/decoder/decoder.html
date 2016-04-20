@@ -2,7 +2,7 @@
     <h3>CACHE</h3>
     <table flex>
         <tr ng-repeat="instruction in decodeCtrl.machineCodeIntructionSet track by $index">
-            <td><code>PC<span ng-if="$index>0">+{{2 * $index}}: </span></code></td><td><input id="instruction" name="regData" type="text" ng-model="instruction" ng-disabled="true"></td>
+            <td><code>PC<span ng-if="$index>0">+{{::$index}}: </span></code></td><td><input id="instruction" name="regData" type="text" ng-model="instruction" ng-disabled="true"></td>
         </tr>
     </table>
 </div>

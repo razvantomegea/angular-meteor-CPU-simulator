@@ -106,9 +106,9 @@
         $scope.$on('CHECK', () => {
             let currentPC = parseInt(registerFactory.defaultRegisters['PC'], 2);
             if(currentPC <= $rootScope.conditions.INSTRUCTION + 0x40) {
-                $timeout(() => {
-                    $rootScope.$broadcast('NEXT')
-                }, 1000);
+               // $timeout(() => {
+                    $rootScope.$broadcast('NEXT');
+              //  }, 1000);
             } else {
                 $rootScope.conditions.ACKLOW = 1;
                 $log.log("No more instructions!");

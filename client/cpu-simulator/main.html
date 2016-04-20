@@ -1,68 +1,75 @@
-<div class="component" layout="column" layout-align="center center" layout-padding>
-    <h3>Conditions</h3>
-    <pre>{{conditions | json}}</pre>
-</div>
-<div layout="row" layout-align="space-around stretch" class="cpu-component">
-    
-    <div layout-align="space-around center" layout="column" class="cpu-section" flex layout-margin>
+<div layout="row" layout-align="center stretch" class="cpu-component" layout-margin flex layout-padding>
+    <div id="leftSection" layout-align="center center" layout="column" class="cpu-section" layout-margin flex>
         <decoder></decoder>
-        <div class="component" layout-align="space-around center" layout="column" layout-margin flex>
+        <div class="component" layout-align="space-around center" layout="column" layout-margin layout-padding flex>
             <h3>BCG</h3>
             <div layout="column" layout-align="end center" flex>
                 <sequencer></sequencer>
                 <commander></commander>
             </div>
         </div>
-        
     </div>
-    <div layout-align="space-around center" layout="column" class="cpu-section" flex layout-margin>
-        <div class="component" layout-padding>
+    <div id="busSection" layout-align="center center" layout="column" layout-margin flex>
+        <code>DBUS</code>
+        <md-progress-linear ng-class="{activeBus: dataBus['dbus']}" class="dbus" md-mode="indeterminate"></md-progress-linear>
+        <code>SBUS</code>
+        <md-progress-linear ng-class="{activeBus: dataBus['sbus']}" class="sbus" md-mode="indeterminate"></md-progress-linear>
+    </div>
+    <div id="rightSection" layout-align="center center" layout="column" class="cpu-section" flex>
+        <div class="component" layout-align="center center" layout="column" layout-margin layout-padding flex>
+            <md-progress-linear class="dbus" md-mode="indeterminate"></md-progress-linear>
             <h3>ALU</h3>
+            <md-progress-linear class="sbus" md-mode="indeterminate"></md-progress-linear>
         </div>
+        <md-progress-linear class="rbus" md-mode="indeterminate"></md-progress-linear>
         <registers></registers>
+        <md-progress-linear ng-class="{activeBus: dataBus['rbus']}" class="rbus" md-mode="indeterminate"></md-progress-linear>
     </div>
-    
 </div>
-
+<code>RBUS</code>
+<md-progress-linear ng-class="{activeBus: dataBus['rbus']}" class="rbus" md-mode="indeterminate"></md-progress-linear>
 <div layout="column" layout-align="space-around center" class="memory-component" layout-margin flex layout-padding>
-    
     <h3>Memory</h3>
     <div layout="row" layout-align="space-around center">
-        
+
         <div class="component" layout-padding>
             <table>
                 <tr flex ng-repeat="entry in memory.slice(0, 64)">
-                    <td><p>{{entry.address}}: </p></td>
-                    <td><input id="{{entry.address}}" name="{{entry.address}}" type="text" ng-model="entry.data" ng-disabled="true"></td>
+                    <td><p>{{::entry.address}}: </p></td>
+                    <td><input id="{{::entry.address}}" name="{{::entry.address}}" type="text" ng-model="entry.data"
+                               ng-disabled="true"></td>
                 </tr>
             </table>
         </div>
         <div class="component" layout-padding>
             <table>
                 <tr flex ng-repeat="entry in memory.slice(64, 128)">
-                    <td><p>{{entry.address}}: </p></td>
-                    <td><input id="{{entry.address}}" name="{{entry.address}}" type="text" ng-model="entry.data" ng-disabled="true"></td>
+                    <td><p>{{::entry.address}}: </p></td>
+                    <td><input id="{{::entry.address}}" name="{{::entry.address}}" type="text" ng-model="entry.data"
+                               ng-disabled="true"></td>
                 </tr>
             </table>
         </div>
         <div class="component" layout-padding>
             <table>
                 <tr flex ng-repeat="entry in memory.slice(128, 192)">
-                    <td><p>{{entry.address}}: </p></td>
-                    <td><input id="{{entry.address}}" name="{{entry.address}}" type="text" ng-model="entry.data" ng-disabled="true"></td>
+                    <td><p>{{::entry.address}}: </p></td>
+                    <td><input id="{{::entry.address}}" name="{{::entry.address}}" type="text" ng-model="entry.data"
+                               ng-disabled="true"></td>
                 </tr>
             </table>
         </div>
         <div class="component" layout-padding>
             <table>
                 <tr flex ng-repeat="entry in memory.slice(192, 256)">
-                    <td><p>{{entry.address}}: </p></td>
-                    <td><input id="{{entry.address}}" name="{{entry.address}}" type="text" ng-model="entry.data" ng-disabled="true"></td>
+                    <td><p>{{::entry.address}}: </p></td>
+                    <td><input id="{{::entry.address}}" name="{{::entry.address}}" type="text" ng-model="entry.data"
+                               ng-disabled="true"></td>
                 </tr>
             </table>
         </div>
-        
+
     </div>
-    
+
 </div>
 <validator></validator>

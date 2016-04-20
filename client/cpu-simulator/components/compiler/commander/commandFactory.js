@@ -12,7 +12,7 @@
             getInstructionClass: getInstructionClass,
             parseMicroinstruction: parseMicroinstruction
         };
-        
+
         cmdFactory.arithemticLogicUnit = {
             add: (op1, op2) => {
                 $log.log("SUM of", op1, op2);
@@ -72,8 +72,8 @@
                 $log.log("RRC of", op);
                 return carry | (op >> 1);
             }
-        }
-        
+        };
+
         function calculateIndex(index, instruction) {
             instruction = parseInt(instruction, 2);
             let machineCodeIndex = 0;
@@ -166,24 +166,24 @@
         function getInstructionClass(instruction) {
             instruction = parseInt(instruction, 2);
             let instructionClass = (instruction & $rootScope.NOT_FIRST_CLASS_MASK) >> 13;
-            if (instructionClass=== 7) {
+            if (instructionClass === 7) {
                 $log.log('We have a 4th class instruction');
                 $rootScope.conditions.CL4 = 1;
                 return;
             }
-            if (instructionClass=== 6) {
+            if (instructionClass === 6) {
                 $log.log('We have a 2nd class instruction');
                 $rootScope.conditions.CL2 = 1;
                 return;
             }
-            if (instructionClass=== 4) {
+            if (instructionClass === 4) {
                 $log.log('We have a 3rd class instruction');
                 $rootScope.conditions.CL3 = 1;
                 return;
             }
             $log.log('We have a 1st class instruction');
         }
-        
+
         function parseMicroinstruction(object, microinstruction) {
             return {
                 getHi: () => object.miHi = ~~(microinstruction / Math.pow(2, 8)),
@@ -192,7 +192,7 @@
                 getDbus: () => object.dbus = (object.miHi & $rootScope.DBUS_MASK) >> 23,
                 getAlu: () => object.alu = (object.miHi & $rootScope.ALU_MASK) >> 19,
                 getRbus: () => object.rbus = (object.miHi & $rootScope.RBUS_MASK) >> 15,
-                getOther: () =>  object.other = (object.miHi & $rootScope.OTHER_MASK) >> 10,
+                getOther: () => object.other = (object.miHi & $rootScope.OTHER_MASK) >> 10,
                 getMemory: () => object.memory = (object.miHi & $rootScope.MEMORY_MASK) >> 8,
                 getSuccesor: () => object.succesor = (object.miHi & $rootScope.SUCCESOR_MASK) >> 4,
                 getIndex: () => object.index = (object.miHi & $rootScope.INDEX_MASK) >> 1,
@@ -200,13 +200,13 @@
                 getuAddress: () => object.uAdress = object.miLo
             }
         }
-        
+
         return cmdFactory;
-        
+
     }
-    
+
     commandFactory.$inject = ['$rootScope', '$log'];
-    
+
     angular.module('app.cpuModule.executionModule').factory('commandFactory', commandFactory);
-    
+
 }(window.angular));

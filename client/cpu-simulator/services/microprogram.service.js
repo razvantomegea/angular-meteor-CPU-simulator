@@ -403,9 +403,9 @@
         
         function decodeMnemonicMIFormat(instructionSet) {
             let microProgram = [];
-            angular.forEach(instructionSet, (item, index) => {
+            angular.forEach(instructionSet, (item) => {
                 let microCommands = item.split(", ");
-                $log.log(index, ":", microCommands);
+                //$log.log(index, ":", microCommands);
                 let SBUS = mpmSvc.microcommands.SBUS[microCommands[0]];
                 let DBUS = mpmSvc.microcommands.DBUS[microCommands[1]];
                 let ALU = mpmSvc.microcommands.ALU[microCommands[2]];
@@ -418,7 +418,7 @@
                 let uADR = mpmSvc.labels[microCommands[9]];
                 uADR = (uADR === undefined) ? "00000000" : convertionService.extend(convertionService.convert(uADR).from(16).to(2)).to(8);
                 let microInstruction = SBUS.concat(DBUS, ALU, RBUS, OTHER, MEM, SUCCESOR, INDEX, TF, uADR);
-                $log.log(microInstruction);
+                //$log.log(microInstruction);
                 microProgram.push(microInstruction);
             });
             $log.log(microProgram.length);
