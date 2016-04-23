@@ -103,18 +103,18 @@
         
         function updateGeneralRegister(reg, data){
             this.generalRegisters[reg].data = data;
-            $log.log("Updated register", reg, "with", data);
+            //$log.log("Updated register", reg, "with", data);
         }
 
         function updateDefaultRegister(reg, data){
             this.defaultRegisters[reg] = data;
-            $log.log("Updated register", reg, "with", data);
+            //$log.log("Updated register", reg, "with", data);
         }
 
         function setInterruptionFlag(value) {
             let flags = (value === 1) ? parseInt(this.defaultRegisters['FLAGS'], 2) | $rootScope.INTR_FLAG_MASK : parseInt(this.defaultRegisters['FLAGS'], 2) & ~$rootScope.INTR_FLAG_MASK;
             flags = convertionService.extend(convertionService.convert(flags).from(10).to(2)).to(16);
-            $log.log("Updated interruption flag with", flags);
+            //$log.log("Updated interruption flag with", flags);
             this.updateDefaultRegister('FLAGS', flags);
             $rootScope.conditions.getCarry();
         }
@@ -126,7 +126,7 @@
         function setCarry(value) {
             let flags = (value === 1) ? parseInt(this.defaultRegisters['FLAGS'], 2) | $rootScope.CARRY_FLAG_MASK : parseInt(this.defaultRegisters['FLAGS'], 2) & ~$rootScope.CARRY_FLAG_MASK;
             flags = convertionService.extend(convertionService.convert(flags).from(10).to(2)).to(16);
-            $log.log("Updated carry flag with", flags);
+            //$log.log("Updated carry flag with", flags);
             this.updateDefaultRegister('FLAGS', flags);
             $rootScope.conditions.getCarry();
         }
@@ -138,7 +138,7 @@
         function setZero(value) {
             let flags = (value === 1) ? parseInt(this.defaultRegisters['FLAGS'], 2) | $rootScope.ZERO_FLAG_MASK : parseInt(this.defaultRegisters['FLAGS'], 2) & ~$rootScope.ZERO_FLAG_MASK;
             flags = convertionService.extend(convertionService.convert(flags).from(10).to(2)).to(16);
-            $log.log("Updated zero flag with", flags);
+            //$log.log("Updated zero flag with", flags);
             this.updateDefaultRegister('FLAGS', flags);
             $rootScope.conditions.getZero();
         }
@@ -150,7 +150,7 @@
         function setSign(value) {
             let flags = (value === 1) ? parseInt(this.defaultRegisters['FLAGS'], 2) | $rootScope.SIGN_FLAG_MASK : parseInt(this.defaultRegisters['FLAGS'], 2) & ~$rootScope.SIGN_FLAG_MASK;
             flags = convertionService.extend(convertionService.convert(flags).from(10).to(2)).to(16);
-            $log.log("Updated sign flag with", flags);
+            //$log.log("Updated sign flag with", flags);
             this.updateDefaultRegister('FLAGS', flags);
             $rootScope.conditions.getSign();
         }
@@ -162,7 +162,7 @@
         function setOverflow(value) {
             let flags = (value === 1) ? parseInt(this.defaultRegisters['FLAGS'], 2) | $rootScope.OVERFLOW_FLAG_MASK : parseInt(this.defaultRegisters['FLAGS'], 2) & ~$rootScope.OVERFLOW_FLAG_MASK;
             flags = convertionService.extend(convertionService.convert(flags).from(10).to(2)).to(16);
-            $log.log("Updated overflow flag with", flags);
+            //$log.log("Updated overflow flag with", flags);
             this.updateDefaultRegister('FLAGS', flags);
             $rootScope.conditions.getOverflow();
         }

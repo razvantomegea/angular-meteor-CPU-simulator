@@ -23,17 +23,17 @@
             uAdress: 0
         };
 
-        $scope.$on('RESET', () => this.initialiseMicroRegisters());
+        $scope.$on('initialiseMarMir', () => this.initialiseMicroRegisters());
 
         $scope.$on('EN1', () => this.sendDbusSbusData());
 
         $scope.$on('receiveAlu', () => this.aluComputation());
 
-        $scope.$on('EN3', () => this.memoryOperation());
+        $scope.$on('rwMemory', () => this.memoryOperation());
 
-        $scope.$on('DONE', () => {
+        $scope.$on('memoryExchangeDone', () => {
             this.calculateBranchFunction();
-            $rootScope.$broadcast('CHECK');
+            $rootScope.$broadcast('checkMoreInstructions');
         });
 
         this.decodeMicroinstruction = microinstruction => {
@@ -54,6 +54,7 @@
         this.initialiseMicroRegisters = () => {
             this.MAR = 0;
             this.MIR = $rootScope.microProgram[0];
+            $rootScope.$broadcast('readyMarMir');
         };
 
         this.sendDbusSbusData = () => {
@@ -109,11 +110,11 @@
         this.aluComputation = () => {
             this.commandAlu(this.microinstructionDecoder.alu);
             $rootScope.$broadcast('receiveRbus', this.microinstructionDecoder.rbus);
-            $rootScope.$broadcast('OTHER');
+            $rootScope.$broadcast('other', this.microinstructionDecoder.other);
+            $rootScope.$broadcast('operationDone');
         };
 
         this.memoryOperation = () => {
-            $rootScope.$broadcast('other', this.microinstructionDecoder.other);
             $rootScope.$broadcast('exchangeMemory', this.microinstructionDecoder.memory);
         };
 

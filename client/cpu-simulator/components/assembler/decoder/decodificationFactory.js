@@ -187,45 +187,76 @@
                             return item.label === machineCodeInstruction.offset;
                         });
 
+                        let nextOperandCount = 0, prevOperandCount = 0;
                         let labeledInstructionIndex = instructionSetData.indexOf(labeledInstruction[0]);
                         angular.forEach(instructionSetData, (item, idx) => {
-                            let nextOperandCount = 0;
-                            let prevOperandCount = 0;
                             let operands = [];
-                            if (item.class === 1) {
-                                operands = item.code.split(" ")[1].split(",");
-                            }
-                            if (item.class === 2) {
-                                operands = item.code.split(" ")[1];
-                            }
                             if ((instructionIndex < labeledInstructionIndex) && (idx > instructionIndex) && (idx < labeledInstructionIndex)) {
-                                if (operands[0] && (operands[0].indexOf("(") > 0)) {
-                                    nextOperandCount += 2;
+                                if (item.class === 1) {
+                                    operands = item.code.split(" ")[1].split(",");
+                                    if (operands[0].indexOf("(") > 0) {
+                                        //$log.debug(operands[0].indexOf("("), idx);
+                                        nextOperandCount += 2;
+                                    }
+                                    if ((operands[1].indexOf("(") > 0) || (/R/.test(operands[1]) === false)) {
+                                        //$log.debug(operands[1], idx);
+                                        nextOperandCount += 2;
+                                    }
                                 }
-                                if (operands[1] && ((operands[1].indexOf("(") > 0) || (operands[1].indexOf("R") === -1))) {
-                                    nextOperandCount += 2;
+                                if (item.class === 2) {
+                                    operands = item.code.split(" ")[1];
+                                    if (operands && (operands.indexOf("(") > 0)) {
+                                        //$log.debug(operands, idx);
+                                        nextOperandCount += 2;
+                                    }
                                 }
-                                if (operands && (operands.indexOf("(") > 0)) {
-                                    nextOperandCount += 2;
-                                }
+                                $log.debug("Next operand count:", nextOperandCount);
                             }
-                            if ((instructionIndex > labeledInstructionIndex) && (labeledInstructionIndex <= idx) && (instructionIndex > idx)) {
-                                if (operands[0] && (operands[0].indexOf("(") > 0)) {
-                                    prevOperandCount += 2;
+                            if ((instructionIndex > labeledInstructionIndex) && (labeledInstructionIndex <= idx) && (instructionIndex => idx)) {
+                                if (item.class === 1) {
+                                    operands = item.code.split(" ")[1].split(",");
+                                    if (operands[0].indexOf("(") > 0) {
+                                        //$log.debug(operands[0].indexOf("("), idx);
+                                        prevOperandCount += 2;
+                                    }
+                                    if ((operands[1].indexOf("(") > 0) || (/R/.test(operands[1]) === false)) {
+                                        //$log.debug(operands[1], idx);
+                                        prevOperandCount += 2;
+                                    }
                                 }
-                                if (operands[1] && ((operands[1].indexOf("(") > 0) || (operands[1].indexOf("R") === -1))) {
-                                    prevOperandCount += 2;
+                                if (item.class === 2) {
+                                    operands = item.code.split(" ")[1];
+                                    if (operands && (operands.indexOf("(") > 0)) {
+                                        //$log.debug(operands, idx);
+                                        prevOperandCount += 2;
+                                    }
                                 }
-                                if (operands && (operands.indexOf("(") > 0)) {
-                                    prevOperandCount += 2;
-                                }
+                                $log.debug("Previous operand count:", prevOperandCount);
                             }
                             if (item.label === machineCodeInstruction.offset) {
-                                let offset = 0;
+                                let offset = 0, jump = 0;
                                 if (instructionIndex < idx) {
-                                    offset = idx - instructionIndex - nextOperandCount;
+                                    jump = 2 * (idx - instructionIndex);
+                                    $log.debug("jump:", jump);
+                                    if ((jump % 2) === 0) {
+                                        offset = jump + nextOperandCount - 2;
+                                        $log.debug("offset:", offset);
+                                    }
+                                    if ((jump % 2) === 1) {
+                                        offset = jump + nextOperandCount - 3;
+                                    }
+                                    $log.debug(instructionIndex, idx);
                                 } else {
-                                    offset = (instructionIndex + prevOperandCount - idx + 2) | $rootScope.OFFSET_SIGN_MASK;
+                                    jump = instructionIndex - idx;
+                                    $log.debug("jump:", jump);
+                                    if ((jump % 2) === 0) {
+                                        offset = (jump + prevOperandCount + 2) | $rootScope.OFFSET_SIGN_MASK;
+                                        $log.debug("offset:", offset);
+                                    }
+                                    if ((jump % 2) === 1) {
+                                        offset = (jump + prevOperandCount + 3) | $rootScope.OFFSET_SIGN_MASK;
+                                    }
+                                    $log.debug(instructionIndex, idx);
                                 }
                                 machineCodeInstruction.offset = convertionService.extend(convertionService.convert(offset).from(10).to(2)).to(8);
                                 $log.log("The branch offset is", machineCodeInstruction.offset);

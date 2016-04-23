@@ -421,7 +421,7 @@
                 //$log.log(microInstruction);
                 microProgram.push(microInstruction);
             });
-            $log.log(microProgram.length);
+            //$log.log(microProgram.length);
             return microProgram;
         }
         

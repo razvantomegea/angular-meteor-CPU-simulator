@@ -74,6 +74,8 @@
 
         // Main memory
         $rootScope.memory = memoryService.initialiseMemory();
+        $rootScope.mreq = 0;
+        $rootScope.memoryBusy = false;
 
         // Microcode
         $rootScope.microProgram = microProgramService.initializeMicroProgram(microProgramService.mnemonicMicroinstructionSet);
@@ -98,17 +100,17 @@
             $rootScope.conditions.Z = 0;
             $rootScope.conditions.S = 0;
             $rootScope.conditions.V = 0;
-            $rootScope.$broadcast('INIT');
+            $rootScope.$broadcast('initialisePcSp');
         });
 
-        $scope.$on('RDY', () => $rootScope.$broadcast('RESET'));
+        $scope.$on('readyPcSp', () => $rootScope.$broadcast('reset'));
 
-        $scope.$on('CHECK', () => {
+        $scope.$on('checkMoreInstructions', () => {
             let currentPC = parseInt(registerFactory.defaultRegisters['PC'], 2);
-            if(currentPC <= $rootScope.conditions.INSTRUCTION + 0x40) {
-               // $timeout(() => {
-                    $rootScope.$broadcast('NEXT');
-              //  }, 1000);
+            if(currentPC <= 2 + $rootScope.conditions.INSTRUCTION + 0x40) {
+                $timeout(() => {
+                    $rootScope.$broadcast('executeNextInstruction');
+                }, 500);
             } else {
                 $rootScope.conditions.ACKLOW = 1;
                 $log.log("No more instructions!");
@@ -125,11 +127,11 @@
             let result = [];
             if (!subProperty) {
                 result = Object.keys(obj).filter((item) => obj[item] === value);
-                $log.log("Found", result.length, "items for", obj, "with property value", value);
+                //$log.log("Found", result.length, "items for", obj, "with property value", value);
                 return result;
             } else {
                 result = Object.keys(obj).filter((item) => obj[item][subProperty] === value);
-                $log.log("Found", result.length, "items for", obj, "with property value", value);
+                //$log.log("Found", result.length, "items for", obj, "with property value", value);
                 return result;
             }
         }

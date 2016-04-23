@@ -5,7 +5,7 @@
 
     'use strict';
     function ValidationController($rootScope, $mdDialog, validationFactory, $log) {
-        this.code = "ADD R1,1;\nMOV R5,1;\nSEC;\nBCC .et1;\nINC R0;\n.et1: ADD R0,5;";
+        this.code = "ADD R1,1;\nMOV R5,1;\nSEC;\nBCC .et1;\nOR R1,R5;\nXOR R2,R1;\nAND 1(R0),R2;\nINC R0;\n.et1: ADD R0,5;";
         /*
          * Code sample
          ADD R1,1;

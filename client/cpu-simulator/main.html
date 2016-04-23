@@ -30,6 +30,10 @@
 <md-progress-linear ng-class="{activeBus: dataBus['rbus']}" class="rbus" md-mode="indeterminate"></md-progress-linear>
 <div layout="column" layout-align="space-around center" class="memory-component" layout-margin flex layout-padding>
     <h3>Memory</h3>
+    <h2>Busy</h2>
+    <p>{{memoryBusy}}</p>
+    <h2>MREQ</h2>
+    <p>{{mreq}}</p>
     <div layout="row" layout-align="space-around center">
 
         <div class="component" layout-padding>
