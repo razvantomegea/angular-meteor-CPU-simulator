@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bcf9a425-0839-4fe9-bf8e-c3d4bd7cbbc8" name="Default" comment="">
+    <list default="true" id="bcf9a425-0839-4fe9-bf8e-c3d4bd7cbbc8" name="Default" comment="A">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/docs/Codificari.xlsx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/docs/Microcod.xlsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validationFactory.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validationFactory.js" />
     </list>
     <ignored path="my-way.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -440,7 +441,7 @@
       <workItem from="1461069430175" duration="15386000" />
       <workItem from="1461147148087" duration="13830000" />
       <workItem from="1461399911578" duration="23689000" />
-      <workItem from="1461772180123" duration="4005000" />
+      <workItem from="1461772180123" duration="4064000" />
     </task>
     <task id="LOCAL-00001" summary="Migrated to Meteor 1.3.1">
       <created>1460229060996</created>
@@ -498,11 +499,18 @@
       <option name="project" value="LOCAL" />
       <updated>1461434820053</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Found some problems related to the previous commit and fixed it">
+      <created>1461776458677</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1461776458678</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="122018000" />
+    <option name="totallyTimeSpent" value="122077000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -522,7 +530,7 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3251634" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3251634" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32569557" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2124183" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3398693" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -577,7 +585,8 @@
     <MESSAGE value="Added execution end by instruction length and fixed a bug related to line grammar error" />
     <MESSAGE value="Finished the visual design and layout. Added buses that change color on data change. Found branch instruction issue" />
     <MESSAGE value="Added all the sequencer states and made successful forward jump. Still have to make backwards jump, though." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added all the sequencer states and made successful forward jump. Still have to make backwards jump, though." />
+    <MESSAGE value="Found some problems related to the previous commit and fixed it" />
+    <option name="LAST_COMMIT_MESSAGE" value="Found some problems related to the previous commit and fixed it" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
