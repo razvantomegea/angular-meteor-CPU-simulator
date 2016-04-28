@@ -4,8 +4,7 @@
 (function (angular) {
     'use strict';
     /**
-     * Use the factory returning object to validate the code
-     * using built-in methods
+     * Use the factory returning object to validate the code, using its built-in methods
      * @param  {Object} $log               - Angular console logging service
      * @param  {Object} instructionService - Use this service to get the instruction definitions
      * @return {Object}                    - Returns the validator with the validation built-in methods
@@ -44,13 +43,16 @@
              * @param  {String} code - The code containing the instructions
              */
             verifyCodeSyntax(code) {
-                // Assume the code is invalid
+                /**
+                 * Flag that indicates code validation
+                 * @type {boolean}
+                 */
                 this.validCode = false;
                 // Get the instructions
                 let instructionSet = code.split("\n");
                 // Counter for good instruction syntax
                 let goodInstructionCount = 0;
-                angular.forEach(instructionSet, (item) => {
+                angular.forEach(instructionSet, item => {
                     if (twoOperandClassRegex.test(item) || oneOperandClassRegexS.test(item) || noOperandClassRegex.test(item) || branchOperandClassRegex.test(item)) {
                         // The instruction has to match to one of the regex patterns
                         goodInstructionCount++;
@@ -64,16 +66,22 @@
              * @param  {String} code - The code containing the instructions
              */
             validateCode(code) {
+                // Get the instructions
                 let instructionSet = code.split("\n");
+                // Counter for invalid instructions
                 let badInstructionCount = 0;
+                // Reset any previous validation checks
                 this.highMacroInstructionSet = [];
-                angular.forEach(instructionSet, (item) => {
+
+                angular.forEach(instructionSet, item => {
+                    // Object that saves the instruction code and class
                     let currentInstruction = {
                         code: '',
                         class: 0
                     };
 
                     let classMatch, instructionTokens, opcode, labeledItem;
+                    // Get the class of the current instruction
                     classMatch = twoOperandClassRegex.test(item)
                         ? 1
                         : oneOperandClassRegexS.test(item)
@@ -83,23 +91,33 @@
                         : noOperandClassRegex.test(item)
                         ? 4
                         : null;
+
                     if (item.indexOf(":") !== -1) {
+                        // If a labeled instruction is identified,
+                        // it is cloned for future branch offset calculation
+                        // and its label is removed
                         currentInstruction.label = item.slice(0, item.indexOf(":"));
                         labeledItem = item;
                         item = item.slice(item.indexOf(":") + 2, item.length);
                     }
                     instructionTokens = item.split(" ");
+                    // Get the opcode part of the instruction
                     opcode = (instructionTokens[0].indexOf(";") === -1) ? instructionTokens[0] : instructionTokens[0].substr(0,instructionTokens[0].length-1);
-                    if ((instructionService.instructionSet[opcode] === undefined) || (instructionService.instructionSet[opcode].class !== classMatch)) {
+                    if (!instructionService.instructionSet[opcode] || (instructionService.instructionSet[opcode].class !== classMatch)) {
+                        // If the opcode doesn't match to any existing one
+                        // set the error flag and save the instruction number
                         this.invalidInstruction.error = true;
                         this.invalidInstruction.line = instructionSet.indexOf(labeledItem) + 1;
                         badInstructionCount++;
                         $log.error("Invalid instruction at line", this.invalidInstruction.line);
                         return;
                     }
+                    
                     currentInstruction.code = item;
                     currentInstruction.class = classMatch;
+                    // Save the information about the instruction
                     this.highMacroInstructionSet.push(currentInstruction);
+                    // Set the flag according to the bad instruction counter
                     this.invalidInstruction.error = (badInstructionCount !== 0);
                 });
 
