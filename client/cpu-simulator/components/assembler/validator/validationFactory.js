@@ -1,16 +1,25 @@
-/*
- *  This is the validation factory, where the entire validation functionality is implemented
+/**
+ *  @description    This is the validation factory, where the entire validation functionality is implemented
+ *  @author         Razvan Tomegea
  */
 (function (angular) {
     'use strict';
     /**
-     * Use the factory returning object to validate the code, using its built-in methods
-     * @param  {Object} $log               - Angular console logging service
-     * @param  {Object} instructionService - Use this service to get the instruction definitions
-     * @return {Object}                    - Returns the validator with the validation built-in methods
+     * Use the factory's returning validator to validate the code, using its built-in methods
+     * @param $log                  Angular logging service
+     * @param instructionService    Contains the instruction definitions
+     * @returns                     {{
+     *                                highMacroInstructionSet: Array,
+     *                                validCode: boolean,
+     *                                syntaxError: {error: boolean, line: number},
+     *                                invalidInstruction: {error: boolean, line: number},
+     *                                verifyCodeSyntax: (function(String)),
+     *                                validateCode: (function(String))
+     *                              }}
      */
     function validationFactory($log, instructionService) {
         // Regular expresions definitions for the 4 instruction classes
+        // Used: https://regex101.com/
         // Match: ".label: INSTRUCTION OPERAND1,OPERAND2;
         const twoOperandClassRegex = /^(\.[a-z0-9]{1,9}:(\s|\t))?([A-Z]{2,4}\s((R[0-9]{1,2})|(\(R[0-9]{1,2}\))|[0-9]{1,4}?(\(R[0-9]{1,2}\))),((R[0-9]{1,2})|(\(R[0-9]{1,2}\))|[0-9]{1,4}?(\(R[0-9]{1,2}\))|((0x)?[0-9A-F]{1,4}?));)$/;
         // Match: ".label: INSTRUCTION OPERAND;
@@ -19,69 +28,74 @@
         const branchOperandClassRegex = /^(\.[a-z0-9]{1,9}:(\s|\t))?([A-Z]{2,4}\s(\.([a-z0-9]{1,9}));)$/;
         // Match: ".label: INSTRUCTION;
         const noOperandClassRegex = /^(\.[a-z0-9]{1,9}:(\s|\t))?((([A-Z]{2,4})|((PUSH|POP)\s(PC|FLAG)));)$/;
-        // The validator object implementation
+        // Stores temporary the added instructions for error checking
+        let instructionSet = [];
+        // Validator that has the validation methods and instruction information
+        // to ease the decodification process
         let validator = {
-            // Array of objects that contain information for each instruction
+            // Contains information for each instruction
             // It is used to ease the decodification process
             highMacroInstructionSet: [],
-            // Valid code flag that enables the assembly and execution
+            // Valid code flag that tells if the code is ready or not
+            // for decodification
             validCode: false,
-            // Syntax error flag that saves the line of the error
-            // Indicates the line the syntax error comes from (not implemented yet)
+            // Flag that indicates syntax error presence and
+            // the line the syntax error comes from (not implemented yet)
             syntaxError: {
                 error: false,
                 line: 0
             },
-            // Invalid instruction flag
-            // Indicates the invalid instruction line, as well
+            // Flag that indicates non existent or miss-used instruction
+            // and the error line
             invalidInstruction: {
                 error: false,
                 line: 0
             },
             /**
              * This method verifies the code syntax
-             * @param  {String} code - The code containing the instructions
+             * @param  {String} code - Contains the instructions
              */
             verifyCodeSyntax(code) {
-                /**
-                 * Flag that indicates code validation
-                 * @type {boolean}
-                 */
+                // Assume the code has errors
                 this.validCode = false;
                 // Get the instructions
-                let instructionSet = code.split("\n");
+                instructionSet = code.split("\n");
                 // Counter for good instruction syntax
                 let goodInstructionCount = 0;
                 angular.forEach(instructionSet, item => {
-                    if (twoOperandClassRegex.test(item) || oneOperandClassRegexS.test(item) || noOperandClassRegex.test(item) || branchOperandClassRegex.test(item)) {
+                    if (
+                        twoOperandClassRegex.test(item)
+                        || oneOperandClassRegexS.test(item)
+                        || noOperandClassRegex.test(item)
+                        || branchOperandClassRegex.test(item)
+                    ) {
                         // The instruction has to match to one of the regex patterns
                         goodInstructionCount++;
                     }
                     // If the counter is not equal to the instruction numbers we have a syntax error
-                    this.syntaxError.error = (goodInstructionCount !== instructionSet.length);
+                    this.syntaxError.error = goodInstructionCount !== instructionSet.length;
                 });
             },
             /**
              * This method validates the code syntax
-             * @param  {String} code - The code containing the instructions
+             * @param  {String} code - Contains the instructions
              */
             validateCode(code) {
                 // Get the instructions
-                let instructionSet = code.split("\n");
-                // Counter for invalid instructions
+                instructionSet = code.split("\n");
+                // Used for more than one invalid instruction cases
                 let badInstructionCount = 0;
                 // Reset any previous validation checks
                 this.highMacroInstructionSet = [];
 
                 angular.forEach(instructionSet, item => {
-                    // Object that saves the instruction code and class
+                    // Saves instruction information
                     let currentInstruction = {
                         code: '',
                         class: 0
                     };
-
                     let classMatch, instructionTokens, opcode, labeledItem;
-                    // Get the class of the current instruction
+                    // Class of the current instruction
                     classMatch = twoOperandClassRegex.test(item)
                         ? 1
                         : oneOperandClassRegexS.test(item)
@@ -100,12 +114,17 @@
                         labeledItem = item;
                         item = item.slice(item.indexOf(":") + 2, item.length);
                     }
+                    // Separate the operands from the opcode
+                    // to verify if the used instruction exists and
+                    // if it's used conform its class specification
                     instructionTokens = item.split(" ");
-                    // Get the opcode part of the instruction
-                    opcode = (instructionTokens[0].indexOf(";") === -1) ? instructionTokens[0] : instructionTokens[0].substr(0,instructionTokens[0].length-1);
-                    if (!instructionService.instructionSet[opcode] || (instructionService.instructionSet[opcode].class !== classMatch)) {
-                        // If the opcode doesn't match to any existing one
-                        // set the error flag and save the instruction number
+                    opcode = (instructionTokens[0].indexOf(";") === -1)
+                        ? instructionTokens[0]
+                        : instructionTokens[0].substr(0,instructionTokens[0].length-1);
+                    if (
+                        !instructionService.instructionSet[opcode]
+                        || (instructionService.instructionSet[opcode].class !== classMatch)
+                    ) {
                         this.invalidInstruction.error = true;
                         this.invalidInstruction.line = instructionSet.indexOf(labeledItem) + 1;
                         badInstructionCount++;
@@ -115,9 +134,7 @@
                     
                     currentInstruction.code = item;
                     currentInstruction.class = classMatch;
-                    // Save the information about the instruction
                     this.highMacroInstructionSet.push(currentInstruction);
-                    // Set the flag according to the bad instruction counter
                     this.invalidInstruction.error = (badInstructionCount !== 0);
                 });
 
