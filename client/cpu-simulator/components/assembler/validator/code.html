@@ -5,7 +5,7 @@
             <h2>Code</h2>
             <span flex></span>
             <!-- Button the closes the dialog -->
-            <md-button class="md-icon-button" ng-click="validationCtrl.close()">
+            <md-button class="md-icon-button" ng-click="validationCtrl.closeDialog()">
                 <md-icon class="material-icons" aria-label="Close dialog">clear</md-icon>
             </md-button>
         </div>
@@ -35,7 +35,7 @@
         </md-button>
         <span flex></span>
         <!-- Button that assembles the code and is enabled only if the code is valid -->
-        <md-button ng-click="validationCtrl.startAssemble('changedHighMacroInstructionSet')" style="margin-right:1em;" ng-disabled="!validationCtrl.validation.validCode">
+        <md-button ng-click="validationCtrl.startAssemble('ASSEMBLE')" style="margin-right:1em;" ng-disabled="!validationCtrl.validation.validCode">
             Assemble
         </md-button>
     </md-dialog-actions>

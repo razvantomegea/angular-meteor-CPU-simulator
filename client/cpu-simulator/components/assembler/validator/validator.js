@@ -1,5 +1,5 @@
 /**
- *  @description    The validation controller that handles the validation workflow
+ *  @description    The validation controller that handles the validation process
  *  @author         Razvan Tomegea
  */
 (function (angular) {
@@ -8,34 +8,27 @@
      * Validation controller implementation
      * @param $rootScope        Angular global scope service
      * @param $mdDialog         Angular dialog service
-     * @param validationFactory Validation factory service (validation methods implementations)
+     * @param validationFactory Validation factory service with the validation methods implementations
      * @param $log              Angular logging service
      * @constructor
      */
     function ValidationController($rootScope, $mdDialog, validationFactory, $log) {
-        /**
-         * Stores the code
-         * @type {string}
-         * @example
-         * ADD R1,1;
-         * MOV 1(R5),1;
-         * .et1: ADD R0,1(R2);
-         * INC R1;
-         * CLC;
-         * SEC;
-         * BCC .et1;
-         * INC R0;
-         */
-        this.code = "ADD R1,1;\nMOV R5,1;\nSEC;\nBCC .et1;\nOR R1,R5;\nXOR R2,R1;\nAND 1(R0),R2;\nINC R0;\n.et1: ADD R0,5;";
+        // Stores the code
+        // @example "ADD R1,1;\n.et1: ADD R0,5;\nADD R5,1;\nSEC;\nBCC .et1;\nOR R1,R5;\nXOR R2,R1;\nAND 1(R0),R2;\nINC R0;";
+        //          "ADD R1,1;\nADD R5,1;\nSEC;\nBCC .et1;\nOR R1,R5;\nXOR R2,R1;\nAND 1(R0),R2;\nINC R0;\n.et1: ADD R0,5;";
+        this.code = "ADD R1,1;\n.et1: ADD R0,5;\nADD R5,1;\nSEC;\nBCC .et1;\nOR R1,R5;\nXOR R2,R1;\nAND 1(R0),R2;\nINC R0;";
+        // Get the validation methods
         this.validation = validationFactory;
-        this.startAssemble = answer => $mdDialog.hide(answer);
-        this.close = () => $mdDialog.hide();
+        // The dialog control methods
+        this.startAssemble = message => $mdDialog.hide(message);
+        this.closeDialog = () => $mdDialog.hide();
         this.addCode = () => {
             $mdDialog.show({
                 templateUrl: 'client/cpu-simulator/components/assembler/validator/code.html',
                 clickOutsideToClose: true
             }).then(
-                answer => $rootScope.$broadcast(answer, this.validation.highMacroInstructionSet
+                // Send the validated code to the decoder
+                message => $rootScope.$broadcast(message, this.validation.highInstructionSet
                 ), () => $log.log("No code has been assembled"));
         }
     }

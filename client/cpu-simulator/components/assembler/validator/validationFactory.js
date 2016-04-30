@@ -9,7 +9,7 @@
      * @param $log                  Angular logging service
      * @param instructionService    Contains the instruction definitions
      * @returns                     {{
-     *                                highMacroInstructionSet: Array,
+     *                                highInstructionSet: Array,
      *                                validCode: boolean,
      *                                syntaxError: {error: boolean, line: number},
      *                                invalidInstruction: {error: boolean, line: number},
@@ -35,7 +35,7 @@
         let validator = {
             // Contains information for each instruction
             // It is used to ease the decodification process
-            highMacroInstructionSet: [],
+            highInstructionSet: [],
             // Valid code flag that tells if the code is ready or not
             // for decodification
             validCode: false,
@@ -86,7 +86,7 @@
                 // Used for more than one invalid instruction cases
                 let badInstructionCount = 0;
                 // Reset any previous validation checks
-                this.highMacroInstructionSet = [];
+                this.highInstructionSet = [];
 
                 angular.forEach(instructionSet, item => {
                     // Saves instruction information
@@ -134,7 +134,7 @@
                     
                     currentInstruction.code = item;
                     currentInstruction.class = classMatch;
-                    this.highMacroInstructionSet.push(currentInstruction);
+                    this.highInstructionSet.push(currentInstruction);
                     this.invalidInstruction.error = (badInstructionCount !== 0);
                 });
 

@@ -80,7 +80,7 @@
         // Microcode
         $rootScope.microProgram = microProgramService.initializeMicroProgram(microProgramService.mnemonicMicroinstructionSet);
         $rootScope.labels = microProgramService.labels;
-        $scope.$on('changedMachineMacroInstructionSet', (message, data) => {
+        $scope.$on('EXECUTE', (event, data) => {
             angular.forEach(data, (instruction, index) => {
                 let indexedAddress = 0x40 + index;
                 indexedAddress = (convertionService.extend(convertionService.convert(indexedAddress).from(10).to(16)).to(4)).toUpperCase();

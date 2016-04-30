@@ -1,39 +1,62 @@
 /**
- * Created by razva on 4/10/2016.
+ *  @description    This is the decodification factory, where the entire decodification functionality is implemented
+ *  @author         Razvan Tomegea
  */
 (function (angular) {
-
     'use strict';
+    /**
+     * Use the factory's returning methods to decode the instructions
+     * @param $rootScope            Angular global scope service
+     * @param $log                  Angular logging service
+     * @param instructionService    Contains the instruction definitions
+     * @param convertionService     Contains the number convertion implementations
+     * @param registerFactory       Contains the register definitions
+     * @returns                     {{
+     *                                firstClassInstructionParsing: firstClassInstructionParsing,
+     *                                secondClassInstructionParsing: secondClassInstructionParsing,
+     *                                thirdClassInstructionParsing: thirdClassInstructionParsing,
+     *                                forthClassInstructionParsing: forthClassInstructionParsing,
+     *                                instructionDecodification: instructionDecodification
+     *                              }}
+     */
     function decodificationFactory($rootScope, $log, instructionService, convertionService, registerFactory) {
         return {
-            firstClassInstructionParsing: parseFirstClassInstruction,
-            secondClassInstructionParsing: parseSecondClassInstruction,
-            thirdClassInstructionParsing: parseThirdClassInstruction,
-            forthClassInstructionParsing: parseForthClassInstruction,
-            instructionDecodification: decodeInstructions
+            firstClassInstructionParsing,
+            secondClassInstructionParsing,
+            thirdClassInstructionParsing,
+            forthClassInstructionParsing,
+            instructionDecodification
         };
-        
-        function parseFirstClassInstruction(instruction) {
-            $log.log(instruction);
-            let firstClassInstruction = instruction.code.slice(0, -1);
-            let instructionParts = firstClassInstruction.split(" ");
 
+        /**
+         * Use this method to decode an instruction with two operands
+         * @param instruction
+         * @returns {{instruction, sourceIndex, destinationIndex, offset}}
+         */
+        function firstClassInstructionParsing(instruction) {
+            // Remove the semicolon
+            let firstClassInstruction = instruction.code.slice(0, -1);
+            // Separate the opcode from the operands
+            let instructionParts = firstClassInstruction.split(" ");
             // Opcode parsing
             let opcodeMnemonic = instructionParts[0];
             let opcodeMachineCode = instructionService.instructionSet[opcodeMnemonic].code;
-
             // Source operand parsing
             let source = instructionParts[1].split(",")[1];
             let indexOfSourceBracket = source.indexOf("(");
+            // Check if the addressing mode is indirect or indexed
             let sourceOperandIndex = (indexOfSourceBracket > 0) ? source.slice(0, indexOfSourceBracket) : false;
             if (sourceOperandIndex) {
+                // Convert the index to binary and extend it to 16 bits
                 sourceOperandIndex = convertionService.extend(convertionService.convert(sourceOperandIndex).from(10).to(2)).to(16);
             }
+            // Remove the existing brackets
             let sourceOperand = (indexOfSourceBracket === -1)
                 ? source
                 : (indexOfSourceBracket === 0)
                 ? source.slice(1, -1)
                 : source.slice(indexOfSourceBracket + 1, -1);
+            // Get the operand/register codification and add the addressing mode codification
             let sourceOperandMachineCode = (sourceOperandIndex)
                 ? '11' + registerFactory.generalRegisters[sourceOperand].code
                 : (indexOfSourceBracket !== -1)
@@ -41,62 +64,75 @@
                 : (sourceOperand.indexOf('R') !== -1)
                 ? '01' + registerFactory.generalRegisters[sourceOperand].code
                 : '000000';
+            // The offset is available only for direct addressing mode
             let offset = (sourceOperand.indexOf('R') === -1) ? sourceOperand : false;
             if (offset) {
+                // Convert the offset to binary and extend it to 16 bits
                 if (offset.indexOf("0x") !== -1) {
                     offset = convertionService.extend(convertionService.convert(offset).from(16).to(2)).to(16);
                 } else {
                     offset = convertionService.extend(convertionService.convert(offset).from(10).to(2)).to(16);
                 }
             }
-
             // Destination operand parsing
             let destination = instructionParts[1].split(",")[0];
             let indexOfDestinationBracket = destination.indexOf("(");
+            // Check if the addressing mode is indirect or indexed
             let destinationOperandIndex = (indexOfDestinationBracket > 0) ? destination.slice(0, indexOfDestinationBracket) : false;
             if (destinationOperandIndex) {
+                // Convert the index to binary and extend it to 16 bits
                 destinationOperandIndex = convertionService.extend(convertionService.convert(destinationOperandIndex).from(10).to(2)).to(16);
             }
+            // Remove the existing brackets
             let destinationOperand = (indexOfDestinationBracket === -1)
                 ? destination
                 : (indexOfDestinationBracket === 0)
                 ? destination.slice(1, -1)
                 : destination.slice(indexOfDestinationBracket + 1, -1);
+            // Get the operand/register codification and add the addressing mode codification
             let destinationOperandMachineCode = (destinationOperandIndex)
                 ? '11' + registerFactory.generalRegisters[destinationOperand].code
                 : (indexOfDestinationBracket !== -1)
                 ? '10' + registerFactory.generalRegisters[destinationOperand].code
                 : '01' + registerFactory.generalRegisters[destinationOperand].code;
-            let machineCodeInstruction = opcodeMachineCode.concat(sourceOperandMachineCode, destinationOperandMachineCode);
+            let lowInstruction = opcodeMachineCode.concat(sourceOperandMachineCode, destinationOperandMachineCode);
             return {
-                instruction: machineCodeInstruction,
+                instruction: lowInstruction,
                 sourceIndex: sourceOperandIndex,
                 destinationIndex: destinationOperandIndex,
                 offset: offset
             };
         }
 
-        function parseSecondClassInstruction(instruction) {
-            $log.log(instruction);
-            let thirdClassInstruction = instruction.code.slice(0, -1);
-            let instructionParts = thirdClassInstruction.split(" ");
-
+        /**
+         * Use this method to decode an instruction with one operand
+         * @param instruction
+         * @returns {{instruction, sourceIndex, destinationIndex, offset}}
+         */
+        function secondClassInstructionParsing(instruction) {
+            // Remove the semicolon
+            let secondClassInstruction = instruction.code.slice(0, -1);
+            // Separate the opcode from the operands
+            let instructionParts = secondClassInstruction.split(" ");
             // Opcode parsing
             let opcodeMnemonic = instructionParts[0];
             let opcodeMachineCode = instructionService.instructionSet[opcodeMnemonic].code;
-
             // Operand parsing
-            let source = thirdClassInstruction.split(" ")[1];
+            let source = secondClassInstruction.split(" ")[1];
             let indexOfBracket = source.indexOf("(");
+            // Check if the addressing mode is indirect or indexed
             let operandIndex = (indexOfBracket > 0) ? source.slice(0, indexOfBracket) : false;
             if (operandIndex) {
+                // Convert the index to binary and extend it to 16 bits
                 operandIndex = convertionService.extend(convertionService.convert(operandIndex).from(10).to(2)).to(16);
             }
+            // Remove the existing brackets
             let operand = (indexOfBracket === -1)
                 ? source
                 : (indexOfBracket === 0)
                 ? source.slice(1, -1)
                 : source.slice(indexOfBracket + 1, -1);
+            // Get the operand/register codification and add the addressing mode codification
             let operandMachineCode = (operandIndex)
                 ? '11' + registerFactory.generalRegisters[operand].code
                 : (indexOfBracket !== -1)
@@ -104,34 +140,40 @@
                 : (operand.indexOf('R') !== -1)
                 ? '01' + registerFactory.generalRegisters[operand].code
                 : '000000';
+            // The offset is available only for direct addressing mode
             let offset = (operand.indexOf('R') === -1) ? operand : false;
             if (offset) {
+                // Convert the offset to binary and extend it to 16 bits
                 if (offset.indexOf("0x") !== -1) {
                     offset = convertionService.extend(convertionService.convert(offset).from(16).to(2)).to(16);
                 } else {
                     offset = convertionService.extend(convertionService.convert(offset).from(10).to(2)).to(16);
                 }
             }
-            let machineCodeInstruction = opcodeMachineCode.concat(operandMachineCode);
+            let lowInstruction = opcodeMachineCode.concat(operandMachineCode);
             return {
-                instruction: machineCodeInstruction,
+                instruction: lowInstruction,
                 sourceIndex: false,
                 destinationIndex: operandIndex,
                 offset: offset
             };
         }
 
-        function parseThirdClassInstruction(instruction) {
-            $log.log(instruction);
-            let secondClassInstruction = instruction.code.slice(0, -1);
-            let instructionParts = secondClassInstruction.split(" ");
-
+        /**
+         * Use this method to decode a branch instruction
+         * @param instruction
+         * @returns {{instruction, sourceIndex, destinationIndex, offset}}
+         */
+        function thirdClassInstructionParsing(instruction) {
+            // Remove the semicolon
+            let thirdClassInstruction = instruction.code.slice(0, -1);
+            // Separate the opcode from the label
+            let instructionParts = thirdClassInstruction.split(" ");
             // Opcode parsing
             let opcodeMnemonic = instructionParts[0];
             let opcodeMachineCode = instructionService.instructionSet[opcodeMnemonic].code;
-
             // Offset
-            let offset = secondClassInstruction.split(" ")[1];
+            let offset = thirdClassInstruction.split(" ")[1];
             return {
                 instruction: opcodeMachineCode,
                 sourceIndex: false,
@@ -140,141 +182,168 @@
             };
         }
 
-        function parseForthClassInstruction(instruction) {
-            $log.log(instruction);
-
-            // Opcode parsing
+        /**
+         * Use this method to decode no operand instructions
+         * @param instruction
+         * @returns {{instruction, sourceIndex, destinationIndex, offset}}
+         */
+        function forthClassInstructionParsing(instruction) {
+            // Remove the semicolon
             let opcodeMnemonic = instruction.code.slice(0, -1);
-            let machineCodeInstruction = instructionService.instructionSet[opcodeMnemonic].code;
+            // Opcode parsing
+            let lowInstruction = instructionService.instructionSet[opcodeMnemonic].code;
             return {
-                instruction: machineCodeInstruction,
+                instruction: lowInstruction,
                 sourceIndex: false,
                 destinationIndex: false,
                 offset: false
             };
         }
 
-        function decodeInstructions(instructionSetData, machineCodeIntructionSet) {
-            angular.forEach(instructionSetData, (instruction, instructionIndex) => {
-                let machineCodeInstruction = '';
-                switch (instruction.class) {
+        /**
+         * Use this method to decode the validated instruction set
+         * @param highInstructionSet        The instructions to be decoded
+         * @param lowInstructionSet The array that will contain the decoded instructions
+         */
+        function instructionDecodification(highInstructionSet, lowInstructionSet) {
+            angular.forEach(highInstructionSet, (highInstruction, highInstructionIndex) => {
+                let lowInstruction = '';
+                switch (highInstruction.class) {
                     case 1:
-                        machineCodeInstruction = this.firstClassInstructionParsing(instruction);
-                        machineCodeIntructionSet.push(machineCodeInstruction.instruction.slice(0, 8), machineCodeInstruction.instruction.slice(8, 16));
-                        if (machineCodeInstruction.offset) {
-                            machineCodeIntructionSet.push(machineCodeInstruction.offset.slice(0, 8), machineCodeInstruction.offset.slice(8, 16));
+                        lowInstruction = this.firstClassInstructionParsing(highInstruction);
+                        // Split from 16 bit to 8 bit high part and low part
+                        lowInstructionSet.push(lowInstruction.instruction.slice(0, 8), lowInstruction.instruction.slice(8, 16));
+                        if (lowInstruction.offset) {
+                            lowInstructionSet.push(lowInstruction.offset.slice(0, 8), lowInstruction.offset.slice(8, 16));
                         }
-                        if (machineCodeInstruction.sourceIndex) {
-                            machineCodeIntructionSet.push(machineCodeInstruction.sourceIndex.slice(0, 8), machineCodeInstruction.sourceIndex.slice(8, 16));
+                        if (lowInstruction.sourceIndex) {
+                            lowInstructionSet.push(lowInstruction.sourceIndex.slice(0, 8), lowInstruction.sourceIndex.slice(8, 16));
                         }
-                        if (machineCodeInstruction.destinationIndex) {
-                            machineCodeIntructionSet.push(machineCodeInstruction.destinationIndex.slice(0, 8), machineCodeInstruction.destinationIndex.slice(8, 16));
+                        if (lowInstruction.destinationIndex) {
+                            lowInstructionSet.push(lowInstruction.destinationIndex.slice(0, 8), lowInstruction.destinationIndex.slice(8, 16));
                         }
                         break;
                     case 2:
-                        machineCodeInstruction = this.secondClassInstructionParsing(instruction);
-                        machineCodeIntructionSet.push(machineCodeInstruction.instruction.slice(0, 8), machineCodeInstruction.instruction.slice(8, 16));
-                        if (machineCodeInstruction.offset) {
-                            machineCodeIntructionSet.push(machineCodeInstruction.offset.slice(0, 8), machineCodeInstruction.offset.slice(8, 16));
+                        lowInstruction = this.secondClassInstructionParsing(highInstruction);
+                        // Split from 16 bit to 8 bit high part and low part
+                        lowInstructionSet.push(lowInstruction.instruction.slice(0, 8), lowInstruction.instruction.slice(8, 16));
+                        if (lowInstruction.offset) {
+                            lowInstructionSet.push(lowInstruction.offset.slice(0, 8), lowInstruction.offset.slice(8, 16));
                         }
-                        if (machineCodeInstruction.destinationIndex) {
-                            machineCodeIntructionSet.push(machineCodeInstruction.destinationIndex.slice(0, 8), machineCodeInstruction.destinationIndex.slice(8, 16));
+                        if (lowInstruction.destinationIndex) {
+                            lowInstructionSet.push(lowInstruction.destinationIndex.slice(0, 8), lowInstruction.destinationIndex.slice(8, 16));
                         }
                         break;
                     case 3:
-                        machineCodeInstruction = this.thirdClassInstructionParsing(instruction);
-                        let labeledInstruction = instructionSetData.filter((item) => {
-                            return item.label === machineCodeInstruction.offset;
-                        });
+                        lowInstruction = this.thirdClassInstructionParsing(highInstruction);
+                        // Get the index of the labeled instruction
+                        let labeledInstruction = highInstructionSet.filter(item => item.label === lowInstruction.offset);
+                        let labeledInstructionIndex = highInstructionSet.indexOf(labeledInstruction[0]);
+                        // Count the operands between the labeled instruction and the branch instruction
+                        // Immediate operands and indexes are stored in the memory immediately after the instruction,
+                        // so they must be counted in order to calculate the offset of the relative jump
+                        let nextOperandCount = 0,
+                            prevOperandCount = 0,
+                            offset = 0,
+                            jump = 0,
+                            forwardJump = false,
+                            backwardsJump = false;
 
-                        let nextOperandCount = 0, prevOperandCount = 0;
-                        let labeledInstructionIndex = instructionSetData.indexOf(labeledInstruction[0]);
-                        angular.forEach(instructionSetData, (item, idx) => {
+                        angular.forEach(highInstructionSet, (brLblInstruction, brLblInstructionIndex) => {
+                            // Iterate the instructions between the branch instruction and the labeled instruction
                             let operands = [];
-                            if ((instructionIndex < labeledInstructionIndex) && (idx > instructionIndex) && (idx < labeledInstructionIndex)) {
-                                if (item.class === 1) {
-                                    operands = item.code.split(" ")[1].split(",");
+                            // The operands and instructions are on 8 bits now, so we have to increment by two
+                            if (
+                                (highInstructionIndex < labeledInstructionIndex)
+                                && (brLblInstructionIndex > highInstructionIndex)
+                                && (brLblInstructionIndex < labeledInstructionIndex)
+                            ) {
+                                // Forward jump
+                                forwardJump = true;
+                                if (brLblInstruction.class === 1) {
+                                    // Separate the two operands
+                                    operands = brLblInstruction.code.split(" ")[1].split(",");
                                     if (operands[0].indexOf("(") > 0) {
-                                        //$log.debug(operands[0].indexOf("("), idx);
+                                        // Indexed addressing mode
+                                        //$log.debug(operands[0].indexOf("("), brLblInstructionIndex);
                                         nextOperandCount += 2;
-                                    }
-                                    if ((operands[1].indexOf("(") > 0) || (/R/.test(operands[1]) === false)) {
-                                        //$log.debug(operands[1], idx);
+                                    } else if ((operands[1].indexOf("(") > 0) || (/R/.test(operands[1]) === false)) {
+                                        // Indexed or immediate addressing mode
+                                        //$log.debug(operands[1], brLblInstructionIndex);
                                         nextOperandCount += 2;
                                     }
                                 }
-                                if (item.class === 2) {
-                                    operands = item.code.split(" ")[1];
+                                if (brLblInstruction.class === 2) {
+                                    operands = brLblInstruction.code.split(" ")[1];
                                     if (operands && (operands.indexOf("(") > 0)) {
-                                        //$log.debug(operands, idx);
+                                        // Indexed addressing mode
+                                        //$log.debug(operands, brLblInstructionIndex);
                                         nextOperandCount += 2;
                                     }
                                 }
-                                $log.debug("Next operand count:", nextOperandCount);
-                            }
-                            if ((instructionIndex > labeledInstructionIndex) && (labeledInstructionIndex <= idx) && (instructionIndex => idx)) {
-                                if (item.class === 1) {
-                                    operands = item.code.split(" ")[1].split(",");
-                                    if (operands[0].indexOf("(") > 0) {
-                                        //$log.debug(operands[0].indexOf("("), idx);
-                                        prevOperandCount += 2;
-                                    }
-                                    if ((operands[1].indexOf("(") > 0) || (/R/.test(operands[1]) === false)) {
-                                        //$log.debug(operands[1], idx);
-                                        prevOperandCount += 2;
-                                    }
-                                }
-                                if (item.class === 2) {
-                                    operands = item.code.split(" ")[1];
-                                    if (operands && (operands.indexOf("(") > 0)) {
-                                        //$log.debug(operands, idx);
-                                        prevOperandCount += 2;
-                                    }
-                                }
-                                $log.debug("Previous operand count:", prevOperandCount);
-                            }
-                            if (item.label === machineCodeInstruction.offset) {
-                                let offset = 0, jump = 0;
-                                if (instructionIndex < idx) {
-                                    jump = 2 * (idx - instructionIndex);
-                                    $log.debug("jump:", jump);
-                                    if ((jump % 2) === 0) {
-                                        offset = jump + nextOperandCount - 2;
-                                        $log.debug("offset:", offset);
-                                    }
-                                    if ((jump % 2) === 1) {
-                                        offset = jump + nextOperandCount - 3;
-                                    }
-                                    $log.debug(instructionIndex, idx);
+                            } else if (forwardJump) {
+                                jump = 2 * (labeledInstructionIndex - highInstructionIndex);
+                                // Make offset even
+                                if ((jump % 2) === 0) {
+                                    offset = jump + nextOperandCount - 2;
                                 } else {
-                                    jump = instructionIndex - idx;
-                                    $log.debug("jump:", jump);
-                                    if ((jump % 2) === 0) {
-                                        offset = (jump + prevOperandCount + 2) | $rootScope.OFFSET_SIGN_MASK;
-                                        $log.debug("offset:", offset);
-                                    }
-                                    if ((jump % 2) === 1) {
-                                        offset = (jump + prevOperandCount + 3) | $rootScope.OFFSET_SIGN_MASK;
-                                    }
-                                    $log.debug(instructionIndex, idx);
+                                    offset = jump + nextOperandCount - 3;
                                 }
-                                machineCodeInstruction.offset = convertionService.extend(convertionService.convert(offset).from(10).to(2)).to(8);
-                                $log.log("The branch offset is", machineCodeInstruction.offset);
+                            } else if (
+                                (highInstructionIndex > labeledInstructionIndex)
+                                && (brLblInstructionIndex < highInstructionIndex)
+                                && (brLblInstructionIndex => labeledInstructionIndex)
+                            ) {
+                                // Backwards jump
+                                backwardsJump = true;
+                                $log.debug(brLblInstruction);
+                                if (brLblInstruction.class === 1) {
+                                    // Separate the two operands
+                                    operands = brLblInstruction.code.split(" ")[1].split(",");
+                                    if (operands[0].indexOf("(") > 0) {
+                                        // Indexed addressing mode
+                                        //$log.debug(operands[0].indexOf("("), brLblInstructionIndex);
+                                        prevOperandCount += 2;
+                                    } else if ((operands[1].indexOf("(") > 0) || (/R/.test(operands[1]) === false)) {
+                                        // Indexed or immediate addressing mode
+                                        //$log.debug(operands[1], brLblInstructionIndex);
+                                        prevOperandCount += 2;
+                                    }
+                                } else if (brLblInstruction.class === 2) {
+                                    operands = brLblInstruction.code.split(" ")[1];
+                                    if (operands && (operands.indexOf("(") > 0)) {
+                                        // Indexed addressing mode
+                                        //$log.debug(operands, brLblInstructionIndex);
+                                        prevOperandCount += 2;
+                                    }
+                                }
+                            } else if (backwardsJump) {
+                                jump = 2 * (highInstructionIndex - labeledInstructionIndex);
+                                // Make offset even
+                                if ((jump % 2) === 0) {
+                                    offset = (jump + prevOperandCount + 2) | $rootScope.OFFSET_SIGN_MASK;
+                                    $log.debug(prevOperandCount);
+                                } else {
+                                    offset = (jump + prevOperandCount + 3) | $rootScope.OFFSET_SIGN_MASK;
+                                    $log.debug(prevOperandCount);
+                                }
                             }
-                        });
 
-                        machineCodeInstruction.instruction = machineCodeInstruction.instruction.concat(machineCodeInstruction.offset);
-                        machineCodeIntructionSet.push(machineCodeInstruction.instruction.slice(0, 8), machineCodeInstruction.instruction.slice(8, 16));
+                            lowInstruction.offset = convertionService.extend(convertionService.convert(offset).from(10).to(2)).to(8);
+                            $log.debug("Offset:", lowInstruction.offset, "Jump:", jump, "Previous operand count:", prevOperandCount, "Next operand count:", nextOperandCount);
+                        });
+                        lowInstruction.instruction = lowInstruction.instruction.concat(lowInstruction.offset);
+                        // Split from 16 bit to 8 bit high part and low part
+                        lowInstructionSet.push(lowInstruction.instruction.slice(0, 8), lowInstruction.instruction.slice(8, 16));
                         break;
                     case 4:
-                        machineCodeInstruction = this.forthClassInstructionParsing(instruction);
-                        machineCodeIntructionSet.push(machineCodeInstruction.instruction.slice(0, 8), machineCodeInstruction.instruction.slice(8, 16));
+                        lowInstruction = this.forthClassInstructionParsing(highInstruction);
+                        // Split from 16 bit to 8 bit high part and low part
+                        lowInstructionSet.push(lowInstruction.instruction.slice(0, 8), lowInstruction.instruction.slice(8, 16));
                         break;
                     default:
-                        machineCodeInstruction = '0000000000000000';
+                        lowInstruction = '0000000000000000';
                 }
-
-                $log.log(machineCodeInstruction);
             });
         }
     }
