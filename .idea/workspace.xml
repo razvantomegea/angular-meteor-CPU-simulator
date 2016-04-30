@@ -3,13 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bcf9a425-0839-4fe9-bf8e-c3d4bd7cbbc8" name="Default" comment="Added new comments for the validator">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decoder.html" afterPath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decoder.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decoder.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decoder.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decodificationFactory.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decodificationFactory.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/code.html" afterPath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/code.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validationFactory.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validationFactory.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/controllers/main.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/controllers/main.js" />
     </list>
     <ignored path="my-way.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,7 +27,7 @@
       <file leaf-file-name="decoder.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decoder.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="413">
+            <state relative-caret-position="544">
               <caret line="32" column="4" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="4" />
               <folding />
             </state>
@@ -53,7 +47,7 @@
       <file leaf-file-name="validator.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
+            <state relative-caret-position="306">
               <caret line="18" column="71" selection-start-line="18" selection-start-column="71" selection-end-line="18" selection-end-column="71" />
               <folding />
             </state>
@@ -63,8 +57,8 @@
       <file leaf-file-name="decodificationFactory.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decodificationFactory.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="940">
-              <caret line="323" column="73" selection-start-line="323" selection-start-column="73" selection-end-line="323" selection-end-column="73" />
+            <state relative-caret-position="-436">
+              <caret line="292" column="46" selection-start-line="292" selection-start-column="46" selection-end-line="292" selection-end-column="46" />
               <folding>
                 <element signature="e#1805#5972#0" expanded="false" />
               </folding>
@@ -201,7 +195,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -377,44 +370,11 @@
               <option name="myItemId" value="assembler" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="validator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angular-meteor-CPU-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angular-meteor-CPU-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cpu-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assembler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="decoder" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -563,6 +523,7 @@
       <workItem from="1461817650090" duration="3329000" />
       <workItem from="1461939209208" duration="7938000" />
       <workItem from="1462028453200" duration="8666000" />
+      <workItem from="1462041829706" duration="448000" />
     </task>
     <task id="LOCAL-00001" summary="Migrated to Meteor 1.3.1">
       <created>1460229060996</created>
@@ -645,7 +606,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="146216000" />
+    <option name="totallyTimeSpent" value="146664000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -919,13 +880,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="49" selection-start-line="2" selection-start-column="49" selection-end-line="2" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decoder.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="413">
+        <state relative-caret-position="544">
           <caret line="32" column="4" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="4" />
           <folding />
         </state>
@@ -933,7 +893,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
+        <state relative-caret-position="306">
           <caret line="18" column="71" selection-start-line="18" selection-start-column="71" selection-end-line="18" selection-end-column="71" />
           <folding />
         </state>
@@ -941,8 +901,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decodificationFactory.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="940">
-          <caret line="323" column="73" selection-start-line="323" selection-start-column="73" selection-end-line="323" selection-end-column="73" />
+        <state relative-caret-position="-436">
+          <caret line="292" column="46" selection-start-line="292" selection-start-column="46" selection-end-line="292" selection-end-column="46" />
           <folding>
             <element signature="e#1805#5972#0" expanded="false" />
           </folding>
