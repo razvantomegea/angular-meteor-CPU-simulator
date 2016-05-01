@@ -6,13 +6,19 @@
     'use strict';
     function SequenceController($rootScope, $scope, $timeout, $log) {
         this.state = 0;
+        this.clock = 100;
+
+        $scope.$on('setClock', (event, clock) => {
+            this.clock = clock;
+            $log.debug("Clock set");
+        });
 
         $scope.$on('reset', () => {
             $log.log('RESET');
             $timeout(() => {
                 this.state = 0;
                 $rootScope.$broadcast('initialiseMarMir');
-            }, 100);
+            }, this.clock);
         });
 
         $scope.$on('readyMarMir', () => {
@@ -20,7 +26,7 @@
             $timeout(() => {
                 this.state = 1;
                 $rootScope.$broadcast('EN1');
-            }, 100);
+            }, this.clock);
         });
 
         $scope.$on('operationDone', () => {
@@ -34,7 +40,7 @@
                 $log.log('STATE 3: !BSY');
                 $timeout(() => {
                     $rootScope.$broadcast('rwMemory');
-                }, 100);
+                }, this.clock);
             }
         });
 
@@ -42,7 +48,7 @@
             $log.log('STATE 3: EN3');
             $timeout(() => {
                 $rootScope.$broadcast('EN3', data);
-            }, 100);
+            }, this.clock);
         });
 
         $scope.$on('executeNextInstruction', () => {
@@ -50,7 +56,7 @@
             $timeout(() => {
                 this.state = 1;
                 $rootScope.$broadcast('EN1');
-            }, 100);
+            }, this.clock);
         });
 
     }

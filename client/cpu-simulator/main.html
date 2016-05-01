@@ -1,30 +1,47 @@
 <div layout="column" flex class="rt-hg-container">
     <md-toolbar md-whiteframe="4" layout="row">
         <div class="md-toolbar-tools">
-            <md-button ng-click="cpuCtrl.toggleSidenav('left')" hide-gt-sm class="md-icon-button" aria-label="Menu">
-                <md-icon class ="material-icons">tune</md-icon>
+            <md-button ng-click="cpuCtrl.toggleSidenav('left')" class="md-icon-button" aria-label="Menu">
+                <md-icon class ="material-icons">add_circle</md-icon>
             </md-button>
             <h2>
-                <span>Toolbar with Icon Buttons</span>
+                <span flex>16 bit CPU Simulator</span>
             </h2>
             <span flex=""></span>
-            <md-button class="md-icon-button" aria-label="More">
+            <md-button ng-click="cpuCtrl.toggleSidenav('right')" class="md-icon-button" aria-label="Settings">
                 <md-icon class ="material-icons">tune</md-icon>
             </md-button>
         </div>
     </md-toolbar>
     <div layout="row" flex>
-        <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
+        <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
             <md-list>
                 <validator></validator>
             </md-list>
         </md-sidenav>
         <div layout="column" flex>
+            <section layout="row" layout-sm="column" layout-xs="column" layout-align="space-around center" layout-wrap>
+                <md-button ng-disabled="!cpuCtrl.codeRdy || cpuCtrl.stopped || cpuCtrl.paused" ng-click="cpuCtrl.run()" class="md-icon-button">
+                    <md-icon class ="material-icons">play_circle_outline</md-icon>
+                </md-button>
+                <md-button ng-if="!cpuCtrl.paused" ng-disabled="cpuCtrl.stopped || cpuCtrl.paused || !cpuCtrl.running" ng-click="cpuCtrl.running = !cpuCtrl.running; cpuCtrl.paused = true" class="md-icon-button">
+                    <md-icon class ="material-icons">pause</md-icon>
+                </md-button>
+                <md-button ng-if="cpuCtrl.paused" ng-click="cpuCtrl.running = !cpuCtrl.running; cpuCtrl.paused = false; cpuCtrl.continueExecution()" class="md-icon-button">
+                    <md-icon class ="material-icons">play_arrow</md-icon>
+                </md-button>
+                <md-button ng-disabled="cpuCtrl.stopped || !cpuCtrl.running" ng-click="cpuCtrl.running = !cpuCtrl.running; cpuCtrl.stopped = true" class="md-icon-button">
+                    <md-icon class ="material-icons">stop</md-icon>
+                </md-button>
+                <md-button ng-disabled="!cpuCtrl.codeRdy || cpuCtrl.running || cpuCtrl.stopped || !cpuCtrl.nextStep" ng-click="cpuCtrl.step()" class="md-icon-button">
+                    <md-icon class ="material-icons">skip_next</md-icon>
+                </md-button>
+            </section>
             <md-content layout="column" flex class="md-padding">
-                <div layout="row" layout-align="center stretch" class="cpu-component" layout-margin flex layout-padding>
+                <div layout-sm="column" layout-xs="column" layout="row" layout-align="center stretch" class="cpu-component" layout-margin flex layout-padding>
                     <div id="leftSection" layout-align="center center" layout="column" class="cpu-section" layout-margin flex>
-                        <decoder></decoder>
-                        <div class="component" layout-align="space-around center" layout="column" layout-margin layout-padding flex>
+                        <decoder ng-show="cpuCtrl.showCache"></decoder>
+                        <div class="component" ng-show="cpuCtrl.showBcg" layout-align="space-around center" layout="column" layout-margin layout-padding flex>
                             <h3>BCG</h3>
                             <div layout="column" layout-align="end center" flex>
                                 <sequencer></sequencer>
@@ -32,7 +49,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="busSection" layout-align="center center" layout="column" layout-margin flex>
+                    <div id="busSection" ng-show="cpuCtrl.showBuses" layout-align="center center" layout="column" layout-margin flex>
                         <code>DBUS</code>
                         <md-progress-linear ng-class="{activeBus: dataBus['dbus']}" class="dbus" md-mode="indeterminate"></md-progress-linear>
                         <code>SBUS</code>
@@ -40,30 +57,35 @@
                     </div>
                     <div id="rightSection" layout-align="center center" layout="column" class="cpu-section" flex>
                         <div class="component" layout-align="center center" layout="column" layout-margin layout-padding flex>
-                            <md-progress-linear class="dbus" md-mode="indeterminate"></md-progress-linear>
+                            <md-progress-linear ng-show="cpuCtrl.showBuses" class="dbus" md-mode="indeterminate"></md-progress-linear>
                             <h3>ALU</h3>
-                            <md-progress-linear class="sbus" md-mode="indeterminate"></md-progress-linear>
+                            <md-progress-linear ng-show="cpuCtrl.showBuses" class="sbus" md-mode="indeterminate"></md-progress-linear>
                         </div>
-                        <md-progress-linear class="rbus" md-mode="indeterminate"></md-progress-linear>
-                        <registers></registers>
-                        <md-progress-linear ng-class="{activeBus: dataBus['rbus']}" class="rbus" md-mode="indeterminate"></md-progress-linear>
+                        <md-progress-linear ng-show="cpuCtrl.showBuses" class="rbus" md-mode="indeterminate"></md-progress-linear>
+                        <registers ng-show="cpuCtrl.showRegisters"></registers>
+                        <md-progress-linear ng-show="cpuCtrl.showBuses" ng-class="{activeBus: dataBus['rbus']}" class="rbus" md-mode="indeterminate"></md-progress-linear>
                     </div>
                 </div>
-                <code>RBUS</code>
-                <md-progress-linear ng-class="{activeBus: dataBus['rbus']}" class="rbus" md-mode="indeterminate"></md-progress-linear>
-                <div layout="column" layout-align="space-around center" class="memory-component" layout-margin flex layout-padding>
+                <code ng-show="cpuCtrl.showBuses">RBUS</code>
+                <md-progress-linear ng-show="cpuCtrl.showBuses" ng-class="{activeBus: dataBus['rbus']}" class="rbus" md-mode="indeterminate"></md-progress-linear>
+                <div layout="column" ng-show="cpuCtrl.showBuses" layout-align="center center" class="memory-component" layout-margin flex>
+                    <code>Memory Read</code>
+                    <md-progress-linear ng-class="{activeBus: dataBus['memRdBus']}" class="mem-rd-bus" md-mode="indeterminate"></md-progress-linear>
+                    <code>Memory Write</code>
+                    <md-progress-linear ng-class="{activeBus: dataBus['memWrBus']}" class="mem-wr-bus" md-mode="indeterminate"></md-progress-linear>
+                </div>
+                <div ng-show="cpuCtrl.showMemory" layout="column" layout-align="center center" class="memory-component" layout-margin flex>
                     <h3>Memory</h3>
                     <h2>Busy</h2>
                     <p>{{memoryBusy}}</p>
                     <h2>MREQ</h2>
                     <p>{{mreq}}</p>
-                    <div layout="row" layout-align="space-around center">
-
+                    <div layout-sm="column" layout-xs="column" layout="row" layout-align="center center">
                         <div class="component" layout-padding>
                             <table>
                                 <tr flex ng-repeat="entry in memory.slice(0, 64)">
                                     <td><p>{{::entry.address}}: </p></td>
-                                    <td><input id="{{::entry.address}}" name="{{::entry.address}}" type="text" ng-model="entry.data"
+                                    <td><input class="instruction" id="{{::entry.address}}" name="{{::entry.address}}" type="text" ng-model="entry.data"
                                                ng-disabled="true"></td>
                                 </tr>
                             </table>
@@ -72,7 +94,7 @@
                             <table>
                                 <tr flex ng-repeat="entry in memory.slice(64, 128)">
                                     <td><p>{{::entry.address}}: </p></td>
-                                    <td><input id="{{::entry.address}}" name="{{::entry.address}}" type="text" ng-model="entry.data"
+                                    <td><input class="instruction" id="{{::entry.address}}" name="{{::entry.address}}" type="text" ng-model="entry.data"
                                                ng-disabled="true"></td>
                                 </tr>
                             </table>
@@ -81,7 +103,7 @@
                             <table>
                                 <tr flex ng-repeat="entry in memory.slice(128, 192)">
                                     <td><p>{{::entry.address}}: </p></td>
-                                    <td><input id="{{::entry.address}}" name="{{::entry.address}}" type="text" ng-model="entry.data"
+                                    <td><input class="instruction" id="{{::entry.address}}" name="{{::entry.address}}" type="text" ng-model="entry.data"
                                                ng-disabled="true"></td>
                                 </tr>
                             </table>
@@ -90,16 +112,53 @@
                             <table>
                                 <tr flex ng-repeat="entry in memory.slice(192, 256)">
                                     <td><p>{{::entry.address}}: </p></td>
-                                    <td><input id="{{::entry.address}}" name="{{::entry.address}}" type="text" ng-model="entry.data"
+                                    <td><input class="instruction" id="{{::entry.address}}" name="{{::entry.address}}" type="text" ng-model="entry.data"
                                                ng-disabled="true"></td>
                                 </tr>
                             </table>
                         </div>
-
                     </div>
-
                 </div>
             </md-content>
         </div>
+        <md-sidenav layout="column" class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
+            <md-list>
+                <md-list-item layout-margin>
+                    <md-input-container>
+                        <label>Clock</label>
+                        <md-select ng-model="clock" aria-label="CPU Clock">
+                            <md-option ng-repeat="time in cpuCtrl.clockTicks" value="{{time}}">
+                                {{time}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </md-list-item>
+                <md-list-item  layout-margin>
+                    <md-switch ng-model="cpuCtrl.showMemory" aria-label="Show memory">
+                        Show memory: {{ cpuCtrl.showMemory }}
+                    </md-switch>
+                </md-list-item>
+                <md-list-item  layout-margin>
+                    <md-switch ng-model="cpuCtrl.showRegisters" aria-label="Show registers">
+                        Show registers: {{ cpuCtrl.showRegisters }}
+                    </md-switch>
+                </md-list-item>
+                <md-list-item  layout-margin>
+                    <md-switch ng-model="cpuCtrl.showBuses" aria-label="Show buses">
+                        Show buses: {{ cpuCtrl.showBuses }}
+                    </md-switch>
+                </md-list-item>
+                <md-list-item  layout-margin>
+                    <md-switch ng-model="cpuCtrl.showCache" aria-label="Show cache">
+                        Show cache: {{ cpuCtrl.showCache }}
+                    </md-switch>
+                </md-list-item>
+                <md-list-item  layout-margin>
+                    <md-switch ng-model="cpuCtrl.showBcg" aria-label="Show BCG">
+                        Show BCG: {{ cpuCtrl.showBcg }}
+                    </md-switch>
+                </md-list-item>
+            </md-list>
+        </md-sidenav>
     </div>
 </div>

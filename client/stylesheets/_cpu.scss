@@ -1,6 +1,15 @@
 body {
   text-align: center;
 }
+.rt-2x {
+  font-size: 36px;
+}
+.rt-list-item {
+  font-size: 1.25em;
+  h3 {
+    margin: 0 auto;
+  }
+}
 .cpu-component {
   border: 1px solid black;
   position: relative;
@@ -19,8 +28,20 @@ body {
 .memory-component {
   border: 1px solid black;
 }
+.memory {
+  width: 200%;
+}
 .dbus, .sbus {
   transform: rotateZ(180deg);
+}
+.mem-rd-bus {
+  transform: rotateZ(180deg);
+  .md-bar {
+    background-color: orange!important;
+  }
+}
+.mem-wr-bus .md-bar{
+  background-color: orange!important;
 }
 .dbus .md-bar {
   background-color: yellow!important;
@@ -33,4 +54,9 @@ body {
 }
 .activeBus .md-bar{
   background-color: darkred!important;
+}
+.instruction {
+  width: 100%;
+  margin: auto;
+  font-size: 1em;
 }

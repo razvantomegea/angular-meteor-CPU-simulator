@@ -8,6 +8,49 @@
 
         this.toggleSidenav = name => $mdSidenav(name).toggle();
         this.navbarCollapsed = true;
+        this.showMemory = true;
+        this.showRegisters = true;
+        this.showBuses = true;
+        this.showCache = true;
+        this.showBcg = true;
+        this.clockTicks = [100, 500, 1000];
+        this.codeRdy = false;
+        this.running = false;
+        this.stepping = false;
+        this.nextStep = true;
+        this.paused = false;
+        this.stopped = false;
+
+        this.run = () => {
+            this.running = true;
+            this.nextStep = false;
+            if (this.stepping) { $rootScope.$broadcast('initialisePcSp'); }
+            else { this.continueExecution(); }
+        };
+
+        this.step = () => {
+            if (this.stepping) { this.continueExecution(); }
+            else {
+                this.stepping = true;
+                $rootScope.$broadcast('initialisePcSp');
+            }
+        };
+
+        this.continueExecution = () => {
+            let currentPC = parseInt(registerFactory.defaultRegisters['PC'], 2);
+            if(currentPC <= 2 + $rootScope.conditions.INSTRUCTION + 0x40) {
+                $timeout(() => {
+                    $rootScope.$broadcast('executeNextInstruction');
+                }, $scope.clock);
+            } else {
+                $rootScope.conditions.ACKLOW = 1;
+                $log.log("No more instructions!");
+            }
+        };
+
+        $scope.clock = 100;
+
+        $scope.$watch('clock', () => $rootScope.$broadcast('setClock', $scope.clock));
 
         // Exceptions and conditions
         $rootScope.conditions = {
@@ -36,10 +79,13 @@
         $rootScope.dataBus = {
             sbus: 0,
             dbus: 0,
-            rbus: 0
+            rbus: 0,
+            memRdBus: 0,
+            memWrBus: 0
         };
 
         $scope.$on('EXECUTE', (event, data) => {
+            this.codeRdy = true;
             angular.forEach(data, (instruction, index) => {
                 let indexedAddress = 0x40 + index;
                 indexedAddress = (dataHelpService.extend(dataHelpService.convert(indexedAddress).from(10).to(16)).to(4)).toUpperCase();
@@ -59,21 +105,13 @@
             $rootScope.conditions.Z = 0;
             $rootScope.conditions.S = 0;
             $rootScope.conditions.V = 0;
-            $rootScope.$broadcast('initialisePcSp');
         });
 
         $scope.$on('readyPcSp', () => $rootScope.$broadcast('reset'));
 
         $scope.$on('checkMoreInstructions', () => {
-            let currentPC = parseInt(registerFactory.defaultRegisters['PC'], 2);
-            if(currentPC <= 2 + $rootScope.conditions.INSTRUCTION + 0x40) {
-                $timeout(() => {
-                    $rootScope.$broadcast('executeNextInstruction');
-                }, 500);
-            } else {
-                $rootScope.conditions.ACKLOW = 1;
-                $log.log("No more instructions!");
-            }
+            if (this.running && !this.paused && !this.stopped) { this.continueExecution(); }
+            else { this.nextStep = true;}
         });
 
         $scope.$on('IF', () => {

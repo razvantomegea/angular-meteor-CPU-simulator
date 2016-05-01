@@ -314,7 +314,6 @@
                             }
 
                             lowInstruction.offset = dataHelpService.extend(dataHelpService.convert(offset).from(10).to(2)).to(8);
-                            $log.debug("Offset:", lowInstruction.offset, "Jump:", jump, "Previous operand count:", prevOperandCount, "Next operand count:", nextOperandCount, "Instruction", brLblInstruction);
                         });
                         lowInstruction.instruction = lowInstruction.instruction.concat(lowInstruction.offset);
                         // Split from 16 bit to 8 bit high part and low part

@@ -405,7 +405,6 @@
         this.initializeMicroProgram = () => {
             angular.forEach(this.mnemonicMicroinstructionSet, (instruction, instructionIndex) => {
                 let microCommands = instruction.split(", ");
-                $log.log(instructionIndex, microCommands);
                 let SBUS = this.microcommands.SBUS[microCommands[0]];
                 let DBUS = this.microcommands.DBUS[microCommands[1]];
                 let ALU = this.microcommands.ALU[microCommands[2]];
@@ -418,7 +417,6 @@
                 let uADR = this.labels[microCommands[9]];
                 uADR = (uADR === undefined) ? "00000000" : dataHelpService.extend(dataHelpService.convert(uADR).from(16).to(2)).to(8);
                 let microInstruction = SBUS.concat(DBUS, ALU, RBUS, OTHER, MEM, SUCCESOR, INDEX, TF, uADR);
-                $log.log(microInstruction);
                 this.microProgram.push(microInstruction);
             });
         };
