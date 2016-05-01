@@ -4,8 +4,9 @@
 (function (angular) {
 
     'use strict';
-    function BCGController($rootScope, $scope, $log, convertionService, commandFactory, registerFactory) {
+    function BCGController($rootScope, $scope, $log, dataHelpService, commandFactory, registerFactory, microProgramService) {
         let commander = commandFactory;
+        microProgramService.initializeMicroProgram();
         this.MAR = -1;
         this.MIR = 0;
         this.microinstructionDecoder = {
@@ -53,13 +54,13 @@
 
         this.initialiseMicroRegisters = () => {
             this.MAR = 0;
-            this.MIR = $rootScope.microProgram[0];
+            this.MIR = microProgramService.microProgram[0];
             $rootScope.$broadcast('readyMarMir');
         };
 
         this.sendDbusSbusData = () => {
             this.MAR++;
-            this.MAR = convertionService.extend(convertionService.convert(this.MAR).from(10).to(2)).to(8);
+            this.MAR = dataHelpService.extend(dataHelpService.convert(this.MAR).from(10).to(2)).to(8);
             this.decodeMicroinstruction(parseInt(this.MIR, 2));
             $rootScope.$broadcast('sendSbus', this.microinstructionDecoder.sbus);
             $rootScope.$broadcast('sendDbus', this.microinstructionDecoder.dbus);
@@ -124,15 +125,15 @@
             if ($rootScope.conditions.g) {
                 let index = commander.calculateIndex(this.microinstructionDecoder.index, registerFactory.defaultRegisters['IR']);
                 this.MAR = this.microinstructionDecoder.uAdress + index;
-                this.MIR = $rootScope.microProgram[this.MAR];
+                this.MIR = microProgramService.microProgram[this.MAR];
             } else {
                 this.MAR = parseInt(this.MAR, 2);
-                this.MIR = $rootScope.microProgram[this.MAR];
+                this.MIR = microProgramService.microProgram[this.MAR];
             }
         }
     }
 
-    BCGController.$inject = ['$rootScope', '$scope', '$log', 'convertionService', 'commandFactory', 'registerFactory'];
+    BCGController.$inject = ['$rootScope', '$scope', '$log', 'dataHelpService', 'commandFactory', 'registerFactory', 'microProgramService'];
 
     angular.module('app.cpuModule.executionModule').component('commander', {
         templateUrl: 'client/cpu-simulator/components/compiler/commander/commander.html',

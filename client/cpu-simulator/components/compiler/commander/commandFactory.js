@@ -4,7 +4,7 @@
 (function (angular) {
 
     'use strict';
-    function commandFactory($rootScope, $log) {
+    function commandFactory($rootScope, $log, dataHelpService) {
         
         let cmdFactory = {
             calculateIndex: calculateIndex,
@@ -82,23 +82,23 @@
                     machineCodeIndex = 0;
                     break;
                 case 1:
-                    machineCodeIndex = ($rootScope.SOURCE_ADDRESSING_MASK & instruction) >> 10;
+                    machineCodeIndex = (dataHelpService.SOURCE_ADDRESSING_MASK & instruction) >> 10;
                     //$log.log("Source addressing mode index is", machineCodeIndex);
                     break;
                 case 2:
-                    machineCodeIndex = ($rootScope.DESTINATION_ADDRESSING_MASK & instruction) >> 4;
+                    machineCodeIndex = (dataHelpService.DESTINATION_ADDRESSING_MASK & instruction) >> 4;
                     //$log.log("Destination addressing mode index is", machineCodeIndex);
                     break;
                 case 3:
-                    machineCodeIndex = ($rootScope.NOT_FIRST_CLASS_OPCODE_MASK & instruction) >> 8;
+                    machineCodeIndex = (dataHelpService.NOT_FIRST_CLASS_OPCODE_MASK & instruction) >> 8;
                     //$log.log("Third class instruction opcode index is", machineCodeIndex);
                     break;
                 case 4:
-                    machineCodeIndex = ($rootScope.NOT_FIRST_CLASS_OPCODE_MASK & instruction) >> 7;
+                    machineCodeIndex = (dataHelpService.NOT_FIRST_CLASS_OPCODE_MASK & instruction) >> 7;
                     //$log.log("Other class instruction opcode index is", machineCodeIndex);
                     break;
                 case 5:
-                    machineCodeIndex = ($rootScope.FIRST_CLASS_OPCODE_MASK & instruction) >> 12;
+                    machineCodeIndex = (dataHelpService.FIRST_CLASS_OPCODE_MASK & instruction) >> 12;
                     //$log.log("First class instruction opcode index is", machineCodeIndex);
                     break;
                 default:
@@ -165,7 +165,7 @@
 
         function getInstructionClass(instruction) {
             instruction = parseInt(instruction, 2);
-            let instructionClass = (instruction & $rootScope.NOT_FIRST_CLASS_MASK) >> 13;
+            let instructionClass = (instruction & dataHelpService.NOT_FIRST_CLASS_MASK) >> 13;
             if (instructionClass === 7) {
                 //$log.log('We have a 4th class instruction');
                 $rootScope.conditions.CL4 = 1;
@@ -188,14 +188,14 @@
             return {
                 getHi: () => object.miHi = ~~(microinstruction / Math.pow(2, 8)),
                 getLo: () => object.miLo = microinstruction % Math.pow(2, 8),
-                getSbus: () => object.sbus = (object.miHi & $rootScope.SBUS_MASK) >> 27,
-                getDbus: () => object.dbus = (object.miHi & $rootScope.DBUS_MASK) >> 23,
-                getAlu: () => object.alu = (object.miHi & $rootScope.ALU_MASK) >> 19,
-                getRbus: () => object.rbus = (object.miHi & $rootScope.RBUS_MASK) >> 15,
-                getOther: () => object.other = (object.miHi & $rootScope.OTHER_MASK) >> 10,
-                getMemory: () => object.memory = (object.miHi & $rootScope.MEMORY_MASK) >> 8,
-                getSuccesor: () => object.succesor = (object.miHi & $rootScope.SUCCESOR_MASK) >> 4,
-                getIndex: () => object.index = (object.miHi & $rootScope.INDEX_MASK) >> 1,
+                getSbus: () => object.sbus = (object.miHi & dataHelpService.SBUS_MASK) >> 27,
+                getDbus: () => object.dbus = (object.miHi & dataHelpService.DBUS_MASK) >> 23,
+                getAlu: () => object.alu = (object.miHi & dataHelpService.ALU_MASK) >> 19,
+                getRbus: () => object.rbus = (object.miHi & dataHelpService.RBUS_MASK) >> 15,
+                getOther: () => object.other = (object.miHi & dataHelpService.OTHER_MASK) >> 10,
+                getMemory: () => object.memory = (object.miHi & dataHelpService.MEMORY_MASK) >> 8,
+                getSuccesor: () => object.succesor = (object.miHi & dataHelpService.SUCCESOR_MASK) >> 4,
+                getIndex: () => object.index = (object.miHi & dataHelpService.INDEX_MASK) >> 1,
                 getCondition: () => object.condition = object.miHi % 2,
                 getuAddress: () => object.uAdress = object.miLo
             }
@@ -205,7 +205,7 @@
 
     }
 
-    commandFactory.$inject = ['$rootScope', '$log'];
+    commandFactory.$inject = ['$rootScope', '$log', 'dataHelpService'];
 
     angular.module('app.cpuModule.executionModule').factory('commandFactory', commandFactory);
 

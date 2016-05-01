@@ -9,7 +9,10 @@
                 url: '/cpu',
                 templateUrl: 'client/cpu-simulator/main.html',
                 controller: 'CpuController',
-                controllerAs: 'cpuCtrl'
+                controllerAs: 'cpuCtrl',
+                resolve: {
+                    memory(memoryService) { memoryService.initialiseMemory() }
+                }
             });
         $urlRouterProvider.otherwise("/cpu");
     }

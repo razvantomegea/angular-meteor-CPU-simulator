@@ -2,8 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bcf9a425-0839-4fe9-bf8e-c3d4bd7cbbc8" name="Default" comment="Added new comments for the validator">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client/cpu-simulator/services/dataHelper.service.js" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/client/cpu-simulator/services/convertion.service.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decodificationFactory.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decodificationFactory.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.html" afterPath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/components/compiler/commander/commandFactory.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/components/compiler/commander/commandFactory.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/components/compiler/commander/commander.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/components/compiler/commander/commander.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/components/registers/registerFactory.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/components/registers/registerFactory.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/components/registers/registers.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/components/registers/registers.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/controllers/main.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/controllers/main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/main.html" afterPath="$PROJECT_DIR$/client/cpu-simulator/main.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/services/instruction.service.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/services/instruction.service.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/services/memory.service.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/services/memory.service.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/cpu-simulator/services/microprogram.service.js" afterPath="$PROJECT_DIR$/client/cpu-simulator/services/microprogram.service.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/lib/config.js" afterPath="$PROJECT_DIR$/client/lib/config.js" />
     </list>
     <ignored path="my-way.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -23,50 +37,7 @@
     <favorites_list name="my-way" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="decoder.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decoder.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="32" column="4" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="decoder.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decoder.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="66" selection-start-line="4" selection-start-column="66" selection-end-line="4" selection-end-column="66" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="validator.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" column="71" selection-start-line="18" selection-start-column="71" selection-end-line="18" selection-end-column="71" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="decodificationFactory.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decodificationFactory.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-436">
-              <caret line="292" column="46" selection-start-line="292" selection-start-column="46" selection-end-line="292" selection-end-column="46" />
-              <folding>
-                <element signature="e#1805#5972#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -81,11 +52,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/client/templates/health-guide/health-guide-home.html" />
-        <option value="$PROJECT_DIR$/client/templates/blog/blog.html" />
-        <option value="$PROJECT_DIR$/client/templates/health-guide/controllers/health-guideMain.controller.js" />
-        <option value="$PROJECT_DIR$/client/templates/health-guide/controllers/healthGuide.js" />
-        <option value="$PROJECT_DIR$/client/templates/faculty/cpuSimulator/components/assembler/decoder/decodeService.js" />
         <option value="$PROJECT_DIR$/client/templates/faculty/cpuSimulator/components/assembler/decoder/decode.component.js" />
         <option value="$PROJECT_DIR$/client/templates/faculty/cpuSimulator/components/assembler/decoder/instructionSetBuffer.html" />
         <option value="$PROJECT_DIR$/client/templates/faculty/cpu-simulator/main.html" />
@@ -111,27 +77,32 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/client/cpu-simulator/components/buses/buses.js" />
         <option value="$PROJECT_DIR$/client/lib/app.js" />
-        <option value="$PROJECT_DIR$/client/lib/config.js" />
         <option value="$PROJECT_DIR$/client/cpu-simulator/services/convertion.service.js" />
         <option value="$PROJECT_DIR$/client/cpu-simulator/components/compiler/commander/commander.html" />
         <option value="$PROJECT_DIR$/client/cpu-simulator/components/registers/registers.html" />
         <option value="$PROJECT_DIR$/client/stylesheets/_cpu.scss" />
         <option value="$PROJECT_DIR$/client/cpu-simulator/components/compiler/sequencer/sequencer.html" />
-        <option value="$PROJECT_DIR$/client/cpu-simulator/main.html" />
-        <option value="$PROJECT_DIR$/client/cpu-simulator/components/compiler/commander/commander.js" />
-        <option value="$PROJECT_DIR$/client/cpu-simulator/services/microprogram.service.js" />
-        <option value="$PROJECT_DIR$/client/cpu-simulator/components/compiler/commander/commandFactory.js" />
-        <option value="$PROJECT_DIR$/client/cpu-simulator/components/registers/registerFactory.js" />
         <option value="$PROJECT_DIR$/client/cpu-simulator/components/compiler/sequencer/sequencer.js" />
-        <option value="$PROJECT_DIR$/client/cpu-simulator/components/registers/registers.js" />
-        <option value="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.html" />
-        <option value="$PROJECT_DIR$/client/cpu-simulator/controllers/main.js" />
         <option value="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validationFactory.js" />
         <option value="$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decoder.html" />
         <option value="$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decoder.js" />
         <option value="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/code.html" />
-        <option value="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.js" />
+        <option value="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.html" />
+        <option value="$PROJECT_DIR$/client/cpu-simulator/main.html" />
+        <option value="$PROJECT_DIR$/client/cpu-simulator/services/data.service.js" />
+        <option value="$PROJECT_DIR$/client/cpu-simulator/services/instruction.service.js" />
+        <option value="$PROJECT_DIR$/client/cpu-simulator/services/dataHelper.service.js" />
+        <option value="$PROJECT_DIR$/client/cpu-simulator/services/microprogram.service.js" />
+        <option value="$PROJECT_DIR$/client/cpu-simulator/components/compiler/commander/commander.js" />
+        <option value="$PROJECT_DIR$/client/lib/config.js" />
+        <option value="$PROJECT_DIR$/client/cpu-simulator/services/microProgram.service.js" />
+        <option value="$PROJECT_DIR$/client/cpu-simulator/controllers/main.js" />
+        <option value="$PROJECT_DIR$/client/cpu-simulator/components/compiler/commander/commandFactory.js" />
+        <option value="$PROJECT_DIR$/client/cpu-simulator/components/registers/registerFactory.js" />
+        <option value="$PROJECT_DIR$/client/cpu-simulator/services/memory.service.js" />
+        <option value="$PROJECT_DIR$/client/cpu-simulator/components/registers/registers.js" />
         <option value="$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decodificationFactory.js" />
+        <option value="$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.js" />
       </list>
     </option>
   </component>
@@ -245,132 +216,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angular-meteor-CPU-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angular-meteor-CPU-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cpu-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angular-meteor-CPU-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angular-meteor-CPU-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cpu-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angular-meteor-CPU-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angular-meteor-CPU-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cpu-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compiler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angular-meteor-CPU-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angular-meteor-CPU-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cpu-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="compiler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="commander" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angular-meteor-CPU-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="angular-meteor-CPU-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="cpu-simulator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assembler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -397,6 +242,7 @@
       <recent name="http://github.com/razvantomegea/my-way.git" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\razva\WebstormProjects\angular-meteor-CPU-simulator\client\cpu-simulator\controllers" />
       <recent name="C:\Users\razva\WebstormProjects\my-way\client\templates\faculty\cpu-simulator\components\compiler\commander" />
       <recent name="C:\Users\razva\WebstormProjects\my-way\client\templates\faculty\cpu-simulator\components\registers" />
       <recent name="C:\Users\razva\WebstormProjects\my-way\client\templates\faculty\cpu-simulator" />
@@ -523,7 +369,8 @@
       <workItem from="1461817650090" duration="3329000" />
       <workItem from="1461939209208" duration="7938000" />
       <workItem from="1462028453200" duration="8666000" />
-      <workItem from="1462041829706" duration="448000" />
+      <workItem from="1462041829706" duration="486000" />
+      <workItem from="1462088585938" duration="8004000" />
     </task>
     <task id="LOCAL-00001" summary="Migrated to Meteor 1.3.1">
       <created>1460229060996</created>
@@ -602,11 +449,18 @@
       <option name="project" value="LOCAL" />
       <updated>1461813453885</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Added new comments for the decoder">
+      <created>1462042288959</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1462042288959</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="146664000" />
+    <option name="totallyTimeSpent" value="154706000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -621,12 +475,13 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28422618" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32843137" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35620916" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22385621" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35620916" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24836601" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3398693" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -637,7 +492,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39869282" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -685,16 +539,16 @@
     <MESSAGE value="Added the instruction and microcode documentations" />
     <MESSAGE value="Made some nu validation comments" />
     <MESSAGE value="Added new comments for the validator" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added new comments for the validator" />
+    <MESSAGE value="Added new comments for the decoder" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added new comments for the decoder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="6" />
+      <option name="time" value="7" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/client/templates/faculty/cpu-simulator/services/instruction.service.js" />
     <entry file="file://$PROJECT_DIR$/client/templates/faculty/cpu-simulator/components/compiler/commander/command.component.js" />
     <entry file="file://$PROJECT_DIR$/client/templates/faculty/cpu-simulator/main.html" />
     <entry file="file://$PROJECT_DIR$/client/templates/blog/postsService.js" />
@@ -733,38 +587,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/services/memory.service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/lib/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
           <caret line="24" column="3" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/lib/config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="42" selection-start-line="4" selection-start-column="42" selection-end-line="4" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/services/convertion.service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/services/instruction.service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="219" column="2" selection-start-line="219" selection-start-column="2" selection-end-line="219" selection-end-column="2" />
         </state>
       </provider>
     </entry>
@@ -789,77 +615,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/services/microprogram.service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="423" column="14" selection-start-line="423" selection-start-column="14" selection-end-line="423" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/compiler/sequencer/sequencer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="43" column="49" selection-start-line="43" selection-start-column="49" selection-end-line="43" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/registers/registers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="132" column="66" selection-start-line="132" selection-start-column="66" selection-end-line="132" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/compiler/sequencer/sequencer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="11" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/registers/registerFactory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="41" selection-start-line="5" selection-start-column="41" selection-end-line="5" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/main.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="41" column="29" selection-start-line="41" selection-start-column="29" selection-end-line="41" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/compiler/commander/commandFactory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="181" column="16" selection-start-line="181" selection-start-column="16" selection-end-line="181" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/compiler/commander/commander.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="63" column="56" selection-start-line="63" selection-start-column="55" selection-end-line="63" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/controllers/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="850">
-          <caret line="88" column="49" selection-start-line="88" selection-start-column="49" selection-end-line="88" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validationFactory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="61" selection-start-line="11" selection-start-column="61" selection-end-line="11" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/code.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -878,34 +633,169 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="49" selection-start-line="2" selection-start-column="49" selection-end-line="2" selection-end-column="49" />
+        <state relative-caret-position="51">
+          <caret line="3" column="15" selection-start-line="3" selection-start-column="15" selection-end-line="3" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/services/convertion.service.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validationFactory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-12">
+          <caret line="11" column="61" selection-start-line="11" selection-start-column="61" selection-end-line="11" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/lib/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="78" selection-start-line="13" selection-start-column="78" selection-end-line="13" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/services/microProgram.service.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="407" column="42" selection-start-line="407" selection-start-column="42" selection-end-line="407" selection-end-column="42" />
+          <folding>
+            <element signature="e#501#3118#0" expanded="false" />
+            <element signature="e#3154#3635#0" expanded="false" />
+            <element signature="e#3661#3971#0" expanded="false" />
+            <element signature="e#3996#5868#0" expanded="false" />
+            <element signature="e#5914#16316#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/services/instruction.service.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
+          <folding>
+            <element signature="e#164#5471#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/compiler/commander/commander.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1759">
+          <caret line="6" column="68" selection-start-line="6" selection-start-column="53" selection-end-line="6" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/compiler/commander/commandFactory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="61" selection-start-line="6" selection-start-column="61" selection-end-line="6" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/registers/registerFactory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="5" column="62" selection-start-line="5" selection-start-column="62" selection-end-line="5" selection-end-column="62" />
+          <folding>
+            <element signature="e#869#2645#0" expanded="false" />
+            <element signature="e#2694#2997#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/services/memory.service.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/registers/registers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="41" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/compiler/sequencer/sequencer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="51" column="14" selection-start-line="51" selection-start-column="14" selection-end-line="51" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/compiler/sequencer/sequencer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="11" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decoder.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="4" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="4" />
+        <state relative-caret-position="595">
+          <caret line="35" column="10" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/validator/validator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="71" selection-start-line="18" selection-start-column="71" selection-end-line="18" selection-end-column="71" />
+        <state relative-caret-position="238">
+          <caret line="18" column="124" selection-start-line="18" selection-start-column="124" selection-end-line="18" selection-end-column="124" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/client/cpu-simulator/components/assembler/decoder/decodificationFactory.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-436">
-          <caret line="292" column="46" selection-start-line="292" selection-start-column="46" selection-end-line="292" selection-end-column="46" />
+        <state relative-caret-position="322">
+          <caret line="311" column="43" selection-start-line="311" selection-start-column="43" selection-end-line="311" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/controllers/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-212">
+          <caret line="6" column="71" selection-start-line="6" selection-start-column="71" selection-end-line="6" selection-end-column="78" />
           <folding>
-            <element signature="e#1805#5972#0" expanded="false" />
+            <element signature="e#379#933#0" expanded="false" />
+            <element signature="e#1108#2035#0" expanded="false" />
+            <element signature="e#2161#2592#0" expanded="false" />
+            <element signature="e#2627#2767#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/cpu-simulator/services/dataHelper.service.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-178">
+          <caret line="41" column="26" selection-start-line="41" selection-start-column="26" selection-end-line="41" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>

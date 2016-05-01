@@ -3,23 +3,21 @@
  */
 (function (angular) {
     'use strict';
-    var memoryService = function ($log, convertionService) {
-        var memSvc = this;
-        memSvc.memory = Array(256);
-        function initialiseMemory(){
-            for(let i = 0; i < 256; i++){
-                memSvc.memory[i] = {
-                    "address": convertionService.extend(convertionService.convert(i).from(10).to(16)).to(4).toUpperCase(),
+    var memoryService = function ($rootScope, $log, dataHelpService) {
+        $rootScope.memory = Array(256);
+        $rootScope.mreq = 0;
+        $rootScope.memoryBusy = false;
+        this.initialiseMemory = () => {
+            for (let i = 0; i < 256; i++) {
+                $rootScope.memory[i] = {
+                    "address": dataHelpService.extend(dataHelpService.convert(i).from(10).to(16)).to(4).toUpperCase(),
                     "data": 0b0000000000000000
                 };
             }
-            return memSvc.memory;
-        }
-        
-        memSvc.initialiseMemory = initialiseMemory;
+        };
     };
 
-    memoryService.$inject = ['$log', 'convertionService'];
+    memoryService.$inject = ['$rootScope', '$log', 'dataHelpService'];
 
     angular.module('app.cpuModule').service('memoryService', memoryService);
 

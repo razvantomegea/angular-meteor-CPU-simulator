@@ -3,7 +3,7 @@
  */
 (function (angular) {
     'use strict';
-    var microProgramService = function ($log, convertionService) {
+    var microProgramService = function ($log, dataHelpService) {
         /**
          * Microinstruction format
          *
@@ -11,8 +11,9 @@
          * | SBUS | RBUS | ALU | RBUS | OTHER | MEM | SUCCESOR | INDEX | T/F | uADR (LABEL) |
          *
          **/
-        var mpmSvc = this;
-        mpmSvc.microcommands = {
+        this.microProgram = [];
+
+        this.microcommands = {
             "SBUS": {
                 "NONE": "0000",
                 "Pd0s": "0001",
@@ -99,7 +100,7 @@
             }
         };
         
-        mpmSvc.succesors = {
+        this.succesors = {
             "STEP": "0000",
             "JUMPI": "0001",
             "IF ACKLOW": "0010",
@@ -118,7 +119,7 @@
             "IF NINTR": "1111"
         };
 
-        mpmSvc.indexes = {
+        this.indexes = {
             "INDEX0": "000",
             // MAS
             "INDEX1": "001",
@@ -131,8 +132,8 @@
             // CL1 (2OP)
             "INDEX5": "101"
         };
-        
-        mpmSvc.labels = {
+
+        this.labels = {
             "IF": "00",
             "ILLEGAL": "02",
             "PWFAIL": "03",
@@ -207,7 +208,7 @@
             "INTRTEST": "75"
         };
 
-        mpmSvc.mnemonicMicroinstructionSet = [
+        this.mnemonicMicroinstructionSet = [
             // IF
             "Pd0s, PdPC, SUM, PmADR, +2PC, IFCH, IF ACKLOW, INDEX0, T, PWFAIL",
             "NONE, NONE, NONE, NONE, NONE, NONE, IF NCIL, INDEX0, T, CL",
@@ -401,34 +402,29 @@
             "NONE, NONE, NONE, NONE, NONE, NONE, JUMPI, INDEX0, T, INT"
         ];
         
-        function decodeMnemonicMIFormat(instructionSet) {
-            let microProgram = [];
-            angular.forEach(instructionSet, (item) => {
-                let microCommands = item.split(", ");
-                //$log.log(index, ":", microCommands);
-                let SBUS = mpmSvc.microcommands.SBUS[microCommands[0]];
-                let DBUS = mpmSvc.microcommands.DBUS[microCommands[1]];
-                let ALU = mpmSvc.microcommands.ALU[microCommands[2]];
-                let RBUS = mpmSvc.microcommands.RBUS[microCommands[3]];
-                let OTHER = mpmSvc.microcommands.OTHER[microCommands[4]];
-                let MEM = mpmSvc.microcommands.MEM[microCommands[5]];
-                let SUCCESOR = mpmSvc.succesors[microCommands[6]];
-                let INDEX = mpmSvc.indexes[microCommands[7]];
+        this.initializeMicroProgram = () => {
+            angular.forEach(this.mnemonicMicroinstructionSet, (instruction, instructionIndex) => {
+                let microCommands = instruction.split(", ");
+                $log.log(instructionIndex, microCommands);
+                let SBUS = this.microcommands.SBUS[microCommands[0]];
+                let DBUS = this.microcommands.DBUS[microCommands[1]];
+                let ALU = this.microcommands.ALU[microCommands[2]];
+                let RBUS = this.microcommands.RBUS[microCommands[3]];
+                let OTHER = this.microcommands.OTHER[microCommands[4]];
+                let MEM = this.microcommands.MEM[microCommands[5]];
+                let SUCCESOR = this.succesors[microCommands[6]];
+                let INDEX = this.indexes[microCommands[7]];
                 let TF = (microCommands[8] === "T") ? "1" : "0";
-                let uADR = mpmSvc.labels[microCommands[9]];
-                uADR = (uADR === undefined) ? "00000000" : convertionService.extend(convertionService.convert(uADR).from(16).to(2)).to(8);
+                let uADR = this.labels[microCommands[9]];
+                uADR = (uADR === undefined) ? "00000000" : dataHelpService.extend(dataHelpService.convert(uADR).from(16).to(2)).to(8);
                 let microInstruction = SBUS.concat(DBUS, ALU, RBUS, OTHER, MEM, SUCCESOR, INDEX, TF, uADR);
-                //$log.log(microInstruction);
-                microProgram.push(microInstruction);
+                $log.log(microInstruction);
+                this.microProgram.push(microInstruction);
             });
-            //$log.log(microProgram.length);
-            return microProgram;
-        }
-        
-        mpmSvc.initializeMicroProgram = decodeMnemonicMIFormat;
+        };
     };
 
-    microProgramService.$inject = ['$log', 'convertionService'];
+    microProgramService.$inject = ['$log', 'dataHelpService'];
 
     angular.module('app.cpuModule').service('microProgramService', microProgramService);
 

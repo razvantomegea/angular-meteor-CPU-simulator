@@ -4,8 +4,7 @@
 (function (angular) {
     "use strict";
     var instructionService = function () {
-        var instrSvc = this;
-        instrSvc.instructionSet = {
+        this.instructionSet = {
             // Two operand instruction opcodes
             "MOV": {
                 "code": "0000",

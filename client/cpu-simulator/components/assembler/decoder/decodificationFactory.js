@@ -19,7 +19,7 @@
      *                                instructionDecodification: instructionDecodification
      *                              }}
      */
-    function decodificationFactory($rootScope, $log, instructionService, convertionService, registerFactory) {
+    function decodificationFactory($rootScope, $log, instructionService, dataHelpService, registerFactory) {
         return {
             firstClassInstructionParsing,
             secondClassInstructionParsing,
@@ -48,7 +48,7 @@
             let sourceOperandIndex = (indexOfSourceBracket > 0) ? source.slice(0, indexOfSourceBracket) : false;
             if (sourceOperandIndex) {
                 // Convert the index to binary and extend it to 16 bits
-                sourceOperandIndex = convertionService.extend(convertionService.convert(sourceOperandIndex).from(10).to(2)).to(16);
+                sourceOperandIndex = dataHelpService.extend(dataHelpService.convert(sourceOperandIndex).from(10).to(2)).to(16);
             }
             // Remove the existing brackets
             let sourceOperand = (indexOfSourceBracket === -1)
@@ -69,9 +69,9 @@
             if (offset) {
                 // Convert the offset to binary and extend it to 16 bits
                 if (offset.indexOf("0x") !== -1) {
-                    offset = convertionService.extend(convertionService.convert(offset).from(16).to(2)).to(16);
+                    offset = dataHelpService.extend(dataHelpService.convert(offset).from(16).to(2)).to(16);
                 } else {
-                    offset = convertionService.extend(convertionService.convert(offset).from(10).to(2)).to(16);
+                    offset = dataHelpService.extend(dataHelpService.convert(offset).from(10).to(2)).to(16);
                 }
             }
             // Destination operand parsing
@@ -81,7 +81,7 @@
             let destinationOperandIndex = (indexOfDestinationBracket > 0) ? destination.slice(0, indexOfDestinationBracket) : false;
             if (destinationOperandIndex) {
                 // Convert the index to binary and extend it to 16 bits
-                destinationOperandIndex = convertionService.extend(convertionService.convert(destinationOperandIndex).from(10).to(2)).to(16);
+                destinationOperandIndex = dataHelpService.extend(dataHelpService.convert(destinationOperandIndex).from(10).to(2)).to(16);
             }
             // Remove the existing brackets
             let destinationOperand = (indexOfDestinationBracket === -1)
@@ -124,7 +124,7 @@
             let operandIndex = (indexOfBracket > 0) ? source.slice(0, indexOfBracket) : false;
             if (operandIndex) {
                 // Convert the index to binary and extend it to 16 bits
-                operandIndex = convertionService.extend(convertionService.convert(operandIndex).from(10).to(2)).to(16);
+                operandIndex = dataHelpService.extend(dataHelpService.convert(operandIndex).from(10).to(2)).to(16);
             }
             // Remove the existing brackets
             let operand = (indexOfBracket === -1)
@@ -145,9 +145,9 @@
             if (offset) {
                 // Convert the offset to binary and extend it to 16 bits
                 if (offset.indexOf("0x") !== -1) {
-                    offset = convertionService.extend(convertionService.convert(offset).from(16).to(2)).to(16);
+                    offset = dataHelpService.extend(dataHelpService.convert(offset).from(16).to(2)).to(16);
                 } else {
-                    offset = convertionService.extend(convertionService.convert(offset).from(10).to(2)).to(16);
+                    offset = dataHelpService.extend(dataHelpService.convert(offset).from(10).to(2)).to(16);
                 }
             }
             let lowInstruction = opcodeMachineCode.concat(operandMachineCode);
@@ -242,6 +242,8 @@
                         // Count the operands between the labeled instruction and the branch instruction
                         // Immediate operands and indexes are stored in the memory immediately after the instruction,
                         // so they must be counted in order to calculate the offset of the relative jump
+                        // Note: The memory is on 8 bits, so the count has to be doubled
+                        // and PC always indicates the next instruction, so we have to take this into count
                         let nextOperandCount = 0,
                             prevOperandCount = 0,
                             offset = 0,
@@ -253,23 +255,21 @@
                             // Iterate the instructions between the branch instruction and the labeled instruction
                             let operands = [];
                             // The operands and instructions are on 8 bits now, so we have to increment by two
+                            // We must be between the branch instruction and the labeled instruction
                             if (
                                 (highInstructionIndex < labeledInstructionIndex)
                                 && (brLblInstructionIndex > highInstructionIndex)
                                 && (brLblInstructionIndex < labeledInstructionIndex)
                             ) {
-                                // Forward jump
                                 forwardJump = true;
                                 if (brLblInstruction.class === 1) {
                                     // Separate the two operands
                                     operands = brLblInstruction.code.split(" ")[1].split(",");
                                     if (operands[0].indexOf("(") > 0) {
                                         // Indexed addressing mode
-                                        //$log.debug(operands[0].indexOf("("), brLblInstructionIndex);
                                         nextOperandCount += 2;
                                     } else if ((operands[1].indexOf("(") > 0) || (/R/.test(operands[1]) === false)) {
                                         // Indexed or immediate addressing mode
-                                        //$log.debug(operands[1], brLblInstructionIndex);
                                         nextOperandCount += 2;
                                     }
                                 }
@@ -277,60 +277,44 @@
                                     operands = brLblInstruction.code.split(" ")[1];
                                     if (operands && (operands.indexOf("(") > 0)) {
                                         // Indexed addressing mode
-                                        //$log.debug(operands, brLblInstructionIndex);
                                         nextOperandCount += 2;
                                     }
                                 }
                             } else if (forwardJump) {
                                 jump = 2 * (labeledInstructionIndex - highInstructionIndex);
-                                // Make offset even
-                                if ((jump % 2) === 0) {
-                                    offset = jump + nextOperandCount - 2;
-                                } else {
-                                    offset = jump + nextOperandCount - 3;
-                                }
+                                // Make offset even and take PC into count
+                                offset = jump + nextOperandCount - 2;
                             } else if (
                                 (highInstructionIndex > labeledInstructionIndex)
                                 && (brLblInstructionIndex < highInstructionIndex)
-                                && (brLblInstructionIndex => labeledInstructionIndex)
+                                && ((brLblInstructionIndex > labeledInstructionIndex) || (brLblInstructionIndex === labeledInstructionIndex))
                             ) {
-                                // Backwards jump
                                 backwardsJump = true;
-                                $log.debug(brLblInstruction);
                                 if (brLblInstruction.class === 1) {
                                     // Separate the two operands
                                     operands = brLblInstruction.code.split(" ")[1].split(",");
                                     if (operands[0].indexOf("(") > 0) {
                                         // Indexed addressing mode
-                                        //$log.debug(operands[0].indexOf("("), brLblInstructionIndex);
                                         prevOperandCount += 2;
                                     } else if ((operands[1].indexOf("(") > 0) || (/R/.test(operands[1]) === false)) {
                                         // Indexed or immediate addressing mode
-                                        //$log.debug(operands[1], brLblInstructionIndex);
                                         prevOperandCount += 2;
                                     }
                                 } else if (brLblInstruction.class === 2) {
                                     operands = brLblInstruction.code.split(" ")[1];
                                     if (operands && (operands.indexOf("(") > 0)) {
                                         // Indexed addressing mode
-                                        //$log.debug(operands, brLblInstructionIndex);
                                         prevOperandCount += 2;
                                     }
                                 }
                             } else if (backwardsJump) {
                                 jump = 2 * (highInstructionIndex - labeledInstructionIndex);
-                                // Make offset even
-                                if ((jump % 2) === 0) {
-                                    offset = (jump + prevOperandCount + 2) | $rootScope.OFFSET_SIGN_MASK;
-                                    $log.debug(prevOperandCount);
-                                } else {
-                                    offset = (jump + prevOperandCount + 3) | $rootScope.OFFSET_SIGN_MASK;
-                                    $log.debug(prevOperandCount);
-                                }
+                                // Take PC into count
+                                offset = (jump + prevOperandCount + 2) | dataHelpService.OFFSET_SIGN_MASK;
                             }
 
-                            lowInstruction.offset = convertionService.extend(convertionService.convert(offset).from(10).to(2)).to(8);
-                            $log.debug("Offset:", lowInstruction.offset, "Jump:", jump, "Previous operand count:", prevOperandCount, "Next operand count:", nextOperandCount);
+                            lowInstruction.offset = dataHelpService.extend(dataHelpService.convert(offset).from(10).to(2)).to(8);
+                            $log.debug("Offset:", lowInstruction.offset, "Jump:", jump, "Previous operand count:", prevOperandCount, "Next operand count:", nextOperandCount, "Instruction", brLblInstruction);
                         });
                         lowInstruction.instruction = lowInstruction.instruction.concat(lowInstruction.offset);
                         // Split from 16 bit to 8 bit high part and low part
@@ -348,7 +332,7 @@
         }
     }
 
-    decodificationFactory.$inject = ['$rootScope', '$log', 'instructionService', 'convertionService', 'registerFactory'];
+    decodificationFactory.$inject = ['$rootScope', '$log', 'instructionService', 'dataHelpService', 'registerFactory'];
 
     angular.module('app.cpuModule.assemblyModule').factory('decodificationFactory', decodificationFactory);
 

@@ -4,7 +4,7 @@
 (function (angular) {
 
     'use strict';
-    function RegistersController($scope, $rootScope, $log, convertionService, registerFactory) {
+    function RegistersController($scope, $rootScope, $log, dataHelpService, registerFactory) {
 
         this.registers = registerFactory;
 
@@ -70,8 +70,8 @@
         this.resetDataBus = () => angular.forEach(this.dataBus, (busValue, busType) => this.dataBus[busType] = 0);
 
         this.initialisePcSp = () => {
-            this.registers.updateDefaultRegister('SP', convertionService.extend(convertionService.convert('0x00ff').from(16).to(2)).to(16));
-            this.registers.updateDefaultRegister('PC', convertionService.extend(convertionService.convert('0x0040').from(16).to(2)).to(16));
+            this.registers.updateDefaultRegister('SP', dataHelpService.extend(dataHelpService.convert('0x00ff').from(16).to(2)).to(16));
+            this.registers.updateDefaultRegister('PC', dataHelpService.extend(dataHelpService.convert('0x0040').from(16).to(2)).to(16));
         };
 
         this.sendDataOnSbus = data => {
@@ -85,7 +85,7 @@
                     //$log.log("Sent 0 on SBUS");
                     break;
                 case 2:
-                    $rootScope.dataBus['sbus'] = (~1 >>> 0) & $rootScope.LOW_PART_MASK;
+                    $rootScope.dataBus['sbus'] = (~1 >>> 0) & dataHelpService.LOW_PART_MASK;
                     //$log.log("Sent -1 on SBUS");
                     break;
                 case 3:
@@ -98,21 +98,21 @@
                     //$log.log("Sent MDR on SBUS");
                     break;
                 case 5:
-                    this.dataBus['MDRSbus'] = (~parseInt(this.registers.defaultRegisters['MDR'], 2) >>> 0) & $rootScope.LOW_PART_MASK;
+                    this.dataBus['MDRSbus'] = (~parseInt(this.registers.defaultRegisters['MDR'], 2) >>> 0) & dataHelpService.LOW_PART_MASK;
                     $rootScope.dataBus['sbus'] = this.dataBus['MDRSbus'];
                     //$log.log("Sent !MDR on SBUS");
                     break;
                 case 6:
-                    sourceRegisterCode = ($rootScope.SOURCE_REGISTER_MASK & parseInt(this.registers.defaultRegisters['IR'], 2)) >> 6;
-                    sourceRegisterName = $rootScope.getObjectPropertyByValue(this.registers.generalRegisters, 'code', convertionService.extend(convertionService.convert(sourceRegisterCode).from(10).to(2)).to(4));
+                    sourceRegisterCode = (dataHelpService.SOURCE_REGISTER_MASK & parseInt(this.registers.defaultRegisters['IR'], 2)) >> 6;
+                    sourceRegisterName = dataHelpService.getObjectPropertyByValue(this.registers.generalRegisters, 'code', dataHelpService.extend(dataHelpService.convert(sourceRegisterCode).from(10).to(2)).to(4));
                     this.dataBus['genRegSbus'] = parseInt(this.registers.generalRegisters[sourceRegisterName[0]]['data'], 2);
                     $rootScope.dataBus['sbus'] = this.dataBus['genRegSbus'];
                     //$log.log("Sent Register", sourceRegisterName, "on SBUS");
                     break;
                 case 7:
-                    sourceRegisterCode = ($rootScope.SOURCE_REGISTER_MASK & parseInt(this.registers.defaultRegisters['IR'], 2)) >> 6;
-                    sourceRegisterName = $rootScope.getObjectPropertyByValue(this.registers.generalRegisters, 'code', convertionService.extend(convertionService.convert(sourceRegisterCode).from(10).to(2)).to(4));
-                    this.dataBus['genRegSbus'] = (~parseInt(this.registers.generalRegisters[sourceRegisterName[0]]['data'], 2) >>> 0) & $rootScope.LOW_PART_MASK;
+                    sourceRegisterCode = (dataHelpService.SOURCE_REGISTER_MASK & parseInt(this.registers.defaultRegisters['IR'], 2)) >> 6;
+                    sourceRegisterName = dataHelpService.getObjectPropertyByValue(this.registers.generalRegisters, 'code', dataHelpService.extend(dataHelpService.convert(sourceRegisterCode).from(10).to(2)).to(4));
+                    this.dataBus['genRegSbus'] = (~parseInt(this.registers.generalRegisters[sourceRegisterName[0]]['data'], 2) >>> 0) & dataHelpService.LOW_PART_MASK;
                     $rootScope.dataBus['sbus'] = this.dataBus['genRegSbus'];
                     //$log.log("Sent Register", sourceRegisterName, "on SBUS");
                     break;
@@ -122,14 +122,14 @@
                     //$log.log("Sent T on SBUS");
                     break;
                 case 9:
-                    this.dataBus['TSbus'] = (~parseInt(this.registers.defaultRegisters['T'], 2) >>> 0) & $rootScope.LOW_PART_MASK;
+                    this.dataBus['TSbus'] = (~parseInt(this.registers.defaultRegisters['T'], 2) >>> 0) & dataHelpService.LOW_PART_MASK;
                     $rootScope.dataBus['sbus'] = this.dataBus['TSbus'];
                     //$log.log("Sent !T on SBUS");
                     break;
                 case 10:
-                    let offset = $rootScope.OFFSET_MASK & parseInt(this.registers.defaultRegisters['IR'], 2);
-                    let offsetSign = ($rootScope.OFFSET_SIGN_MASK & offset) >> 7;
-                    this.dataBus['IRSbus'] = (offsetSign === 0) ? offset : -(~$rootScope.OFFSET_SIGN_MASK & offset);
+                    let offset = dataHelpService.OFFSET_MASK & parseInt(this.registers.defaultRegisters['IR'], 2);
+                    let offsetSign = (dataHelpService.OFFSET_SIGN_MASK & offset) >> 7;
+                    this.dataBus['IRSbus'] = (offsetSign === 0) ? offset : -(~dataHelpService.OFFSET_SIGN_MASK & offset);
                     $rootScope.dataBus['sbus'] = this.dataBus['IRSbus'];
                     //$log.log("Sent OFFSET on SBUS");
                     break;
@@ -179,22 +179,22 @@
                     //$log.log("Sent MDR on DBUS");
                     break;
                 case 8:
-                    this.dataBus['MDRDbus'] = (~parseInt(this.registers.defaultRegisters['MDR'], 2) >>> 0) & $rootScope.LOW_PART_MASK;
+                    this.dataBus['MDRDbus'] = (~parseInt(this.registers.defaultRegisters['MDR'], 2) >>> 0) & dataHelpService.LOW_PART_MASK;
                     $rootScope.dataBus['dbus'] = this.dataBus['MDRDbus'];
                     //$log.log("Sent !MDR on DBUS");
                     break;
                 case 9:
-                    destinationRegisterCode = $rootScope.DESTINATION_REGISTER_MASK & parseInt(this.registers.defaultRegisters['IR'], 2);
-                    destinationRegisterName = $rootScope.getObjectPropertyByValue(this.registers.generalRegisters, 'code', convertionService.extend(convertionService.convert(destinationRegisterCode).from(10).to(2)).to(4));
+                    destinationRegisterCode = dataHelpService.DESTINATION_REGISTER_MASK & parseInt(this.registers.defaultRegisters['IR'], 2);
+                    destinationRegisterName = dataHelpService.getObjectPropertyByValue(this.registers.generalRegisters, 'code', dataHelpService.extend(dataHelpService.convert(destinationRegisterCode).from(10).to(2)).to(4));
                     //$log.log(destinationRegisterCode, destinationRegisterName[0]);
                     this.dataBus['genRegDbus'] = parseInt(this.registers.generalRegisters[destinationRegisterName[0]]['data'], 2);
                     $rootScope.dataBus['dbus'] = this.dataBus['genRegDbus'];
                     //$log.log("Sent Register", destinationRegisterName, "on DBUS");
                     break;
                 case 10:
-                    destinationRegisterCode = $rootScope.DESTINATION_REGISTER_MASK & parseInt(this.registers.defaultRegisters['IR'], 2);
-                    destinationRegisterName = $rootScope.getObjectPropertyByValue(this.registers.generalRegisters, 'code', convertionService.extend(convertionService.convert(destinationRegisterCode).from(10).to(2)).to(4));
-                    this.dataBus['genRegDbus'] = (~parseInt(this.registers.generalRegisters[destinationRegisterName[0]]['data'], 2) >>> 0) & $rootScope.LOW_PART_MASK;
+                    destinationRegisterCode = dataHelpService.DESTINATION_REGISTER_MASK & parseInt(this.registers.defaultRegisters['IR'], 2);
+                    destinationRegisterName = dataHelpService.getObjectPropertyByValue(this.registers.generalRegisters, 'code', dataHelpService.extend(dataHelpService.convert(destinationRegisterCode).from(10).to(2)).to(4));
+                    this.dataBus['genRegDbus'] = (~parseInt(this.registers.generalRegisters[destinationRegisterName[0]]['data'], 2) >>> 0) & dataHelpService.LOW_PART_MASK;
                     $rootScope.dataBus['dbus'] = this.dataBus['genRegDbus'];
                     //$log.log("Sent Register", destinationRegisterName, "on DBUS");
                     break;
@@ -204,7 +204,7 @@
                     //$log.log("Sent T on DBUS");
                     break;
                 case 12:
-                    this.dataBus['TDbus'] = (~parseInt(this.registers.defaultRegisters['T'], 2) >>> 0) & $rootScope.LOW_PART_MASK;
+                    this.dataBus['TDbus'] = (~parseInt(this.registers.defaultRegisters['T'], 2) >>> 0) & dataHelpService.LOW_PART_MASK;
                     $rootScope.dataBus['dbus'] = this.dataBus['TDbus'];
                     //$log.log("Sent !T on DBUS");
             }
@@ -215,37 +215,37 @@
                 case 0:
                     break;
                 case 1:
-                    let pc = convertionService.extend(convertionService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
+                    let pc = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
                     this.registers.updateDefaultRegister('PC', pc);
                     break;
                 case 2:
-                    let adr = convertionService.extend(convertionService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
+                    let adr = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
                     this.registers.updateDefaultRegister('ADR', adr);
                     break;
                 case 3:
-                    let ivr = convertionService.extend(convertionService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
+                    let ivr = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
                     this.registers.updateDefaultRegister('IVR', ivr);
                     break;
                 case 4:
-                    let flags = convertionService.extend(convertionService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
+                    let flags = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
                     this.registers.updateDefaultRegister('FLAGS', flags);
                     break;
                 case 5:
-                    let sp = convertionService.extend(convertionService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
+                    let sp = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
                     this.registers.updateDefaultRegister('SP', sp);
                     break;
                 case 6:
-                    let mdr = convertionService.extend(convertionService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
+                    let mdr = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
                     this.registers.updateDefaultRegister('MDR', mdr);
                     break;
                 case 7:
-                    let regData = convertionService.extend(convertionService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
-                    let destinationRegisterCode = ($rootScope.DESTINATION_REGISTER_MASK & parseInt(this.registers.defaultRegisters['IR'], 2));
-                    let destinationRegisterName = $rootScope.getObjectPropertyByValue(this.registers.generalRegisters, 'code', convertionService.extend(convertionService.convert(destinationRegisterCode).from(10).to(2)).to(4));
+                    let regData = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
+                    let destinationRegisterCode = (dataHelpService.DESTINATION_REGISTER_MASK & parseInt(this.registers.defaultRegisters['IR'], 2));
+                    let destinationRegisterName = dataHelpService.getObjectPropertyByValue(this.registers.generalRegisters, 'code', dataHelpService.extend(dataHelpService.convert(destinationRegisterCode).from(10).to(2)).to(4));
                     this.registers.updateGeneralRegister(destinationRegisterName[0], regData);
                     break;
                 case 8:
-                    let temp = convertionService.extend(convertionService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
+                    let temp = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
                     this.registers.updateDefaultRegister('T', temp);
                     break;
                 default:
@@ -344,13 +344,13 @@
                     break;
                 case 1:
                     this.registers.defaultRegisters['IR'] = $rootScope.memory[adr].data + $rootScope.memory[adr + 1].data;
-                    //$log.log('Instruction fetch:', this.registers.defaultRegisters['IR'], 'from', convertionService.extend(convertionService.convert(adr).from(10).to(16)).to(4));
+                    //$log.log('Instruction fetch:', this.registers.defaultRegisters['IR'], 'from', dataHelpService.extend(dataHelpService.convert(adr).from(10).to(16)).to(4));
                     $rootScope.$broadcast("IF");
                     $log.log('IF');
                     break;
                 case 2:
                     this.registers.defaultRegisters['MDR'] = $rootScope.memory[adr].data + $rootScope.memory[adr + 1].data;
-                    //$log.log('Operand fetch:', this.registers.defaultRegisters['MDR'], 'from', convertionService.extend(convertionService.convert(adr).from(10).to(16)).to(4));
+                    //$log.log('Operand fetch:', this.registers.defaultRegisters['MDR'], 'from', dataHelpService.extend(dataHelpService.convert(adr).from(10).to(16)).to(4));
                     $log.log('RD');
                     break;
                 case 3:
@@ -359,7 +359,7 @@
                         $log.log('WR');
                         $rootScope.memory[adr].data = this.registers.defaultRegisters['MDR'].slice(0, 8);
                         $rootScope.memory[adr + 1].data = this.registers.defaultRegisters['MDR'].slice(8, 16);
-                        //$log.log('Memory write:', this.registers.defaultRegisters['MDR'], 'to', convertionService.extend(convertionService.convert(adr).from(10).to(16)).to(4));
+                        //$log.log('Memory write:', this.registers.defaultRegisters['MDR'], 'to', dataHelpService.extend(dataHelpService.convert(adr).from(10).to(16)).to(4));
                     });
                     break;
                 default:
@@ -368,7 +368,7 @@
         }
     }
 
-    RegistersController.$inject = ['$scope', '$rootScope', '$log', 'convertionService', 'registerFactory'];
+    RegistersController.$inject = ['$scope', '$rootScope', '$log', 'dataHelpService', 'registerFactory'];
 
     angular.module('app.cpuModule').component('registers', {
         templateUrl: 'client/cpu-simulator/components/registers/registers.html',
