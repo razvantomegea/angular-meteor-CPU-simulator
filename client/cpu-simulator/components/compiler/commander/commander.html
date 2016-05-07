@@ -4,9 +4,9 @@
 </div>
 <div class="component" layout="column" layout-align="center center" layout-padding layout-margin>
     <h3>MIR</h3>
-    <input id="mir" name="mir" type="text" ng-model="bcgCtrl.MIR" ng-disabled="true">
+    <span class="rt-entry">{{ bcgCtrl.MIR | baseFilter:bcgCtrl.base }}</span>
 </div>
 <div class="component" layout="column" layout-align="center center" layout-padding layout-margin> 
     <h3>MAR</h3>
-    <input id="mar" name="mar" type="text" ng-model="bcgCtrl.MAR" ng-disabled="true">
+    <span class="rt-entry">{{ bcgCtrl.MAR | baseFilter:bcgCtrl.base }}</span>
 </div>

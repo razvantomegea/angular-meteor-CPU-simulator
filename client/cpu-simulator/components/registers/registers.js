@@ -8,8 +8,10 @@
 
         this.registers = registerFactory;
         this.clock = 100;
+        this.base = 10;
 
         $scope.$on('setClock', (event, clock) => this.clock = clock);
+        $scope.$on('setBase', (event, base) => this.base = base);
 
         $scope.$on('initialisePcSp', () => {
             this.registers.initialisePcSp();
@@ -35,6 +37,12 @@
         $scope.$on('receiveRbus', (msg, data) => {
             this.registers.dataBus['regRbus'] = $rootScope.dataBus['rbus'];
             this.registers.saveData(data);
+            $timeout(() => {
+                this.registers.resetDataBus();
+                $rootScope.dataBus.sbus = 0;
+                $rootScope.dataBus.dbus = 0;
+                $rootScope.dataBus.rbus = 0;
+            }, this.clock / 5);
         });
 
         $scope.$on('other', (msg, data) => this.registers.specialOperation(data));

@@ -8,6 +8,7 @@
 
         this.toggleSidenav = name => $mdSidenav(name).toggle();
         this.navbarCollapsed = true;
+        this.bases = [10, 2, 16];
         this.showMemory = true;
         this.showRegisters = true;
         this.showBuses = true;
@@ -39,9 +40,7 @@
         this.continueExecution = () => {
             let currentPC = registerFactory.defaultRegisters['PC'];
             if (currentPC <= 2 + $rootScope.conditions.INSTRUCTION + 0x40) {
-                //$timeout(() => {
                     $rootScope.$broadcast('executeNextInstruction');
-                //}, $scope.clock);
             } else {
                 $rootScope.conditions.ACKLOW = 1;
                 $log.log("No more instructions!");
@@ -49,8 +48,11 @@
         };
 
         $scope.clock = 100;
+        $scope.base = 10;
 
         $scope.$watch('clock', () => $rootScope.$broadcast('setClock', $scope.clock));
+
+        $scope.$watch('base', () => $rootScope.$broadcast('setBase', $scope.base));
 
         // Exceptions and conditions
         $rootScope.conditions = {
@@ -87,6 +89,9 @@
         $scope.$on('EXECUTE', (event, instructionSet) => {
             $log.debug(instructionSet);
             this.codeRdy = true;
+            this.stopped = false;
+            this.running = false;
+            this.nextStep = true;
             angular.forEach(instructionSet, (instruction, instructionIndex) => {
                 memoryService.memoryWrite(0x40 + instructionIndex, instruction);
             });

@@ -32,6 +32,10 @@
                     hideDelay: 3000
                 }));
         };
+
+        this.base = 10;
+
+        $scope.$on('setBase', (event, base) => this.base = base);
         
         $scope.$on('ASSEMBLE', (event, highInstructionSet) => {
             this.decodeInstructions(highInstructionSet);

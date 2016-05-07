@@ -4,9 +4,7 @@
     <table>
         <tr flex ng-repeat="(key, value) in regCtrl.registers.generalRegisters track by $index">
             <td>{{::key}}: </td>
-            <td>
-                <input class="instruction" id="{{::key}}" name="{{::key}}" type="text" ng-model="value.data" ng-disabled="true">
-            </td>
+            <td class="rt-entry">{{ value.data | baseFilter:regCtrl.base }}</td>
         </tr>
     </table>
     <md-progress-linear ng-show="cpuCtrl.showBuses" class="sbus" md-mode="indeterminate"></md-progress-linear>
@@ -14,7 +12,7 @@
 <div class="component" layout="column" layout-align="center center" layout-padding layout-margin ng-repeat="(key, value) in regCtrl.registers.defaultRegisters track by $index">
     <md-progress-linear ng-show="cpuCtrl.showBuses" ng-class="{activeBus: regCtrl.registers.dataBus[key + 'Sbus']}" class="dbus" md-mode="indeterminate"></md-progress-linear>
     <h3>{{::key}}</h3>
-    <input class="instruction" id="{{::key}}" name="{{::key}}" type="text" ng-model="value" ng-disabled="true">
+    <span class="rt-entry">{{ value | baseFilter:regCtrl.base }}</span>
     <md-progress-linear ng-show="cpuCtrl.showBuses" ng-class="{activeBus: regCtrl.registers.dataBus[key + 'Dbus']}" class="sbus" md-mode="indeterminate"></md-progress-linear>
 </div>
 

@@ -50,6 +50,16 @@
                     </md-select>
                 </md-input-container>
             </md-list-item>
+            <md-list-item layout-margin>
+                <md-input-container>
+                    <label>Base</label>
+                    <md-select ng-model="base" aria-label="Instruction Data Base">
+                        <md-option ng-repeat="bases in cpuCtrl.bases" value="{{bases}}">
+                            {{bases}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </md-list-item>
             <md-list-item  layout-margin>
                 <md-switch ng-model="cpuCtrl.showMemory" aria-label="Show memory">
                     Show memory: {{ cpuCtrl.showMemory }}
@@ -99,9 +109,9 @@
                     </div>
                     <div id="rightSection" layout-align="center center" layout="column" class="cpu-section" flex>
                         <div class="component" layout-align="center center" layout="column" layout-margin layout-padding flex>
-                            <md-progress-linear ng-show="cpuCtrl.showBuses" class="dbus" md-mode="indeterminate"></md-progress-linear>
+                            <md-progress-linear ng-show="cpuCtrl.showBuses" ng-class="{activeBus: dataBus['dbus']}" class="dbus" md-mode="indeterminate"></md-progress-linear>
                             <h3>ALU</h3>
-                            <md-progress-linear ng-show="cpuCtrl.showBuses" class="sbus" md-mode="indeterminate"></md-progress-linear>
+                            <md-progress-linear ng-show="cpuCtrl.showBuses" class="sbus" ng-class="{activeBus: dataBus['sbus']}" md-mode="indeterminate"></md-progress-linear>
                         </div>
                         <md-progress-linear ng-show="cpuCtrl.showBuses" class="rbus" md-mode="indeterminate"></md-progress-linear>
                         <registers ng-show="cpuCtrl.showRegisters"></registers>
@@ -126,36 +136,32 @@
                         <div class="component" layout-padding>
                             <table>
                                 <tr flex ng-repeat="entry in memoryMap.slice(0, 64) track by $index">
-                                    <td><p>{{::$index}}: </p></td>
-                                    <td><input class="instruction" id="{{::$index}}" name="{{::$index}}" type="text" ng-model="entry"
-                                               ng-disabled="true"></td>
+                                    <td><p>{{ $index | baseFilter:base }}: </p></td>
+                                    <td class="rt-entry">{{ entry | baseFilter:base }}</td>
                                 </tr>
                             </table>
                         </div>
                         <div class="component" layout-padding>
                             <table>
                                 <tr flex ng-repeat="entry in memoryMap.slice(64, 128) track by $index">
-                                    <td><p>{{::$index + 64}}: </p></td>
-                                    <td><input class="instruction" id="{{::$index}}" name="{{::$index}}" type="text" ng-model="entry"
-                                               ng-disabled="true"></td>
+                                    <td><p>{{ $index + 64 | baseFilter:base }}: </p></td>
+                                    <td class="rt-entry">{{ entry | baseFilter:base }}</td>
                                 </tr>
                             </table>
                         </div>
                         <div class="component" layout-padding>
                             <table>
                                 <tr flex ng-repeat="entry in memoryMap.slice(128, 192) track by $index">
-                                    <td><p>{{::$index + 128}}: </p></td>
-                                    <td><input class="instruction" id="{{::$index}}" name="{{::$index}}" type="text" ng-model="entry"
-                                               ng-disabled="true"></td>
+                                    <td><p>{{ $index + 128 | baseFilter:base }}: </p></td>
+                                    <td class="rt-entry">{{ entry | baseFilter:base }}</td>
                                 </tr>
                             </table>
                         </div>
                         <div class="component" layout-padding>
                             <table>
                                 <tr flex ng-repeat="entry in memoryMap.slice(192, 256) track by $index">
-                                    <td><p>{{::$index + 192}}: </p></td>
-                                    <td><input class="instruction" id="{{::$index}}" name="{{::$index}}" type="text" ng-model="entry"
-                                               ng-disabled="true"></td>
+                                    <td><p>{{ $index + 192 | baseFilter:base }}: </p></td>
+                                    <td class="rt-entry">{{ entry | baseFilter:base }}</td>
                                 </tr>
                             </table>
                         </div>

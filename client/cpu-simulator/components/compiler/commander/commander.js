@@ -24,6 +24,10 @@
             uAdress: 0
         };
 
+        this.base = 10;
+
+        $scope.$on('setBase', (event, base) => this.base = base);
+
         $scope.$on('initialiseMarMir', () => this.initialiseMicroRegisters());
 
         $scope.$on('EN1', () => this.sendDbusSbusData());
@@ -60,8 +64,7 @@
 
         this.sendDbusSbusData = () => {
             this.MAR++;
-            this.MAR = dataHelpService.extend(dataHelpService.convert(this.MAR).from(10).to(2)).to(8);
-            this.decodeMicroinstruction(parseInt(this.MIR, 2));
+            this.decodeMicroinstruction(this.MIR);
             $rootScope.$broadcast('sendSbus', this.microinstructionDecoder.sbus);
             $rootScope.$broadcast('sendDbus', this.microinstructionDecoder.dbus);
         };
@@ -127,7 +130,6 @@
                 this.MAR = this.microinstructionDecoder.uAdress + index;
                 this.MIR = microProgramService.microProgram[this.MAR];
             } else {
-                this.MAR = parseInt(this.MAR, 2);
                 this.MIR = microProgramService.microProgram[this.MAR];
             }
         }
