@@ -2,9 +2,9 @@
  * Created by Razvan Tomegea on 2/28/2016.
  */
 (function (angular) {
-    
+
     'use strict';
-    function CpuController($rootScope, $scope, $log, $timeout, registerFactory, $mdSidenav, dataHelpService) {
+    function CpuController($rootScope, $scope, $log, $timeout, registerFactory, $mdSidenav, memoryService) {
 
         this.toggleSidenav = name => $mdSidenav(name).toggle();
         this.navbarCollapsed = true;
@@ -24,8 +24,8 @@
         this.run = () => {
             this.running = true;
             this.nextStep = false;
-            if (this.stepping) { $rootScope.$broadcast('initialisePcSp'); }
-            else { this.continueExecution(); }
+            if (this.stepping) { this.continueExecution(); }
+            else { $rootScope.$broadcast('initialisePcSp'); }
         };
 
         this.step = () => {
@@ -37,11 +37,11 @@
         };
 
         this.continueExecution = () => {
-            let currentPC = parseInt(registerFactory.defaultRegisters['PC'], 2);
-            if(currentPC <= 2 + $rootScope.conditions.INSTRUCTION + 0x40) {
-                $timeout(() => {
+            let currentPC = registerFactory.defaultRegisters['PC'];
+            if (currentPC <= 2 + $rootScope.conditions.INSTRUCTION + 0x40) {
+                //$timeout(() => {
                     $rootScope.$broadcast('executeNextInstruction');
-                }, $scope.clock);
+                //}, $scope.clock);
             } else {
                 $rootScope.conditions.ACKLOW = 1;
                 $log.log("No more instructions!");
@@ -84,16 +84,11 @@
             memWrBus: 0
         };
 
-        $scope.$on('EXECUTE', (event, data) => {
+        $scope.$on('EXECUTE', (event, instructionSet) => {
+            $log.debug(instructionSet);
             this.codeRdy = true;
-            angular.forEach(data, (instruction, index) => {
-                let indexedAddress = 0x40 + index;
-                indexedAddress = (dataHelpService.extend(dataHelpService.convert(indexedAddress).from(10).to(16)).to(4)).toUpperCase();
-                angular.forEach($scope.memory, (entry) => {
-                    if(entry.address === indexedAddress){
-                        entry.data = instruction;
-                    }
-                });
+            angular.forEach(instructionSet, (instruction, instructionIndex) => {
+                memoryService.memoryWrite(0x40 + instructionIndex, instruction);
             });
 
             $rootScope.conditions.ILLEGAL = 0;
@@ -121,7 +116,7 @@
         });
     }
 
-    CpuController.$inject = ['$rootScope', '$scope', '$log', '$timeout', 'registerFactory', '$mdSidenav', 'dataHelpService'];
+    CpuController.$inject = ['$rootScope', '$scope', '$log', '$timeout', 'registerFactory', '$mdSidenav', 'memoryService'];
 
     angular.module('app.cpuModule').controller('CpuController', CpuController);
 

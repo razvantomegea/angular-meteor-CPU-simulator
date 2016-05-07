@@ -4,17 +4,23 @@
 (function (angular) {
     'use strict';
     var memoryService = function ($rootScope, $log, dataHelpService) {
-        $rootScope.memory = Array(256);
+        $rootScope.memoryMap = [];
+        this.memory = new DataView(new ArrayBuffer(256));
         $rootScope.mreq = 0;
         $rootScope.memoryBusy = false;
         this.initialiseMemory = () => {
             for (let i = 0; i < 256; i++) {
-                $rootScope.memory[i] = {
-                    "address": dataHelpService.extend(dataHelpService.convert(i).from(10).to(16)).to(4).toUpperCase(),
-                    "data": 0b0000000000000000
-                };
+                this.memory.setUint8(i, 0);
+                $rootScope.memoryMap[i] = 0;
             }
         };
+
+        this.memoryWrite = (address, data) => {
+            this.memory.setUint8(address, data);
+            $rootScope.memoryMap[address] = data;
+        };
+
+        this.memoryRead = (address) => this.memory.getUint16(address);
     };
 
     memoryService.$inject = ['$rootScope', '$log', 'dataHelpService'];

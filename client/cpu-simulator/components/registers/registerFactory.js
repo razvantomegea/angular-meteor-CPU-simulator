@@ -3,7 +3,7 @@
  */
 (function (angular) {
     'use strict';
-    function registerFactory($rootScope, $log, dataHelpService) {
+    function registerFactory($rootScope, $log, dataHelpService, memoryService) {
         let regFactory = {
             updateGeneralRegister,
             updateDefaultRegister,
@@ -50,153 +50,151 @@
                 "regRbus": 0
             }
         };
-        
+
         regFactory.generalRegisters = {
             "R0": {
-                "code": "0000",
-                "data": "0000000000000000"
+                "code": 0b0000,
+                "data": 0
             },
             "R1": {
-                "code": "0001",
-                "data": "0000000000000000"
+                "code": 0b0001,
+                "data": 0
             },
             "R2": {
-                "code": "0010",
-                "data": "0000000000000000"
+                "code": 0b0010,
+                "data": 0
             },
             "R3": {
-                "code": "0011",
-                "data": "0000000000000000"
+                "code": 0b0011,
+                "data": 0
             },
             "R4": {
-                "code": "0100",
-                "data": "0000000000000000"
+                "code": 0b0100,
+                "data": 0
             },
             "R5": {
-                "code": "0101",
-                "data": "0000000000000000"
+                "code": 0b0101,
+                "data": 0
             },
             "R6": {
-                "code": "0110",
-                "data": "0000000000000000"
+                "code": 0b0110,
+                "data": 0
             },
             "R7": {
-                "code": "0111",
-                "data": "0000000000000000"
+                "code": 0b0111,
+                "data": 0
             },
             "R8": {
-                "code": "1000",
-                "data": "0000000000000000"
+                "code": 0b1000,
+                "data": 0
             },
             "R9": {
-                "code": "1001",
-                "data": "0000000000000000"
+                "code": 0b1001,
+                "data": 0
             },
             "R10": {
-                "code": "1010",
-                "data": "0000000000000000"
+                "code": 0b1010,
+                "data": 0
             },
             "R11": {
-                "code": "1011",
-                "data": "0000000000000000"
+                "code": 0b1011,
+                "data": 0
             },
             "R12": {
-                "code": "1100",
-                "data": "0000000000000000"
+                "code": 0b1100,
+                "data": 0
             },
             "R13": {
-                "code": "1101",
-                "data": "0000000000000000"
+                "code": 0b1101,
+                "data": 0
             },
             "R14": {
-                "code": "1110",
-                "data": "0000000000000000"
+                "code": 0b1110,
+                "data": 0
             },
             "R15": {
-                "code": "1111",
-                "data": "0000000000000000"
+                "code": 0b1111,
+                "data": 0
             }
         };
-        
+
         regFactory.defaultRegisters = {
-            PC: "0000000000000000",
-            IR: "0000000000000000",
-            ADR: "0000000000000000",
-            T: "0000000000000000",
-            SP: "0000000000000000",
-            IVR: "0000000000000000",
-            FLAGS: "0000000000000000",
-            MDR: "0000000000000000"
+            PC: 0,
+            IR: 0,
+            ADR: 0,
+            T: 0,
+            SP: 0,
+            IVR: 0,
+            FLAGS: 0,
+            MDR: 0
         };
-        
+
         function updateGeneralRegister(reg, data){
             this.generalRegisters[reg].data = data;
-            //$log.log("Updated register", reg, "with", data);
         }
 
         function updateDefaultRegister(reg, data){
             this.defaultRegisters[reg] = data;
-            //$log.log("Updated register", reg, "with", data);
         }
 
         function setInterruptionFlag(value) {
-            let flags = (value === 1) ? parseInt(this.defaultRegisters['FLAGS'], 2) | dataHelpService.INTR_FLAG_MASK : parseInt(this.defaultRegisters['FLAGS'], 2) & ~dataHelpService.INTR_FLAG_MASK;
-            flags = dataHelpService.extend(dataHelpService.convert(flags).from(10).to(2)).to(16);
-            //$log.log("Updated interruption flag with", flags);
+            let flags = (value === 1)
+                ? this.defaultRegisters['FLAGS'] | dataHelpService.INTR_FLAG_MASK
+                : this.defaultRegisters['FLAGS'] & ~dataHelpService.INTR_FLAG_MASK;
             this.updateDefaultRegister('FLAGS', flags);
             $rootScope.conditions.getCarry();
         }
-        
+
         function getInterruptionFlag() {
-            $rootScope.conditions.INTR = (dataHelpService.convert(regFactory.defaultRegisters["FLAGS"]).from(2).to(10) & dataHelpService.INTR_FLAG_MASK) >> 7;
+            $rootScope.conditions.INTR = (regFactory.defaultRegisters["FLAGS"] & dataHelpService.INTR_FLAG_MASK) >> 7;
         }
 
         function setCarry(value) {
-            let flags = (value === 1) ? parseInt(this.defaultRegisters['FLAGS'], 2) | dataHelpService.CARRY_FLAG_MASK : parseInt(this.defaultRegisters['FLAGS'], 2) & ~dataHelpService.CARRY_FLAG_MASK;
-            flags = dataHelpService.extend(dataHelpService.convert(flags).from(10).to(2)).to(16);
-            //$log.log("Updated carry flag with", flags);
+            let flags = (value === 1)
+                ? this.defaultRegisters['FLAGS'] | dataHelpService.CARRY_FLAG_MASK
+                : this.defaultRegisters['FLAGS'] & ~dataHelpService.CARRY_FLAG_MASK;
             this.updateDefaultRegister('FLAGS', flags);
             $rootScope.conditions.getCarry();
         }
-        
+
         function getCarry() {
-            $rootScope.conditions.C = (dataHelpService.convert(regFactory.defaultRegisters["FLAGS"]).from(2).to(10) & dataHelpService.CARRY_FLAG_MASK) >> 3;
+            $rootScope.conditions.C = (regFactory.defaultRegisters["FLAGS"] & dataHelpService.CARRY_FLAG_MASK) >> 3;
         }
 
         function setZero(value) {
-            let flags = (value === 1) ? parseInt(this.defaultRegisters['FLAGS'], 2) | dataHelpService.ZERO_FLAG_MASK : parseInt(this.defaultRegisters['FLAGS'], 2) & ~dataHelpService.ZERO_FLAG_MASK;
-            flags = dataHelpService.extend(dataHelpService.convert(flags).from(10).to(2)).to(16);
-            //$log.log("Updated zero flag with", flags);
+            let flags = (value === 1)
+                ? this.defaultRegisters['FLAGS'] | dataHelpService.ZERO_FLAG_MASK
+                : this.defaultRegisters['FLAGS'] & ~dataHelpService.ZERO_FLAG_MASK;
             this.updateDefaultRegister('FLAGS', flags);
             $rootScope.conditions.getZero();
         }
-        
+
         function getZero() {
-            $rootScope.conditions.Z = (dataHelpService.convert(regFactory.defaultRegisters["FLAGS"]).from(2).to(10) & dataHelpService.ZERO_FLAG_MASK) >> 2;
+            $rootScope.conditions.Z = (regFactory.defaultRegisters["FLAGS"] & dataHelpService.ZERO_FLAG_MASK) >> 2;
         }
 
         function setSign(value) {
-            let flags = (value === 1) ? parseInt(this.defaultRegisters['FLAGS'], 2) | dataHelpService.SIGN_FLAG_MASK : parseInt(this.defaultRegisters['FLAGS'], 2) & ~dataHelpService.SIGN_FLAG_MASK;
-            flags = dataHelpService.extend(dataHelpService.convert(flags).from(10).to(2)).to(16);
-            //$log.log("Updated sign flag with", flags);
+            let flags = (value === 1)
+                ? this.defaultRegisters['FLAGS'] | dataHelpService.SIGN_FLAG_MASK
+                : this.defaultRegisters['FLAGS'] & ~dataHelpService.SIGN_FLAG_MASK;
             this.updateDefaultRegister('FLAGS', flags);
             $rootScope.conditions.getSign();
         }
-        
+
         function getSign() {
-            $rootScope.conditions.S = (dataHelpService.convert(regFactory.defaultRegisters["FLAGS"]).from(2).to(10) & dataHelpService.SIGN_FLAG_MASK) >> 1;
+            $rootScope.conditions.S = (regFactory.defaultRegisters["FLAGS"] & dataHelpService.SIGN_FLAG_MASK) >> 1;
         }
 
         function setOverflow(value) {
-            let flags = (value === 1) ? parseInt(this.defaultRegisters['FLAGS'], 2) | dataHelpService.OVERFLOW_FLAG_MASK : parseInt(this.defaultRegisters['FLAGS'], 2) & ~dataHelpService.OVERFLOW_FLAG_MASK;
-            flags = dataHelpService.extend(dataHelpService.convert(flags).from(10).to(2)).to(16);
-            //$log.log("Updated overflow flag with", flags);
+            let flags = (value === 1)
+                ? this.defaultRegisters['FLAGS'] | dataHelpService.OVERFLOW_FLAG_MASK
+                : this.defaultRegisters['FLAGS'] & ~dataHelpService.OVERFLOW_FLAG_MASK;
             this.updateDefaultRegister('FLAGS', flags);
             $rootScope.conditions.getOverflow();
         }
-        
+
         function getOverflow() {
-            $rootScope.conditions.V = dataHelpService.convert(regFactory.defaultRegisters["FLAGS"]).from(2).to(10) & dataHelpService.OVERFLOW_FLAG_MASK;
+            $rootScope.conditions.V = regFactory.defaultRegisters["FLAGS"] & dataHelpService.OVERFLOW_FLAG_MASK;
         }
 
         function setCZSV(value) {
@@ -209,29 +207,26 @@
         function incrementSP(){
             let sp = parseInt(this.defaultRegisters['SP'], 2);
             sp += 2;
-            sp = dataHelpService.extend(dataHelpService.convert(sp).from(10).to(2)).to(16);
             this.updateDefaultRegister('SP', sp);
         }
 
         function decrementSP(){
-            let sp = parseInt(this.defaultRegisters['SP'], 2);
+            let sp = this.defaultRegisters['SP'];
             sp -= 2;
-            sp = dataHelpService.extend(dataHelpService.convert(sp).from(10).to(2)).to(16);
             this.updateDefaultRegister('SP', sp);
         }
 
         function incrementPC(){
-            let pc = parseInt(this.defaultRegisters['PC'], 2);
+            let pc = this.defaultRegisters['PC'];
             pc += 2;
-            pc = dataHelpService.extend(dataHelpService.convert(pc).from(10).to(2)).to(16);
             this.updateDefaultRegister('PC', pc);
         }
 
         function resetDataBus() { angular.forEach(this.dataBus, (busValue, busType) => this.dataBus[busType] = 0); }
 
         function initialisePcSp() {
-            this.updateDefaultRegister('SP', dataHelpService.extend(dataHelpService.convert('0x00ff').from(16).to(2)).to(16));
-            this.updateDefaultRegister('PC', dataHelpService.extend(dataHelpService.convert('0x0040').from(16).to(2)).to(16));
+            this.updateDefaultRegister('SP', 0x00ff);
+            this.updateDefaultRegister('PC', 0x0040);
         };
 
         function sendDataOnSbus(data) {
@@ -242,56 +237,46 @@
                     break;
                 case 1:
                     $rootScope.dataBus['sbus'] = 0;
-                    //$log.log("Sent 0 on SBUS");
                     break;
                 case 2:
                     $rootScope.dataBus['sbus'] = (~1 >>> 0) & dataHelpService.LOW_PART_MASK;
-                    //$log.log("Sent -1 on SBUS");
                     break;
                 case 3:
                     $rootScope.dataBus['sbus'] = 1;
-                    //$log.log("Sent 1 on SBUS");
                     break;
                 case 4:
-                    this.dataBus['MDRSbus'] = parseInt(this.defaultRegisters['MDR'], 2);
+                    this.dataBus['MDRSbus'] = this.defaultRegisters['MDR'];
                     $rootScope.dataBus['sbus'] = this.dataBus['MDRSbus'];
-                    //$log.log("Sent MDR on SBUS");
                     break;
                 case 5:
-                    this.dataBus['MDRSbus'] = (~parseInt(this.defaultRegisters['MDR'], 2) >>> 0) & dataHelpService.LOW_PART_MASK;
+                    this.dataBus['MDRSbus'] = (~this.defaultRegisters['MDR'] >>> 0) & dataHelpService.LOW_PART_MASK;
                     $rootScope.dataBus['sbus'] = this.dataBus['MDRSbus'];
-                    //$log.log("Sent !MDR on SBUS");
                     break;
                 case 6:
-                    sourceRegisterCode = (dataHelpService.SOURCE_REGISTER_MASK & parseInt(this.defaultRegisters['IR'], 2)) >> 6;
-                    sourceRegisterName = dataHelpService.getObjectPropertyByValue(this.generalRegisters, 'code', dataHelpService.extend(dataHelpService.convert(sourceRegisterCode).from(10).to(2)).to(4));
-                    this.dataBus['genRegSbus'] = parseInt(this.generalRegisters[sourceRegisterName[0]]['data'], 2);
+                    sourceRegisterCode = (dataHelpService.SOURCE_REGISTER_MASK & this.defaultRegisters['IR']) >> 6;
+                    sourceRegisterName = dataHelpService.getObjectPropertyByValue(this.generalRegisters, 'code', sourceRegisterCode);
+                    this.dataBus['genRegSbus'] = this.generalRegisters[sourceRegisterName[0]]['data'];
                     $rootScope.dataBus['sbus'] = this.dataBus['genRegSbus'];
-                    //$log.log("Sent Register", sourceRegisterName, "on SBUS");
                     break;
                 case 7:
-                    sourceRegisterCode = (dataHelpService.SOURCE_REGISTER_MASK & parseInt(this.defaultRegisters['IR'], 2)) >> 6;
-                    sourceRegisterName = dataHelpService.getObjectPropertyByValue(this.generalRegisters, 'code', dataHelpService.extend(dataHelpService.convert(sourceRegisterCode).from(10).to(2)).to(4));
-                    this.dataBus['genRegSbus'] = (~parseInt(this.generalRegisters[sourceRegisterName[0]]['data'], 2) >>> 0) & dataHelpService.LOW_PART_MASK;
+                    sourceRegisterCode = (dataHelpService.SOURCE_REGISTER_MASK & this.defaultRegisters['IR']) >> 6;
+                    sourceRegisterName = dataHelpService.getObjectPropertyByValue(this.generalRegisters, 'code', sourceRegisterCode);
+                    this.dataBus['genRegSbus'] = (~this.generalRegisters[sourceRegisterName[0]]['data'] >>> 0) & dataHelpService.LOW_PART_MASK;
                     $rootScope.dataBus['sbus'] = this.dataBus['genRegSbus'];
-                    //$log.log("Sent Register", sourceRegisterName, "on SBUS");
                     break;
                 case 8:
-                    this.dataBus['TSbus'] = parseInt(this.defaultRegisters['T'], 2);
+                    this.dataBus['TSbus'] = this.defaultRegisters['T'];
                     $rootScope.dataBus['sbus'] = this.dataBus['TSbus'];
-                    //$log.log("Sent T on SBUS");
                     break;
                 case 9:
-                    this.dataBus['TSbus'] = (~parseInt(this.defaultRegisters['T'], 2) >>> 0) & dataHelpService.LOW_PART_MASK;
+                    this.dataBus['TSbus'] = (~this.defaultRegisters['T'] >>> 0) & dataHelpService.LOW_PART_MASK;
                     $rootScope.dataBus['sbus'] = this.dataBus['TSbus'];
-                    //$log.log("Sent !T on SBUS");
                     break;
                 case 10:
-                    let offset = dataHelpService.OFFSET_MASK & parseInt(this.defaultRegisters['IR'], 2);
+                    let offset = dataHelpService.OFFSET_MASK & this.defaultRegisters['IR'];
                     let offsetSign = (dataHelpService.OFFSET_SIGN_MASK & offset) >> 7;
                     this.dataBus['IRSbus'] = (offsetSign === 0) ? offset : -(~dataHelpService.OFFSET_SIGN_MASK & offset);
                     $rootScope.dataBus['sbus'] = this.dataBus['IRSbus'];
-                    //$log.log("Sent OFFSET on SBUS");
                     break;
                 default:
                     $log.error("Unknown command");
@@ -306,67 +291,56 @@
                     break;
                 case 1:
                     $rootScope.dataBus['dbus'] = 0;
-                    //$log.log("Sent 0 on DBUS");
                     break;
                 case 2:
-                    this.dataBus['PCDbus'] = parseInt(this.defaultRegisters['PC'], 2);
+                    this.dataBus['PCDbus'] = this.defaultRegisters['PC'];
                     $rootScope.dataBus['dbus'] = this.dataBus['PCDbus'];
-                    //$log.log("Sent PC on DBUS");
                     break;
                 case 3:
-                    this.dataBus['ADRDbus'] = parseInt(this.defaultRegisters['ADR'], 2);
+                    this.dataBus['ADRDbus'] = this.defaultRegisters['ADR'];
                     $rootScope.dataBus['dbus'] = this.dataBus['ADRDbus'];
-                    //$log.log("Sent ADR on DBUS");
                     break;
                 case 4:
-                    this.dataBus['IVRDbus'] = parseInt(this.defaultRegisters['IVR'], 2);
+                    this.dataBus['IVRDbus'] = this.defaultRegisters['IVR'];
                     $rootScope.dataBus['dbus'] = this.dataBus['IVRDbus'];
-                    //$log.log("Sent IVR on DBUS");
                     break;
                 case 5:
-                    this.dataBus['FLAGSDbus'] = parseInt(this.defaultRegisters['FLAGS'], 2);
+                    this.dataBus['FLAGSDbus'] = this.defaultRegisters['FLAGS'];
                     $rootScope.dataBus['dbus'] = this.dataBus['FLAGSDbus'];
-                    //$log.log("Sent FLAGS on DBUS");
                     break;
                 case 6:
-                    this.dataBus['SPDbus'] = parseInt(this.defaultRegisters['SP'], 2);
+                    this.dataBus['SPDbus'] = this.defaultRegisters['SP'];
                     $rootScope.dataBus['dbus'] = this.dataBus['SPDbus'];
-                    //$log.log("Sent SP on DBUS");
                     break;
                 case 7:
-                    this.dataBus['MDRDbus'] = parseInt(this.defaultRegisters['MDR'], 2);
+                    this.dataBus['MDRDbus'] = this.defaultRegisters['MDR'];
                     $rootScope.dataBus['dbus'] = this.dataBus['MDRDbus'];
-                    //$log.log("Sent MDR on DBUS");
                     break;
                 case 8:
-                    this.dataBus['MDRDbus'] = (~parseInt(this.defaultRegisters['MDR'], 2) >>> 0) & dataHelpService.LOW_PART_MASK;
+                    this.dataBus['MDRDbus'] = (~this.defaultRegisters['MDR'] >>> 0) & dataHelpService.LOW_PART_MASK;
                     $rootScope.dataBus['dbus'] = this.dataBus['MDRDbus'];
-                    //$log.log("Sent !MDR on DBUS");
                     break;
                 case 9:
-                    destinationRegisterCode = dataHelpService.DESTINATION_REGISTER_MASK & parseInt(this.defaultRegisters['IR'], 2);
-                    destinationRegisterName = dataHelpService.getObjectPropertyByValue(this.generalRegisters, 'code', dataHelpService.extend(dataHelpService.convert(destinationRegisterCode).from(10).to(2)).to(4));
-                    //$log.log(destinationRegisterCode, destinationRegisterName[0]);
-                    this.dataBus['genRegDbus'] = parseInt(this.generalRegisters[destinationRegisterName[0]]['data'], 2);
+                    destinationRegisterCode = dataHelpService.DESTINATION_REGISTER_MASK & this.defaultRegisters['IR'];
+                    destinationRegisterName = dataHelpService.getObjectPropertyByValue(this.generalRegisters, 'code', destinationRegisterCode);
+                    this.dataBus['genRegDbus'] = this.generalRegisters[destinationRegisterName[0]]['data'];
                     $rootScope.dataBus['dbus'] = this.dataBus['genRegDbus'];
-                    //$log.log("Sent Register", destinationRegisterName, "on DBUS");
                     break;
                 case 10:
-                    destinationRegisterCode = dataHelpService.DESTINATION_REGISTER_MASK & parseInt(this.defaultRegisters['IR'], 2);
-                    destinationRegisterName = dataHelpService.getObjectPropertyByValue(this.generalRegisters, 'code', dataHelpService.extend(dataHelpService.convert(destinationRegisterCode).from(10).to(2)).to(4));
-                    this.dataBus['genRegDbus'] = (~parseInt(this.generalRegisters[destinationRegisterName[0]]['data'], 2) >>> 0) & dataHelpService.LOW_PART_MASK;
+                    destinationRegisterCode = dataHelpService.DESTINATION_REGISTER_MASK & this.defaultRegisters['IR'];
+                    destinationRegisterName = dataHelpService.getObjectPropertyByValue(this.generalRegisters, 'code', destinationRegisterCode);
+                    this.dataBus['genRegDbus'] = (~this.generalRegisters[destinationRegisterName[0]]['data'] >>> 0) & dataHelpService.LOW_PART_MASK;
                     $rootScope.dataBus['dbus'] = this.dataBus['genRegDbus'];
-                    //$log.log("Sent Register", destinationRegisterName, "on DBUS");
                     break;
                 case 11:
-                    this.dataBus['TDbus'] = parseInt(this.defaultRegisters['T'], 2);
+                    this.dataBus['TDbus'] = this.defaultRegisters['T'];
                     $rootScope.dataBus['dbus'] = this.dataBus['TDbus'];
-                    //$log.log("Sent T on DBUS");
                     break;
                 case 12:
-                    this.dataBus['TDbus'] = (~parseInt(this.defaultRegisters['T'], 2) >>> 0) & dataHelpService.LOW_PART_MASK;
+                    this.dataBus['TDbus'] = (~this.defaultRegisters['T'] >>> 0) & dataHelpService.LOW_PART_MASK;
                     $rootScope.dataBus['dbus'] = this.dataBus['TDbus'];
-                //$log.log("Sent !T on DBUS");
+                default:
+                    $log.error("Unknown command");
             }
         };
 
@@ -375,38 +349,30 @@
                 case 0:
                     break;
                 case 1:
-                    let pc = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
-                    this.updateDefaultRegister('PC', pc);
+                    this.updateDefaultRegister('PC', $rootScope.dataBus.rbus);
                     break;
                 case 2:
-                    let adr = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
-                    this.updateDefaultRegister('ADR', adr);
+                    this.updateDefaultRegister('ADR', $rootScope.dataBus.rbus);
                     break;
                 case 3:
-                    let ivr = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
-                    this.updateDefaultRegister('IVR', ivr);
+                    this.updateDefaultRegister('IVR', $rootScope.dataBus.rbus);
                     break;
                 case 4:
-                    let flags = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
-                    this.updateDefaultRegister('FLAGS', flags);
+                    this.updateDefaultRegister('FLAGS', $rootScope.dataBus.rbus);
                     break;
                 case 5:
-                    let sp = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
-                    this.updateDefaultRegister('SP', sp);
+                    this.updateDefaultRegister('SP', $rootScope.dataBus.rbus);
                     break;
                 case 6:
-                    let mdr = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
-                    this.updateDefaultRegister('MDR', mdr);
+                    this.updateDefaultRegister('MDR', $rootScope.dataBus.rbus);
                     break;
                 case 7:
-                    let regData = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
-                    let destinationRegisterCode = (dataHelpService.DESTINATION_REGISTER_MASK & parseInt(this.defaultRegisters['IR'], 2));
-                    let destinationRegisterName = dataHelpService.getObjectPropertyByValue(this.generalRegisters, 'code', dataHelpService.extend(dataHelpService.convert(destinationRegisterCode).from(10).to(2)).to(4));
-                    this.updateGeneralRegister(destinationRegisterName[0], regData);
+                    let destinationRegisterCode = (dataHelpService.DESTINATION_REGISTER_MASK & this.defaultRegisters['IR']);
+                    let destinationRegisterName = dataHelpService.getObjectPropertyByValue(this.generalRegisters, 'code', destinationRegisterCode);
+                    this.updateGeneralRegister(destinationRegisterName[0], $rootScope.dataBus.rbus);
                     break;
                 case 8:
-                    let temp = dataHelpService.extend(dataHelpService.convert($rootScope.dataBus.rbus).from(10).to(2)).to(16);
-                    this.updateDefaultRegister('T', temp);
+                    this.updateDefaultRegister('T', $rootScope.dataBus.rbus);
                     break;
                 default:
                     $log.error("Unknown command");
@@ -455,16 +421,13 @@
                     break;
                 case 13:
                     $rootScope.conditions.ACKLOW = 1;
-                    //$log.log("Setting ACKLOW to 1!");
                     break;
                 case 14:
                     $rootScope.conditions.ILLEGAL = 1;
-                    //$log.log("Setting ILLEGAL to 1!");
                     break;
                 case 15:
                     $rootScope.conditions.ACKLOW = 0;
                     $rootScope.conditions.ILLEGAL = 0;
-                    //$log.log("Setting ILLEGAL and ACKLOW to 0!");
                     this.setInterruptionFlag(0);
                     break;
                 case 16:
@@ -478,19 +441,18 @@
                     break;
                 case 19:
                     $rootScope.conditions.INTA = 1;
-                    //$log.log("Setting INTA and ACKLOW to 1!");
                     this.decrementSP();
-                    $rootScope.dataBus.rbus = parseInt(this.defaultRegisters['IVR'], 2);
+                    $rootScope.dataBus.rbus = this.defaultRegisters['IVR'];
                     break;
                 case 20:
                     this.incrementPC();
                     break;
                 case 21:
-                    $rootScope.dataBus.rbus = parseInt(this.defaultRegisters['FLAGS'], 2);
+                    $rootScope.dataBus.rbus = this.defaultRegisters['FLAGS'];
                     break;
                 case 22:
                     this.setCarry(1);
-                    $rootScope.dataBus.rbus = parseInt(this.defaultRegisters['FLAGS'], 2);
+                    $rootScope.dataBus.rbus = this.defaultRegisters['FLAGS'];
                     break;
                 default:
                     $log.error("Unknown command");
@@ -498,43 +460,39 @@
         };
 
         function memoryOperation(data) {
-            let adr = parseInt(this.defaultRegisters['ADR'], 2);
+            let adr = this.defaultRegisters['ADR'];
             switch (data) {
                 case 0:
                     break;
                 case 1:
                     $rootScope.dataBus.memRdBus = 1;
-                    this.defaultRegisters['IR'] = $rootScope.memory[adr].data + $rootScope.memory[adr + 1].data;
-                    //$log.log('Instruction fetch:', this.defaultRegisters['IR'], 'from', dataHelpService.extend(dataHelpService.convert(adr).from(10).to(16)).to(4));
+                    this.defaultRegisters['IR'] = memoryService.memoryRead(adr);
                     $rootScope.$broadcast("IF");
                     $log.log('IF');
                     break;
                 case 2:
                     $rootScope.dataBus.memRdBus = 1;
-                    this.defaultRegisters['MDR'] = $rootScope.memory[adr].data + $rootScope.memory[adr + 1].data;
-                    //$log.log('Operand fetch:', this.defaultRegisters['MDR'], 'from', dataHelpService.extend(dataHelpService.convert(adr).from(10).to(16)).to(4));
+                    this.defaultRegisters['MDR'] = memoryService.memoryRead(adr);
                     $log.log('RD');
                     break;
                 case 3:
                     $rootScope.$broadcast("memoryWrite");
-                    $scope.$on('EN3', () => {
+                    $rootScope.$on('EN3', () => {
                         $log.log('WR');
                         $rootScope.dataBus.memWrBus = 1;
-                        $rootScope.memory[adr].data = this.defaultRegisters['MDR'].slice(0, 8);
-                        $rootScope.memory[adr + 1].data = this.defaultRegisters['MDR'].slice(8, 16);
-                        //$log.log('Memory write:', this.defaultRegisters['MDR'], 'to', dataHelpService.extend(dataHelpService.convert(adr).from(10).to(16)).to(4));
+                        memoryService.memoryWrite(adr, this.defaultRegisters['MDR']);
                     });
                     break;
                 default:
                     $log.error("Unknown command");
             }
         }
-        
+
         return regFactory;
-    
+
     }
 
-    registerFactory.$inject = ['$rootScope', '$log', 'dataHelpService'];
+    registerFactory.$inject = ['$rootScope', '$log', 'dataHelpService', 'memoryService'];
 
     angular.module("app.cpuModule").factory("registerFactory", registerFactory);
 

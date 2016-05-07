@@ -5,7 +5,7 @@
 
     'use strict';
     function commandFactory($rootScope, $log, dataHelpService) {
-        
+
         let cmdFactory = {
             calculateIndex,
             verifyCondition,
@@ -38,7 +38,6 @@
                 let msb = parseInt(Math.log2(op));
                 let carry = op >> msb;
                 $rootScope.$broadcast('setCarry', carry);
-                //$log.log("ROL of", op);
                 return parseInt(Math.log2(op)) | (op << 1);
             },
             ror(op) {
@@ -57,7 +56,6 @@
         };
 
         function calculateIndex(index, instruction) {
-            instruction = parseInt(instruction, 2);
             let machineCodeIndex = 0;
             switch (index) {
                 case 0:
@@ -125,7 +123,6 @@
         }
 
         function getInstructionClass(instruction) {
-            instruction = parseInt(instruction, 2);
             let instructionClass = (instruction & dataHelpService.NOT_FIRST_CLASS_MASK) >> 13;
             if (instructionClass === 7) { return $rootScope.conditions.CL4 = 1; }
             if (instructionClass === 6) { return $rootScope.conditions.CL2 = 1; }

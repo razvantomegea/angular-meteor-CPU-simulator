@@ -11,9 +11,9 @@
      * @param decodificationFactory     Decodification factory service (decodification methods implementations)
      * @constructor
      */
-    function DecodeController($rootScope, $scope, decodificationFactory, $mdToast) {
-        // Store the decoded instructions
-        this.lowInstructionSet = [];
+    function DecodeController($rootScope, $scope, decodificationFactory, $mdToast, $log) {
+        // Store the assembled instructions and their number
+        this.lowInstructionInfo = {};
         // Get the decodification methods
         this.decoder = decodificationFactory;
         this.showAsmMessage = () => {
@@ -37,18 +37,17 @@
             this.decodeInstructions(highInstructionSet);
             this.showAsmMessage();
             // Set the global instruction counter in order to know when to stop the execution
-            $rootScope.conditions.INSTRUCTION = this.lowInstructionSet.length;
-            $rootScope.$broadcast('EXECUTE', this.lowInstructionSet);
+            $rootScope.conditions.INSTRUCTION = this.lowInstructionSetInfo.instructionCounter;
+            $rootScope.$broadcast('EXECUTE', this.lowInstructionSetInfo.lowInstructionSet);
         });
         
         this.decodeInstructions = instructionSet => {
             this.highInstructionSet = instructionSet;
-            this.lowInstructionSet = [];
-            this.decoder.instructionDecodification(this.highInstructionSet, this.lowInstructionSet);
+            this.lowInstructionSetInfo = this.decoder.instructionDecodification(this.highInstructionSet);
         }
     }
     
-    DecodeController.$inject = ['$rootScope', '$scope', 'decodificationFactory', '$mdToast'];
+    DecodeController.$inject = ['$rootScope', '$scope', 'decodificationFactory', '$mdToast', '$log'];
     
     angular.module('app.cpuModule.assemblyModule').component('decoder', {
         templateUrl: 'client/cpu-simulator/components/assembler/decoder/decoder.html',

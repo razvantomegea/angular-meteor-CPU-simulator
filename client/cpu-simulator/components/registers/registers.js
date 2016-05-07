@@ -29,7 +29,7 @@
         });
 
         $scope.$on('setCarry', (msg, data) => {
-            this.registers.registers.setCarry(data);
+            this.registers.setCarry(data);
         });
 
         $scope.$on('receiveRbus', (msg, data) => {

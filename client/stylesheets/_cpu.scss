@@ -1,6 +1,12 @@
 body {
   text-align: center;
 }
+.rt-toolbar, .rt-sidenav, md-toast{
+  position: fixed!important;
+}
+.md-sidenav-backdrop {
+  position: fixed!important;
+}
 .rt-2x {
   font-size: 36px;
 }

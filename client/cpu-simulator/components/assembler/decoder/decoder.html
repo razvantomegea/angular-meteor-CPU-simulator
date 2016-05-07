@@ -2,7 +2,7 @@
     <h3>CACHE</h3>
     <table flex>
         <!-- This is where the decoded instructions appear -->
-        <tr ng-repeat="instruction in decodeCtrl.lowInstructionSet track by $index">
+        <tr ng-repeat="instruction in decodeCtrl.lowInstructionSetInfo.lowInstructionSet track by $index">
             <td><code>PC<span ng-if="$index>0">+{{::$index}}: </span></code></td><td><input class="instruction" id="{{instruction}}" name="regData" type="text" ng-model="instruction" ng-disabled="true"></td>
         </tr>
     </table>

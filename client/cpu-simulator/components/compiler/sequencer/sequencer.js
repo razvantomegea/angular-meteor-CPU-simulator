@@ -2,7 +2,7 @@
  * Created by Razvan Tomegea on 2/28/2016.
  */
 (function (angular) {
-    
+
     'use strict';
     function SequenceController($rootScope, $scope, $timeout, $log) {
         this.state = 0;
@@ -15,10 +15,8 @@
 
         $scope.$on('reset', () => {
             $log.log('RESET');
-            $timeout(() => {
-                this.state = 0;
-                $rootScope.$broadcast('initialiseMarMir');
-            }, this.clock);
+            this.state = 0;
+            $rootScope.$broadcast('initialiseMarMir');
         });
 
         $scope.$on('readyMarMir', () => {
@@ -47,16 +45,16 @@
         $scope.$on('memoryWrite', (msg, data) => {
             $log.log('STATE 3: EN3');
             $timeout(() => {
-                $rootScope.$broadcast('EN3', data);
+                $rootScope.$emit('EN3', data);
             }, this.clock);
         });
 
         $scope.$on('executeNextInstruction', () => {
             $log.log('STATE 1: EN1');
-            $timeout(() => {
+            //$timeout(() => {
                 this.state = 1;
                 $rootScope.$broadcast('EN1');
-            }, this.clock);
+            //}, this.clock);
         });
 
     }
